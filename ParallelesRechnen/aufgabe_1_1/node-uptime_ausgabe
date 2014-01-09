@@ -1,0 +1,7 @@
+[nvetter@zuse ~]$ cat node-uptime.o558001
+node006:
+ 08:48:07 up 157 days,  load average: 0.00, 0.00, 0.00
+node005:
+ 08:48:08 up 16 days,  load average: 0.00, 0.00, 0.00
+node004:
+ 08:48:09 up 157 days,  load average: 0.00, 0.00, 0.00
