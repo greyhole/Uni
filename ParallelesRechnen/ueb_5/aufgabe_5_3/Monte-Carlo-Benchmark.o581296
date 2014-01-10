@@ -1,0 +1,40 @@
+Mittelwert_openMP(Threads: 1): 1988.65864920000000000000
+Standardabweichung_openMP(Threads: 1): 88.98608676303891811676
+
+
+Mittelwert_pthread(Threads: 1): 1944.02098460000000000000
+Standardabweichung_pthread(Threads: 1): .25244474778580757789
+
+
+Mittelwert_openMP(Threads: 2): 1944.20002980000000000000
+Standardabweichung_openMP(Threads: 2): .15642299512335134928
+
+
+Mittelwert_pthread(Threads: 2): 1943.50621380000000000000
+Standardabweichung_pthread(Threads: 2): .40564645623813848375
+
+
+Mittelwert_openMP(Threads: 6): 1960.89604100000000000000
+Standardabweichung_openMP(Threads: 6): 10.56881551759039836065
+
+
+Mittelwert_pthread(Threads: 6): 1950.44237060000000000000
+Standardabweichung_pthread(Threads: 6): 16.94138347264806588115
+
+
+Mittelwert_openMP(Threads: 8): 1967.81280020000000000000
+Standardabweichung_openMP(Threads: 8): 1.14559447833540119590
+
+
+Mittelwert_pthread(Threads: 8): 1942.67015200000000000000
+Standardabweichung_pthread(Threads: 8): 1.35809074660244997930
+
+
+Mittelwert_openMP(Threads: 16): 1948.31173100000000000000
+Standardabweichung_openMP(Threads: 16): 2.68632152092961500735
+
+
+Mittelwert_pthread(Threads: 16): 1939.38690520000000000000
+Standardabweichung_pthread(Threads: 16): 2.86788913392079366830
+
+
