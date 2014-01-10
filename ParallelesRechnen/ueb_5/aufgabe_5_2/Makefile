@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -ltr
+CFLAGS=-Wall -Wextra -lrt
 
 all: pi_openmp pi_pthread
 
