@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.28)  16 JAN 2014 21:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Arch Linux) (format=pdflatex 2013.10.28)  16 JAN 2014 21:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -644,60 +644,67 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 56.
 Package epstopdf Info: Source file: <async.eps>
-(epstopdf)                    date: 2014-01-16 20:56:05
-(epstopdf)                    size: 42865 bytes
+(epstopdf)                    date: 2014-01-16 21:19:33
+(epstopdf)                    size: 31739 bytes
 (epstopdf)             Output file: <async-eps-converted-to.pdf>
-(epstopdf)                    date: 2014-01-16 20:57:32
-(epstopdf)                    size: 24180 bytes
+(epstopdf)                    date: 2014-01-16 21:17:13
+(epstopdf)                    size: 24748 bytes
 (epstopdf)             Command: <repstopdf --outfile=async-eps-converted-to.pdf
  async.eps>
-(epstopdf)             \includegraphics on input line 61.
-Package epstopdf Info: Output file is already uptodate.
+(epstopdf)             \includegraphics on input line 60.
+runsystem(repstopdf --outfile=async-eps-converted-to.pdf async.eps)...executed 
+safely (allowed).
+
+Package epstopdf Info: Result file: <async-eps-converted-to.pdf>
+(epstopdf)                    date: 2014-01-16 21:19:43
+(epstopdf)                    size: 17830 bytes.
 
 <async-eps-converted-to.pdf, id=82, 836.12375pt x 249.93375pt>
 File: async-eps-converted-to.pdf Graphic file (type pdf)
 
 <use async-eps-converted-to.pdf>
-Package pdftex.def Info: async-eps-converted-to.pdf used on input line 61.
+Package pdftex.def Info: async-eps-converted-to.pdf used on input line 60.
 (pdftex.def)             Requested size: 418.25555pt x 125.02757pt.
-LaTeX Font Info:    Try loading font information for OMS+pplx on input line 71.
+LaTeX Font Info:    Try loading font information for OMS+pplx on input line 70.
 
-LaTeX Font Info:    No file OMSpplx.fd. on input line 71.
+LaTeX Font Info:    No file OMSpplx.fd. on input line 70.
 
 
 LaTeX Font Warning: Font shape `OMS/pplx/m/n' undefined
 (Font)              using `OMS/cmsy/m/n' instead
-(Font)              for symbol `textbullet' on input line 71.
+(Font)              for symbol `textbullet' on input line 70.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 75--76
+Underfull \hbox (badness 1629) in paragraph at lines 72--73
+[]\T1/pplx/m/n/10.95 Menge von Klar-tex-ten ($\OML/zplm/m/it/10.95 M \OMS/zplm/
+m/n/10.95 ^^R
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 76--77
 []\T1/pplx/m/n/10.95 Verschlüsselungsschlüsselraum
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 84--85
+Underfull \hbox (badness 10000) in paragraph at lines 83--84
 []\T1/pplx/m/n/10.95 Verschlüsselungsverfahren
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 85--86
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
 []\T1/pplx/m/n/10.95 Entschlüsselungsverfahren
  []
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 90.
+(babel)             in language  on input line 91.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 90.
+(babel)             in language  on input line 91.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 90.
+(babel)             in language  on input line 91.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 90.
+(babel)             in language  on input line 91.
 [3]
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 90.
-Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 90.
-Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 91.
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 91.
@@ -710,28 +717,33 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 93.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 96.
+(babel)             in language  on input line 94.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 96.
+(babel)             in language  on input line 94.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 98.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 98.
+(babel)             in language  on input line 97.
+Package babel Info: Redefining ngerman shorthand "|
+(babel)             in language  on input line 99.
+Package babel Info: Redefining ngerman shorthand "~
+(babel)             in language  on input line 99.
 
 
-LaTeX Warning: Citation `LSSZ08' on page 4 undefined on input line 99.
+LaTeX Warning: Citation `LSSZ08' on page 4 undefined on input line 100.
 
 
-LaTeX Warning: Citation `oasa_mediawiki' on page 4 undefined on input line 99.
+LaTeX Warning: Citation `oasa_mediawiki' on page 4 undefined on input line 100.
+
 
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 101.
+(babel)             in language  on input line 102.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 101.
+(babel)             in language  on input line 102.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 107.
+(babel)             in language  on input line 108.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 107.
+(babel)             in language  on input line 108.
 (./Ausarbeitung.bbl
 Package babel Info: Redefining ngerman shorthand "|
 (babel)             in language  on input line 1.
@@ -742,20 +754,20 @@ Package babel Info: Redefining ngerman shorthand "|
 Package babel Info: Redefining ngerman shorthand "~
 (babel)             in language  on input line 1.
  [4 <./async-eps-converted-to.pdf>])
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 113.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 114.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 114.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 114.
 Package babel Info: Redefining ngerman shorthand "|
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 114.
 Package babel Info: Redefining ngerman shorthand "~
-(babel)             in language  on input line 113.
+(babel)             in language  on input line 114.
  [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 113.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 114.
  (./Ausarbeitung.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 113.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 113.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 114.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 114.
 Package rerunfilecheck Info: File `Ausarbeitung.out' has not changed.
 (rerunfilecheck)             Checksum: 0FD1DB60E3C00C91C6E763E61CB867EF;882.
 
@@ -765,15 +777,12 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 113.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 114.
  ) 
 Here is how much of TeX's memory you used:
  7390 strings out of 493311
  108788 string characters out of 6143649
- 218789 words of memory out of 5000000
+ 219789 words of memory out of 5000000
  10696 multiletter control sequences out of 15000+600000
  34939 words of font info for 72 fonts, out of 8000000 for 9000
  960 hyphenation exceptions out of 8191
@@ -784,7 +793,7 @@ ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-dist/fonts/type1/public
 r.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/te
 xmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-dist/fonts/type1
 /urw/palatino/uplri8a.pfb>
-Output written on Ausarbeitung.pdf (5 pages, 103124 bytes).
+Output written on Ausarbeitung.pdf (5 pages, 96835 bytes).
 PDF statistics:
  134 PDF objects out of 1000 (max. 8388607)
  118 compressed objects within 2 object streams

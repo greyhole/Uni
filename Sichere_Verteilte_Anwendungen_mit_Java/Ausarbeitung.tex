@@ -55,7 +55,6 @@ Die asymmetrische Kryptographie wurde Mitte 1970 von Ralph Merkle sowie Diffie u
  
 \subsection{Grundlage asymmetrischer Systeme}
 Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwischen 2 Parteien aussieht. Folgende Grafik ( nach ~\cite{Eckert13} ) veranschaulicht dies in Bezug auf kryptographische Systeme im Allgeinen:
-
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\textwidth]{async.eps}
@@ -70,11 +69,11 @@ Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwische
 \begin{itemize}
 \item Tupel = ($M,C,EK,DK,E,D$)
 \item 2 endliche Alphabete ($A_1,A_2$)
-\item Klartext ($M \subseteq A^*_1\backslash\emptyset$)
-\item Kryptotext ($C \subseteq A^*_2\backslash\emptyset$)
+\item Menge von Klartexten ($M \subseteq A^*_1\backslash\emptyset$)
+\item Klartext ($m \in M$)
+\item Menge von Kryptotexten ($C \subseteq A^*_2\backslash\emptyset$)
+\item Kryptotext ($c \in C$)
 \item Verschlüsselungsschlüsselraum ($EK\backslash\emptyset$)
-\item Es gilt:
-\\ $\forall m\in M : D(E(m,K_E),K_D) = m$
 \end{itemize}
 \end{minipage}
 \begin{minipage}[t]{0.45\linewidth}
@@ -83,6 +82,8 @@ Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwische
 ($DK/\emptyset \\mit~ f:EK \rightarrow DK \\und~ f(K_E)=K_D)$
 \item Verschlüsselungsverfahren ($E :~ M x EK \rightarrow C$)
 \item Entschlüsselungsverfahren ($D :~ C x DK \rightarrow M$)
+\item Es gilt: \\ $\forall m \in M : D(E(m,K_E),K_D) = m$
+
 \end{itemize}
 \end{minipage}
 
