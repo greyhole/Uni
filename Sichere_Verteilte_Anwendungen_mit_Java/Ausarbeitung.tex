@@ -39,21 +39,54 @@ Wintersemester 2012/13}
 %\begin{abstract}
 %Eine kurze Zusammenfassung.
 %\end{abstract}
+\newpage
 \tableofcontents
-
+\newpage
 \section{Einleitung}
 So sieht eine Section aus!
 
 \section{Theoretische Grundlagen}
 
 \subsection{Ziele}
-Ein kryptographisches System dient zum verschlüsseln und entschlüsseln von Texten und anderen Daten, um deren Inhalt vor Dritten geheim zu halten. Genauer gibt ein Kryptosystem an, wie ein Klartext in einen von Dritten nicht lesbaren Kryptotext umgewandelt werden kann. Und später der Kryptotext in einen wieder lesbaren Klartext transformiert wird. Anders als die Steganografie zielt die Kryptographie darauf ab lediglich den Inhalt einer Nachricht zu verschlüsseln, nicht aber deren Existenz zu verbergen. Die asymmetrische Kryptographie ist eines dieser kryptographischen Systeme.
+Ein kryptographisches System dient zum verschlüsseln und entschlüsseln von Texten und anderen Daten, um deren Inhalt vor Dritten geheim zu halten. Genauer gibt ein Kryptosystem an wie ein Klartext in einen von Dritten nicht lesbaren Kryptotext umgewandelt werden kann. Und wie dieser Kryptotext später wieder in einen lesbaren Klartext transformiert wird. Anders als die Steganografie zielt die Kryptographie darauf ab lediglich den Inhalt einer Nachricht zu verschlüsseln, nicht aber deren Existenz zu verbergen. Die asymmetrische Kryptographie ist eines dieser kryptographischen Systeme.
 
 \subsection{Asymmetrische Kryptographie}
-Die asymmetrische Kryp
-\subsection{Grundlage der Verfahren}
+Die asymmetrische Kryptographie wurde Mitte 1970 von Ralph Merkle sowie Diffie und Hellmann entwickelt. Sie beruht auf der Idee zur Kommunikation zwischen 2 Instanzen ein Schlüsselpaar zu verwenden. Dieses Schlüsselpaar besteht aus dem privaten und dem öffentlichen Schlüssel. Zur Kommunikation muss im vornherein ein gegenseitiger Austausch des öffentlichen Schlüssels erfolgt sein, denn die zu schickende Nachricht ist vom Sender mit dem öffentlichen Schlüssel des Empfängers zu verschlüsseln. Nach Empfang entschlüsselt der Empfänger nun die Nachricht mit seinem eigenen privaten Schüssel. Im Falle einer Antwort verschlüsselt der ehemalige Empfänger (nun Sender) seine Nachricht wieder mit dem öffentlichen Schlüssels seines Gegenüber. Welcher die Entschlüsselung erneut mit dem eigenen privaten Schlüssel durchführen muss. Somit ist während der Kommunikation kein erneuter Austausch eines sicheren Schlüssels notwendig, und auch erneute Kommunikationen können mit den bereits vorhandenen Schlüsseln durchgeführt werden. Wichtig ist hierbei jedoch, dass die Sicherheit des privaten Schlüssels und die Authentizität des öffentlich Schlüssels gewährleistet ist. Mehr dazu in den folgenden Kapiteln.
+ 
+\subsection{Grundlage asymmetrischer Systeme}
+Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwischen 2 Parteien aussieht. Folgende Grafik ( nach ~\cite{Eckert13} ) veranschaulicht dies in Bezug auf kryptographische Systeme im Allgeinen:
 
-\subsection{Anwendung asymmetrischer Systeme}
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{async.eps}
+	\caption{Komponenten eines Kryptosystems}
+	\label{fig:sim}
+\end{figure}
+
+
+
+\begin{minipage}[t]{0.45\linewidth}
+\centering
+\begin{itemize}
+\item Tupel = ($M,C,EK,DK,E,D$)
+\item 2 endliche Alphabete ($A_1,A_2$)
+\item Klartext ($M \subseteq A^*_1\backslash\emptyset$)
+\item Kryptotext ($C \subseteq A^*_2\backslash\emptyset$)
+\item Verschlüsselungsschlüsselraum ($EK\backslash\emptyset$)
+\item Es gilt:
+\\ $\forall m\in M : D(E(m,K_E),K_D) = m$
+\end{itemize}
+\end{minipage}
+\begin{minipage}[t]{0.45\linewidth}
+\begin{itemize}
+\item Entschlüsselungsschlüsselraum\\
+($DK/\emptyset \\mit~ f:EK \rightarrow DK \\und~ f(K_E)=K_D)$
+\item Verschlüsselungsverfahren ($E :~ M x EK \rightarrow C$)
+\item Entschlüsselungsverfahren ($D :~ C x DK \rightarrow M$)
+\end{itemize}
+\end{minipage}
+
+%\subsection{Anwendung asymmetrischer Systeme}
 \subsubsection{Vetreter}
 \subsubsection{Verschlüsselung und Endschlüsselung}
 \subsubsection{Schlüsselmanagement}
@@ -69,23 +102,12 @@ Ein spannender Artikel ist~\cite{LSSZ08}. Lesenswert ist auch~\cite{oasa_mediawi
 
 In Abbildung~\ref{fig:sim} wird ... dargestellt. Es folgt eine
 ausführliche Beschreibung:
-\begin{enumerate}
-	\item was man sieht
-	\item warum dies richtig/überraschend ist!
-\end{enumerate}
-
-\begin{figure}[htb]
-	\centering
-	%\includegraphics[width=\textwidth]{images/slb_scenario.jpg}
-	\caption{Server Load Balancing}
-	\label{fig:sim}
-\end{figure}
 
 
 \section{Zusammenfassung}
 Zum Schluss bitte eine Zusammenfassung!
 
-\bibliographystyle{plain}
-\bibliography{literature}
+\bibliographystyle{alpha}
+\bibliography{lit}
 
 \end{document}
