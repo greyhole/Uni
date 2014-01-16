@@ -76,36 +76,55 @@ Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwische
 \item Es gilt: \\ $\forall m \in M : D(E(m,K_E),K_D) = m$
 \end{enumerate}
 \end{multicols}
-Die Eigenschaft (11.) der Obigen Legende zeigt uns das Zusammenspielt unserer einzelnen Komponenten. Wird ein Klartext m mit einem Schlüssel $K_E \in EK$ durch ein kryptographisches Verfahren E in einen Kryptotext umgewandelt. So ist gegeben das dieser Kryptotext unter Verwendung des zu $K_E$ gehörigen Schlüssels $K_D \in DK$, und des kryptographischen Verfahrens D wieder in den ursprünglichen Klartext m umgewandelt werden kann. Damit dies gegeben ist muss unser asymmetrisches Kryptosystem einige wichtige Punkte erfüllen.
+Die Eigenschaft (11.) der obigen Legende zeigt uns das Zusammenspiel unserer einzelnen Komponenten. Wird ein Klartext m mit einem Schlüssel $K_E \in EK$ durch ein kryptographisches Verfahren E in einen Kryptotext umgewandelt. So ist gegeben, dass dieser Kryptotext unter Verwendung des zu $K_E$ gehörigen Schlüssels $K_D \in DK$, und des kryptographischen Verfahrens D wieder in den ursprünglichen Klartext m umgewandelt werden kann. Damit dies gegeben ist, muss unser asymmetrisches Kryptosystem einige wichtige Punkte erfüllen.
 Es muss:
 \newpage
 \begin{itemize}
 \item eine effiziente Möglichkeit zur Erzeugung von Schlüsselpaaren ($K_E,K_D$) geben.
-\item garantiert sein das der Private ($K_D$) nicht effizient aus dem öffentlichen Schlüssel ($K_E$) gebildet werden kann.
-\item möglich sein effizient zu Ver-. und Entschlüsseln.
+\item garantiert sein, dass der Private ($K_D$) nicht effizient aus dem öffentlichen Schlüssel ($K_E$) gebildet werden kann.
+\item möglich sein effizient zu Ver- und Entschlüsseln.
 \end{itemize}
 Um dies zu erreichen nutzen wir Einwegfunktionen.
 %\subsection{Anwendung asymmetrischer Systeme}
-\subsubsection{Einwegfunktionen}
-Einwegfunktionen sind besondere Funktionen ($f: X \rightarrow Y$) bei denen das Urbild ($X$) nicht unter vertretbarem, zeitlichem Aufwand aus dem Bild ($Y$) zu berechnen ist. Mathematische Probleme welche derartige Funktionen bilden sind unter Anderem das Faktorisierungproblem und der Diskrete Algorithmus. Es ist nicht bewiesen das die Umkehrung nicht möglich ist, jedoch Übersteigt die Komplexität der Berechnung unser heutiges Vermögen diese in einer vertretbaren Zeitspanne zu lösen.
+\paragraph{Einwegfunktionen}
+ sind besondere Funktionen ($f: X \rightarrow Y$) bei denen das Urbild ($X$) nicht unter vertretbarem zeitlichem Aufwand aus dem Bild ($Y$) zu berechnen ist. Mathematische Probleme, welche derartige Funktionen bilden, sind unter Anderem das Faktorisierungsproblem und der diskrete Algorithmus. Es ist nicht bewiesen, dass die Umkehrung nicht möglich ist, jedoch übersteigt die Komplexität der Berechnung unser heutiges Vermögen diese in einer vertretbaren Zeitspanne zu lösen.
 
-Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür. Die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine Identische Sicherheit wie normale Einwegfunktionen, und zudem die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Mathematische Probleme mit Falltür sind zum Beispiel die h-te Potenz modulo(n) oder der Zusammengesetzte modulo(n) (~\cite{Eckert13}). 
-\subsubsection{RSA}
-\subsubsection{Verschlüsselung und Endschlüsselung}
-\subsubsection{Schlüsselmanagement}
+\ \\
+Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte modulo(n) (~\cite{Eckert13}). 
+
+\subsection{RSA}
+
+\subsection{Verschlüsselung und Endschlüsselung}
+
+\subsection{Schlüsselmanagement}
+Bei der asymmetrischen Kryptographie ergeben sich aufgrund ihrer besonderen Grundidee der zwei Schlüssel auch ganz eigene Möglichkeiten und Pflichten zur Erzeugung, Aufbewahrung und möglichen Wiederherstellung dieser. 
+
+\paragraph{Die Erzeugung}
+asymmetrischen Schlüsselmaterials kann der Nutzer entweder selbst übernehmen oder einer zentralen Instanz (z.B. CA) überlassen.
+Sollte der Nutzer den Schlüssel selbst generieren hat dies zum Vorteil das er die volle Kontrolle über den Erstellungsprozess hat. Jedoch obliegt ihm somit auch die Verantwortung den Prozess und die fertigen Schlüssel durch nötige Einstellungen im System und nötige Vorsicht zu sichern. Besonderes Augenmerk liegt dabei auf dem privaten Schlüssel, welcher unter keinen Umständen öffentlich werden darf. Da die Sicherheit der verschlüsselten Daten dann nicht mehr gewährleistet ist. 
+Im falle der Erzeugung durch eine Zentrale Instanz gibt der Nutzer diese Verantwortung Größtenteils aus der Hand, sollte sich jedoch bewusst sein das somit auch keine Kontrolle seinerseits besteht. Des weiteren ist es nun notwendig den privaten Schlüssel sicher dem Nutzer zur Verfügung zu stellen, was unter Umständen kritisch werden kann. Ist der Schlüssel erstmal erzeugt muss dieser zwingend sicher aufbewahrt werden.
+
+\paragraph{Die Schlüsselspeicherung}
+muss gewährleisten das der private Schlüssel keinem Unbefugten zur Verfügung steht. Um ein Fehlverhalten des Nutzers aus zu schließen wäre es also ratsam nicht einmal diesem den Zugang zu dem privaten Schlüssel zu gestatten. Diesen Weg gehen Token (oder SmartCard). Token sind Chipkarten oder USBsticks bei denen der Schlüssel auf einem internen Chip sicher verwahrt wird. Der Zugriff ist ausschließlich über Sicherheitssoftware in Emailprogrammen (PGP) oder anderen (OpenSSH) möglich, welche den Schlüssel selbstständig auslesen und ihn nicht zwischenspeichern. Außerdem ist es natürlich möglich den Schlüssel selbst sicher zu verwahren.
+
+\paragraph{Die Verbreitung}
+des öffentlich Schlüssels ist über beliebige Wege möglich. Zum einen besteht die Möglichkeit den öffentlich Schlüssel auf einem KeyServer zu lagern, oder ihn per E-Mail zu verschicken. Es gibt noch wesentlich mehr Möglichkeiten welche jetzt hier nicht alle gennant werden sollen. Zu berücksichtigen ist jedoch das die Authentizität eines öffentlich Schlüssels gegeben sein muss. Nicht immer lässt sich garantieren das der Schlüssel den man als öffentlich Schlüssel von Person A gefunden oder erhalten hat auch wirklich von dieser ist. Zu diesem Zweck werden Schlüssel von Gesprächspartnern, welche sich bereits gegenseitig überprüft haben, Unterschrieben. Es wird also eine mit dem privaten Schlüssel des Signierenden verschlüsselte Signatur an den öffentlichen Schlüssel an gehangen. Aufgrund dessen unsere Operationen umkehrbar sind. Lässt sich nun diese Signatur mit dm öffentlichen Schlüssel des Unterzeichners öffnen und überprüfen. Da die Signatur jedoch nicht geändert werden kann ist sie zudem vor Fälschung sicher. Dieses Verfahren wird ebenso bei Certifikaten in anderen Situationen genutzt. 
+
 \subsection{Hybride Kryptographie}
 
 
 \section{Kryptographie mit Java}
+\subsection{Java Cryptography Architecture}
 
-\subsection{So wird zitiert}
-Ein spannender Artikel ist~\cite{LSSZ08}. Lesenswert ist auch~\cite{oasa_mediawiki}
+\subsection{Zufallszahlen}
 
-\section{Eine section mit eingebundener Abbildung}
+\subsection{Schlüsselgenerierung}
 
-In Abbildung~\ref{fig:sim} wird ... dargestellt. Es folgt eine
-ausführliche Beschreibung:
+\subsection{Schlüsselspeicherung}
 
+\subsection{Schlüsseleinigung}
+
+\subsection{Ver- und Entschlüsselung}
 
 \section{Zusammenfassung}
 Zum Schluss bitte eine Zusammenfassung!
