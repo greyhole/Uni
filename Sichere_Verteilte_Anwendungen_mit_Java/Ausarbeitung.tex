@@ -1,0 +1,91 @@
+\documentclass[paper=a4,11pt,german]{scrartcl} % default ist 10pt (zu klein)
+
+\usepackage[utf8]{inputenc} % dokument muss dann auch als UTF-8 (ohne BOM) gespeichert werden
+\usepackage[ngerman]{babel}
+
+% schrfitauswahl
+\usepackage[T1]{fontenc}
+\usepackage[sc]{mathpazo}  % alternativ \usepackage{charter}
+%\linespread{1.05}
+\usepackage[scaled]{beramono}
+
+\setkomafont{sectioning}{\normalcolor\bfseries} % Ändert Überschriftschriftart (nun mit Serifen)
+
+\usepackage{graphicx} 
+% als letztes package (fuer funktionierende Link im und ausserhalb des Dokuments)
+\usepackage[pdftex]{hyperref} 
+
+% ggf. falsche Worttrennung hier korrigieren
+\hyphenation{op-tical net-works semi-conduc-tor}
+
+\begin{document}
+%
+% paper title
+% can use linebreaks \\ within to get better formatting as desired
+\title{Asymmetrische Kryptographie in Java}
+
+\author{Norman Vetter\\
+\textbf{Seminar "`Sichere verteilte Anwendungen mit Java"'}\\
+Universität Potsdam\\
+Wintersemester 2012/13}
+
+\date{}
+
+% make the title area
+\maketitle
+
+% Nicht bei einer Seminarausarbeitung. Da reicht die Zusammenfassung am Ende.
+%
+%\begin{abstract}
+%Eine kurze Zusammenfassung.
+%\end{abstract}
+\tableofcontents
+
+\section{Einleitung}
+So sieht eine Section aus!
+
+\section{Theoretische Grundlagen}
+
+\subsection{Ziele}
+Ein kryptographisches System dient zum verschlüsseln und entschlüsseln von Texten und anderen Daten, um deren Inhalt vor Dritten geheim zu halten. Genauer gibt ein Kryptosystem an, wie ein Klartext in einen von Dritten nicht lesbaren Kryptotext umgewandelt werden kann. Und später der Kryptotext in einen wieder lesbaren Klartext transformiert wird. Anders als die Steganografie zielt die Kryptographie darauf ab lediglich den Inhalt einer Nachricht zu verschlüsseln, nicht aber deren Existenz zu verbergen. Die asymmetrische Kryptographie ist eines dieser kryptographischen Systeme.
+
+\subsection{Asymmetrische Kryptographie}
+Die asymmetrische Kryp
+\subsection{Grundlage der Verfahren}
+
+\subsection{Anwendung asymmetrischer Systeme}
+\subsubsection{Vetreter}
+\subsubsection{Verschlüsselung und Endschlüsselung}
+\subsubsection{Schlüsselmanagement}
+\subsection{Hybride Kryptographie}
+
+
+\section{Kryptographie mit Java}
+
+\subsection{So wird zitiert}
+Ein spannender Artikel ist~\cite{LSSZ08}. Lesenswert ist auch~\cite{oasa_mediawiki}
+
+\section{Eine section mit eingebundener Abbildung}
+
+In Abbildung~\ref{fig:sim} wird ... dargestellt. Es folgt eine
+ausführliche Beschreibung:
+\begin{enumerate}
+	\item was man sieht
+	\item warum dies richtig/überraschend ist!
+\end{enumerate}
+
+\begin{figure}[htb]
+	\centering
+	%\includegraphics[width=\textwidth]{images/slb_scenario.jpg}
+	\caption{Server Load Balancing}
+	\label{fig:sim}
+\end{figure}
+
+
+\section{Zusammenfassung}
+Zum Schluss bitte eine Zusammenfassung!
+
+\bibliographystyle{plain}
+\bibliography{literature}
+
+\end{document}
