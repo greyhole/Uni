@@ -95,24 +95,24 @@ Um dies zu erreichen nutzen wir Einwegfunktionen.
 Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte Modul(n) (~\cite{Eckert13}). 
 
 \subsection{RSA}
-Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickeltem Verfahren (~\cite{Eckert13}), welches   alle Vier von uns genannten Bedingungen für ein asymmetrisches Kryptosystem erfüllt. Es beruht auf dem Faktorisierungsproblem.
+Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickeltes Verfahren (~\cite{Eckert13}), welches   alle vier von uns genannten Bedingungen für ein asymmetrisches Kryptosystem erfüllt. Es beruht auf dem Faktorisierungsproblem.
 
 \subsubsection{Schlüsselberechnung}
-Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) gehen wir folgenden Weg:
+Zur Berechnung unseres Schlüsselpaares mit dem öffentlichen Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) durchläuft man folgende Schritte:
 \begin{enumerate}
-\item wähle zwei zufällige und große Primzahlen $p\neq q$.
+\item Wähle zwei zufällige und große Primzahlen $p\neq q$.
 \item Ermittle $n = p \cdot q$ und $\varphi(n) = (p-1)(q-1)$.
 \item Wähle eine Zahl $e$ für die gilt: $ggt\Big(e,\varphi(n)\Big)$ und $1<e<\varphi(n)$
 \item Als nächstes berechne $d$ mit $ed = 1 mod \varphi(n)$.
-\item ($n,d$) ist privater Schlüssel, ($n,e$) ist öffentlicher Schlüssel
+\item ($n,d$) ist der private Schlüssel, ($n,e$) ist der öffentliche Schlüssel
 \end{enumerate} 
 
-\subsubsection{Verschlüsselung und Endschlüsselung}
-Möchten wir nun einen Klartext in einen Kryptotext umwandeln haben wir zwei Schritte zu befolgen. Als erstes muss der Klatext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und wir erhalten den Kryptotext $c$. %~\cite{Schnor}
-Die Umkehrung erfolgt ähnlich. Jedoch nutzen wir dieses mal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem wir $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
+\subsubsection{Verschlüsselung und Entschlüsselung}
+Möchten wir nun einen Klartext in einen Kryptotext umwandeln, haben wir zwei Schritte zu befolgen. Zunächst muss der Klartext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und wir erhalten den Kryptotext $c$. %~\cite{Schnor}
+Die Umkehrung erfolgt ähnlich. Jedoch nutzen wir diesmal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem wir $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
 \ \\
 
-Die Möglichkeit dieses Verfahren auch invers an zu wenden, also das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzteren wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt, als Signatur an die Nachricht angehangen und dann verschickt wirkt. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht. Sondern um das Sicherstellen das sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlich Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ist bewiesen das die Nachricht nach anhängen der Signatur verändert wurde.
+Die Möglichkeit dieses Verfahren auch invers anzuwenden, ergo das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzterem wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt als Signatur an die Nachricht angehangen und dann verschickt wird. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht, Sondern um das Sicherstellen, dass sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlichen Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ,ist bewiesen, dass die Nachricht nach Anhängen der Signatur verändert wurde.
 
 
 \subsection{Schlüsselmanagement}
