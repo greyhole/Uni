@@ -16,7 +16,7 @@
 \usepackage[pdftex]{hyperref} 
 
 % ggf. falsche Worttrennung hier korrigieren
-\hyphenation{op-tical net-works semi-conduc-tor Grund-idee}
+\hyphenation{op-tical net-works semi-conduc-tor Grund-idee da-rauf Zahl-enfolge symme-trisch asymme-trisch quell-offenen}
 
 \begin{document}
 %
@@ -44,11 +44,12 @@ Wintersemester 2012/13}
 \newpage
 \section{Einleitung}
 
-In Zeiten des immer stärker werdenden Aufkommens an digitaler Kommunikation 
+In Zeiten des immer stärker werdenden Aufkommens an digitaler Kommunikation gerät der Schutz von privaten oder wichtigen Nachrichten und Daten immer mehr ins Augenmerk der Menschen. Somit werden Mechanismen zum Bewahren dieser Privatsphäre und Sicherheit zunehmend wichtiger. Eine Methode diese zu erhöhen ist das Verschlüsseln von Daten mittels asymmetrischer Kryptographie, wie dies in der Programmiersprache Java vorgenommen wird und auf welchen Grundlagen diese Form der Verschlüsselung beruht wird in dieser Ausarbeitung erläutert.
+       
 \section{Theoretische Grundlagen}
 
 \subsection{Ziele}
-Ein kryptographisches System dient zum verschlüsseln und entschlüsseln von Texten und anderen Daten, um deren Inhalt vor Dritten geheim zu halten. Genauer gibt ein Kryptosystem an wie ein Klartext in einen von Dritten nicht lesbaren Kryptotext umgewandelt werden kann. Und wie dieser Kryptotext später wieder in einen lesbaren Klartext transformiert wird. Anders als die Steganografie zielt die Kryptographie darauf ab lediglich den Inhalt einer Nachricht zu verschlüsseln, nicht aber deren Existenz zu verbergen. Die asymmetrische Kryptographie ist eines dieser kryptographischen Systeme.
+Ein kryptographisches System dient zum verschlüsseln und entschlüsseln von Texten und anderen Daten, um deren Inhalt vor Dritten geheim zu halten. Genauer gibt ein Kryptosystem an wie ein Klartext in einen von Dritten nicht lesbaren Kryptotext umgewandelt werden kann. Und wie dieser Kryptotext später wieder in einen lesbaren Klartext transformiert wird. Anders als die Steganografie zielt die Kryptographie darauf ab lediglich den Inhalt einer Nachricht zu verschlüsseln, nicht aber deren Existenz zu verbergen. Als oberstes Prinzip ist zu beachten das die Sicherheit allein vom Schlüssel, nicht aber vom Verfahren abhängig ist.(Kerckhoff Prinzip \cite{Eckert13}) Die asymmetrische Kryptographie ist eines dieser kryptographischen Systeme.
 
 \subsection{Asymmetrische Kryptographie}
 Die asymmetrische Kryptographie wurde Mitte 1970 von Ralph Merkle sowie von Diffie und Hellmann entwickelt. Sie beruht auf der Idee zur Kommunikation zwischen zwei Instanzen ein Schlüsselpaar zu verwenden. Dieses Schlüsselpaar besteht aus dem privaten und dem öffentlichen Schlüssel. Zur Kommunikation muss im Vorhinein ein gegenseitiger Austausch des öffentlichen Schlüssels erfolgt sein, denn die zu schickende Nachricht ist vom Sender mit dem öffentlichen Schlüssel des Empfängers in einen Kryptotext um zu wandeln. Nach Empfang entschlüsselt der Empfänger nun die Nachricht mit seinem eigenen privaten Schüssel. Im Falle einer Antwort verschlüsselt der ehemalige Empfänger (nun Sender) seine Nachricht wieder mit dem öffentlichen Schlüssels seines Gegenüber. Welcher die Entschlüsselung erneut mit dem eigenen privaten Schlüssel durchführen muss. Somit ist während der Kommunikation kein erneuter Austausch eines sicheren Schlüssels notwendig und auch erneute Kommunikationen können mit den bereits vorhandenen Schlüsseln durchgeführt werden. Wichtig ist hierbei jedoch, dass die Sicherheit des privaten Schlüssels und die Authentizität des öffentlichen Schlüssels gewährleistet ist. Mehr dazu in den folgenden Kapiteln.
@@ -64,7 +65,7 @@ Im obigen Szenario hat man gesehen wie ein grober Kommunikationsablauf zwischen 
 \begin{multicols}{2}
 \begin{enumerate}
 \item Tupel \\($M,C,EK,DK,E,D$)
-\item 2 endliche Alphabete \\($A_1,A_2$)
+\item zwei endliche Alphabete \\($A_1,A_2$)
 \item Menge von Klartexten \\($M \subseteq A^*_1\backslash\emptyset$)
 \item Klartext \\($m \in M$)
 \item Menge von Kryptotexten \\($C \subseteq A^*_2\backslash\emptyset$)
@@ -100,14 +101,14 @@ Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Ad
 \subsubsection{Schlüsselberechnung}
 Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) geht man folgenden Weg:
 \begin{enumerate}
-\item wähle zwei zufällige und große Primzahlen $p\neq q$.
+\item Wähle zwei Primzahlen $p\neq q$.
 \item Ermittle $n = p \cdot q$ und $\varphi(n) = (p-1)(q-1)$.
 \item Wähle eine Zahl $e$ für die gilt: $ggt\Big(e,\varphi(n)\Big)$ und $1<e<\varphi(n)$
 \item Als nächstes berechne $d$ mit $ed = 1 mod \varphi(n)$.
 \item ($n,d$) ist privater Schlüssel, ($n,e$) ist öffentlicher Schlüssel
-\end{enumerate} 
+\end{enumerate} \cite{Eckert13}
 
-\subsubsection{Verschlüsselung und Endschlüsselung}
+\subsubsection{Verschlüsselung und Entschlüsselung}
 Möchte man nun einen Klartext in einen Kryptotext umwandeln hat man zwei Schritte zu befolgen. Als erstes muss der Klatext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und man erhält den Kryptotext $c$. %~\cite{Schnor}
 Die Umkehrung erfolgt ähnlich. Jedoch nutzt man dieses mal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem man $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
 \ \\
@@ -130,7 +131,7 @@ muss gewährleisten, dass der private Schlüssel keinem Unbefugten zur Verfügun
 des öffentlich Schlüssels ist über beliebige Wege möglich. Zum Einen besteht die Möglichkeit den öffentlichen Schlüssel auf einem KeyServer zu lagern oder ihn per E-Mail zu verschicken. Es gibt noch wesentlich mehr Alternativen zur Verbreitung, welche hier nicht alle genannt werden sollen. Allerdings ist die Authentizität des öffentlich Schlüssels zu berücksichtigen.Denn nicht immer lässt sich garantieren das der Schlüssel den man als öffentlichen Schlüssel von Person A gefunden oder erhalten hat auch wirklich von dieser stammt. Zu diesem Zweck werden Schlüssel von Gesprächspartnern, welche sich bereits gegenseitig überprüft haben, unterschrieben. Somit bestätigt der Signierende die Zugehörigkeit des öffentlichen Schlüssels zu Person A. Es wird eine mit dem privaten Schlüssel des Signierenden verschlüsselte Signatur an den öffentlichen Schlüssel von Person A angehangen. Aufgrund dessen unsere Operationen umkehrbar sind. Lässt sich nun diese Signatur mit dem öffentlichen Schlüssel des Unterzeichners öffnen und überprüfen. Da die Signatur jedoch nicht geändert werden kann, ist sie zudem vor Fälschung sicher. Dieses Verfahren wird ebenso bei Certifikaten im WebOfTrust oder wie bereits erwähnt beim E-Mail Verkehr genutzt.
 
 \subsection{Hybride Kryptographie}
-Die hybride Kryptographie ist die Kombination von asymmetrischen und symmetrischen Verfahren. Eine symmetrische Verschlüsselung ist bei gleichem Sicherheitsgewinn im Gegensatz zu einer vergleichbaren asymmetrischen Verschlüsselung  wesentlich effizienter zu berechnen. Allerdings muss je Kommunikationsbeginn ein erneuter aufwendiger Schlüsselaustausch (z.B. über Diffie-Hellmann) erfolgen, auch wenn mit dem Partner bereits in der Vergangenheit kommuniziert wurde. Die Lösung dafür stellt die hybride Kryptographie dar. Davon ausgehend, es steht uns eine längere Konversation mit Person A bevor. Nun soll nicht jede einzelne Nachricht mit einem asymmetrischen System verschlüsseln, denn je nach Größe der Nachricht kann dies sehr Rechenintensiv werden. Um einen derartigen Aufwand zu umgehen, legen wir einen symmetrischen Schlüssel fest, verschlüsseln diesen mit dem öffentlichen Schlüssel von Person A und übermitteln ihm diesen sicher verschlüsselt. Person A verfügt nun, nach der Entschlüsselung, ebenso wie wir über den symmetrischen Schlüssel, über den nun die Nachrichten des Gespräches wesentlich effizienter verschlüsselt werden können.\\
+Die hybride Kryptographie ist die Kombination von asymmetrischer und symmetrischer Kryptographie. Eine symmetrische Verschlüsselung ist bei gleichem Sicherheitsgewinn im Gegensatz zu einer vergleichbaren asymmetrischen Verschlüsselung  wesentlich effizienter zu berechnen. Allerdings muss je Kommunikationsbeginn ein erneuter aufwendiger Schlüsselaustausch (z.B. über Diffie-Hellmann) erfolgen, auch wenn mit dem Partner bereits in der Vergangenheit kommuniziert wurde. Die Lösung dafür stellt die hybride Kryptographie dar. Davon ausgehend, es steht uns eine längere Konversation mit Person A bevor. Nun soll nicht jede einzelne Nachricht mit einem asymmetrischen System verschlüsseln, denn je nach Größe der Nachricht kann dies sehr Rechenintensiv werden. Um einen derartigen Aufwand zu umgehen, legen wir einen symmetrischen Schlüssel fest, verschlüsseln diesen mit dem öffentlichen Schlüssel von Person A und übermitteln ihm diesen sicher verschlüsselt. Person A verfügt nun, nach der Entschlüsselung, ebenso wie wir über den symmetrischen Schlüssel, über den nun die Nachrichten des Gespräches wesentlich effizienter verschlüsselt werden können.\\
 \ \\
 Nicht immer wird bei der hybriden Kryptographie ein symmetrischer Schlüssel von einem Gesprächspartner bestimmt. Es existieren viele unterschiedliche Implementierungen auf die hier aber nicht eingegangen werden soll.
 
@@ -174,8 +175,8 @@ It computes the SHA-1 hash over a true-random seed value
 Da es sich hierbei um den einzigen implementierten Zufallszahlengenerator im JCA handelt, ist es auch die Standard-Auswahl wenn keine alternative bereitgestellt wurde.
 
 \subsection{Schlüsselgenerierung}
-Wie in Abbildung 3 erkennbar, nutzt das JCA die Klassen $KeyPairGenerator$ und $KeyPair$ um das für uns wichtige asymmetrischen Schlüsselpaar zu erzeugen. Als erstes wird hierbei ein $KeyPairGenerator$ mit der $KeyPairGenerator.getInstance()$ Methode erzeugt. Diese Methode erwartet als Parameter das zu verwendene Verfahen, neben RSA sind ebenfalls DSA,AES und einige weitere möglich.
-Im nächsten Schritt wird unser Objekt mit der von uns gewünschten Schlüsselgröße initialisiert. Sollte dies nicht erfolgen nutzt Java automatisch die auf dem System maximal verfügbare Option je nach installierten Providern. 
+Wie in Abbildung 3 erkennbar nutzt das JCA die Klassen $KeyPairGenerator$ und $KeyPair$, um das für uns wichtige asymmetrischen Schlüsselpaar zu erzeugen. Als erstes wird hierbei ein $KeyPairGenerator$ mit der $KeyPairGenerator.getInstance()$ Methode erzeugt. Diese Methode erwartet als Parameter das zu verwendende Verfahen. Neben RSA sind ebenfalls DSA,AES und einige weitere möglich.
+Im nächsten Schritt wird unser Objekt mit der von uns gewünschten Schlüsselgröße initialisiert. Sollte wie hier gezeigt keine Übergabe eines SecureRandom Objektes als zweiter Parameter erfolgen nutzt Java automatisch den Zufallszahlengenerator des Provider mit der höchsten Priorität.  
 \begin{figure}[h]
 \caption{Codebeispiel KeyPairGenerator}
 \begin{lstlisting}[frame=shadowbox]
@@ -188,10 +189,10 @@ Im nächsten Schritt wird unser Objekt mit der von uns gewünschten Schlüsselgr
 \end{lstlisting}
 \label{KeyPairGenerator}
 \end{figure}
-Zum Schluss erzeugen wir mittels $keyGen.generateKeyPair()$ unsere beiden Schlüssel, welche nun in einem $KeyPair$ Objekt gespeichert sind. Möchte man die Schlüssel aus dem $KeyPair$ extrahieren ist dies über $keys.getPrivate()$ oder $keys.getPublic()$ jederzeit möglich.
+Zum Schluss erzeugt man mittels $keyGen.generateKeyPair()$ die beiden Schlüssel, welche nun in einem $KeyPair$ Objekt gespeichert sind. Möchte man die Schlüssel aus dem $KeyPair$ extrahieren, ist dies über $keys.getPrivate()$ oder $keys.getPublic()$ jederzeit möglich.
 
 \subsection{Schlüsselspeicherung}
-Java bietet zum speichern und verwalten von Schlüsseln eine spezielle Klasse namens ``$Keystore$'' an. Diese repräsentiert eine Datenbank bestehend aus Schlüsseln und Zertifikaten welche, jeweils hinter einem Alias verborgen, im Speicher gehalten werden. Erst beim   ausführen der mitgelieferten Methode $final void store(OutputStream stream, char[] password)$ wird der Keystore auf die Festplatte geschrieben.\\
+Java bietet zum Speichern und Verwalten von Schlüsseln eine spezielle Klasse namens ``$Keystore$'' an. Diese repräsentiert eine Datenbank bestehend aus Schlüsseln und Zertifikaten, welche im Speicher gehalten werden. Der Zugriff auf die Einträge im $Keystore$ erfolgt aus Sicherheitsgründen über Aliase hinter denen die sensiblen Daten verborgen sind. Erst beim Ausführen der mitgelieferten Methode: \\$final void store(OutputStream stream, char[] password)$, wird der Keystore auf die Festplatte geschrieben.\\
 Methoden des Keystore sind unter anderem:
 \begin{itemize}
 \item final void setKeyEntry(String alias,Key key,
@@ -202,8 +203,8 @@ Methoden des Keystore sind unter anderem:
 \item final void deleteEntry(String alias)
 \item final Key getKey(String alias, char[] password)
 \end{itemize}
-Weitere Informationen über den $Keystore$ entnehmen sie bitte der JCA Documentation: \cite{JCAdoc} .
-Neben dem Keystore ist es ebenfalls möglich die Schlüssel per Serialisierung zu Speichern. Dies ist jedoch nicht empfehlenswert da somit unter Umständen der Zugriff auf die Schlüssel nicht geschützt ist.
+Weitere Informationen über den $Keystore$ können der JCA Documentation entnommen werden: \cite{JCAdoc} .
+Neben dem Keystore ist es ebenfalls möglich die Schlüssel per Serialisierung zu speichern. Dies ist jedoch nicht empfehlenswert, da somit unter Umständen der Zugriff auf die Schlüssel ungeschützt ist.
  
 \subsection{Schlüsseleinigung}
 Im Falle der Implementierung einer Kommunikation über hybride Kryptographie ist nach der Erstellung des Schlüsselpaares eine Schlüsseleinigung für den symmetrischen Schlüssel notwendig. Die folgende Grafik veranschaulicht dieses Vorgehen:
@@ -214,8 +215,7 @@ Im Falle der Implementierung einer Kommunikation über hybride Kryptographie ist
 	\caption{KeyAgreement}
 	\label{KeyAgreement}
 \end{figure}\ \\
-Wie in Abbildung 4  und 5 zu erkennen, Initialisiert jeder Teilnehmer ein $KeyAgreement$ mit seinem privaten Schlüssel, welches von dem Gesprächspartner mit einem $doPhase()$ und dem öffentlich Schlüssel des jeweils Anderen bestätigt wird. Danach generiert sich jeder Teilnehmer den symmetrischen Schlüssel, welcher nun bei jedem identisch ist. Dieses Vorgehen wird bei den Providern BouncyCastle oder JCA fast ausschließlich über Diffie-Hellman unterstützt, und ist nicht abhängig von der Anzahl der Teilnehmer. Somit ist ebenfalls ein $KeyAgreement$ mit mehr als zwei Parteien möglich.
-\newpage
+Wie in Abbildung 4  und 5 zu erkennen, initialisiert jeder Teilnehmer ein $KeyAgreement$ mit seinem privaten Schlüssel, welches von dem Gesprächspartner mit einem $doPhase()$ und dem öffentlich Schlüssel des jeweils Anderen bestätigt wird. Im Anschluss generiert sich jeder Teilnehmer den symmetrischen Schlüssel, auf Grundlage der beim $KeyAgreement$ gesammelten Daten. Dieses Vorgehen wird bei den Providern BouncyCastle oder JCA fast ausschließlich über Diffie-Hellman unterstützt und ist nicht abhängig von der Anzahl der Teilnehmer. Somit ist ebenfalls ein $KeyAgreement$ mit mehr als zwei Parteien möglich.
 \begin{figure}[h]
 \caption{Codebeispiel KeyAgreement}
 \begin{lstlisting}[frame=shadowbox]
@@ -242,7 +242,7 @@ Wie in Abbildung 4  und 5 zu erkennen, Initialisiert jeder Teilnehmer ein $KeyAg
 \end{figure}
 
 \subsection{Ver- und Entschlüsselung}
-Im folgenden soll gezeigt werden wie mit Hilfe der $Cipher$ Klasse in Java ein Klartext verschlüsselt oder ein Kryptotext entschlüsselt werden kann.
+Im Folgenden soll gezeigt werden, wie mit Hilfe der $Cipher$ Klasse in Java ein Klartext verschlüsselt oder ein Kryptotext entschlüsselt werden kann.
 \begin{figure}[h]
 \caption{Codebeispiel Cipher}
 \begin{lstlisting}[frame=shadowbox]
@@ -254,19 +254,19 @@ Im folgenden soll gezeigt werden wie mit Hilfe der $Cipher$ Klasse in Java ein K
 \end{lstlisting}
 \label{encrypt}
 \end{figure}
-Obiger Programmauszug veranschaulicht die Implementierung einiger Methoden welche zur Verschlüsselung notwendig sind. Als erstes wird eine Instanz des Cipher mit Hilfe der $Cipher.Instance()$ Methode gebildet. Hier zu sehen ist die Angabe von RSA als Algorithmus und von BC (BouncyCastle) als CryptoProvider. Sollte nur der gewünschte Algorithmus angegeben werden wählt Java den Standard-Provider (JCA). Im nächsten Schritt muss der Cipher im gewünschten Modus und mit dem passenden Schlüssel initialisiert werden.\\
+Obiger Programmauszug veranschaulicht die Implementierung einiger Methoden, welche zur Verschlüsselung notwendig sind. Als erstes wird eine Instanz des Cipher mit Hilfe der $Cipher.getInstance()$ Methode gebildet. In Abbildung 6 ist die Angabe von RSA als Algorithmus und von BC (BouncyCastle) als CryptoProvider erkenntlich. Sollte nur der gewünschte Algorithmus angegeben werden, wählt Java den Standard-Provider (JCA). Im nächsten Schritt muss der Cipher im gewünschten Modus und mit dem passenden Schlüssel initialisiert werden.\\
 Mögliche Modi sind:
 \begin{itemize}
 \item $ENCRYPT\_MODE$\\(zur Verschlüsselung von Klartexten)
 \item  $DECRYPT\_MODE$\\
 (zur Entschlüsselung von Klartexten)
 \item $WRAP\_MODE$
-(zum umwandeln eines Schlüssels in Bytecode)
+(zum Umwandeln eines Schlüssels in Bytecode)
 \item $UNWRAP\_MODE$
 (Umkehrung von $WRAP\_MODE$)
 \end{itemize}
-Sollte es der Falls sein das die Länge der Nachricht nicht bekannt oder die Nachricht zu groß für den Verfügbaren Arbeitsspeicher ist. So empfiehlt es sich wie im obigen Beispiel erst die $cipher.update()$ und danach dir $cipher.doFinal()$ Methode zu verwenden. Diese Aufteilung ermöglicht es den Klartext (message) nach und nach in Kryptotext um zu wandeln. Bei der alleinigen Verwendung von $cipher.doFinal()$ hingegen wird die gesamte Nachricht mit einem Mal transformiert, was zum überlaufen des Speichers oder Verlust der Nachricht führen kann.
-Bei einer Umwandlung von Kryptotext in Klartext gehen wir dabei ähnlich vor. Lediglich der Modus des Cipher und der verwendete Schlüssel müssen hier angepasst werden.  
+Sollte es der Fall sein, dass der Umfang der Nachricht nicht bekannt oder zu groß für den verfügbaren Arbeitsspeicher ist,empfiehlt es sich wie im obigen Beispiel erst die $cipher.update()$ und danach dir $cipher.doFinal()$ Methode zu verwenden. Diese Aufteilung ermöglicht es den Klartext (message) nach und nach in Kryptotext umzuwandeln. Bei der alleinigen Verwendung von $cipher.doFinal()$ wird die gesamte Nachricht mit einem Mal transformiert, was zum überlaufen des Speichers oder Verlust der Nachricht führen kann.
+Bei einer Umwandlung von Kryptotext in Klartext geht man dabei ähnlich vor. Lediglich der Modus des Cipher und der verwendete Schlüssel müssen hier angepasst werden.  
 \section{Zusammenfassung}
 Die hier dargestellte Ausarbeitung thematisiert den Bereich der asymmetrischen Kryptographie in Java. Dem Leser soll ein Überblick verschafft werden wie deren Grundlagen aussehen und man sie später anwendet. Der erste Teil dieser Arbeit spezifiziert die theoretischen Grundlagen und geht im zweiten auf die Implementierung ein. Um dem Leser einen Einstieg in das Thema zu erleichtern werden zu Beginn wichtige Ziele und Eigenschaften der asymmetrischen Kryptographie dargestellt und danach mathematische Grundlagen und Funktionsweisen sowie grundlegende Abläufe näher erläutert. Nach diesem Einstieg wird mit RSA ein Vertreter der asymmetrischen Kryptographie näher erläutert. Des weiteren werden Vorgehensweisen beschrieben, welche den Leser auf den Umgang mit Verschlüsselungen vorbereiten und sensibilisieren sollen. Im letzten Teil der Grundlagenschaffung wird die hybride Kryptographie als ein besonderer Bereich der Kryptographie vorgestellt. Im praktischen Teil wird dargelegt welche Möglichkeiten die Programmiersprache Java bietet um im Bereich der asymmetrischen Kryptographie zu agieren. Hierzu werden zunächst Implementationen wie der Kryptoprovider JCA in Java Vorgestellt auf dessen Grundlage wichtige Vorgänge wie die Schlüsselerzeugung, das Schlüsselmanagement oder das Ver- und Entschlüsseln von Nachrichten erläutert wird. 
 

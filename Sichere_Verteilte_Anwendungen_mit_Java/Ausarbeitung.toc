@@ -7,7 +7,7 @@
 \contentsline {paragraph}{Einwegfunktionen}{5}{section*.2}
 \contentsline {subsection}{\numberline {2.4}RSA}{5}{subsection.2.4}
 \contentsline {subsubsection}{\numberline {2.4.1}Schl\IeC {\"u}sselberechnung}{5}{subsubsection.2.4.1}
-\contentsline {subsubsection}{\numberline {2.4.2}Verschl\IeC {\"u}sselung und Endschl\IeC {\"u}sselung}{6}{subsubsection.2.4.2}
+\contentsline {subsubsection}{\numberline {2.4.2}Verschl\IeC {\"u}sselung und Entschl\IeC {\"u}sselung}{6}{subsubsection.2.4.2}
 \contentsline {subsection}{\numberline {2.5}Schl\IeC {\"u}sselmanagement}{6}{subsection.2.5}
 \contentsline {paragraph}{Die Erzeugung}{6}{section*.3}
 \contentsline {paragraph}{Die Schl\IeC {\"u}sselspeicherung}{7}{section*.4}
