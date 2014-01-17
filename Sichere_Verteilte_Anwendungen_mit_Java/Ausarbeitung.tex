@@ -43,8 +43,8 @@ Wintersemester 2012/13}
 \tableofcontents
 \newpage
 \section{Einleitung}
-So sieht eine Section aus!
 
+In Zeiten des immer stärker werdenden Aufkommens an digitaler Kommunikation 
 \section{Theoretische Grundlagen}
 
 \subsection{Ziele}
@@ -137,7 +137,7 @@ Nicht immer wird bei der hybriden Kryptographie ein symmetrischer Schlüssel von
 \section{Kryptographie mit Java}
 
 \subsection{Java Cryptography Architecture}
-Die Java Cryptography Architecture ist ein Provider (Anbieter) für kryptographische Systeme der Programmiersprache Java.
+Die Java Cryptography Architecture ist neben BouncyCastle ein Provider (Anbieter) für kryptographische Systeme der Programmiersprache Java.
 Er dient zur Implementierung von:
 \begin{enumerate}
 \item digitalen Signaturen,
@@ -161,6 +161,7 @@ $SecureRandom$ eingebettet ist. Mittels des in Abbildung 2 gezeigten Aufrufes ka
 SecureRandom random =
 	SecureRandom.getInstance("SHA1PRNG", "SUN");
 \end{lstlisting}
+
 \label{SecureRandom}
 \end{figure}
 Der Generator befindet sich im Provider $SUN$ und trägt die Bezeichnung $SHA1PRNG$. Er funktioniert laut Angaben von Oracle wie folgt:  
@@ -267,7 +268,7 @@ Mögliche Modi sind:
 Sollte es der Falls sein das die Länge der Nachricht nicht bekannt oder die Nachricht zu groß für den Verfügbaren Arbeitsspeicher ist. So empfiehlt es sich wie im obigen Beispiel erst die $cipher.update()$ und danach dir $cipher.doFinal()$ Methode zu verwenden. Diese Aufteilung ermöglicht es den Klartext (message) nach und nach in Kryptotext um zu wandeln. Bei der alleinigen Verwendung von $cipher.doFinal()$ hingegen wird die gesamte Nachricht mit einem Mal transformiert, was zum überlaufen des Speichers oder Verlust der Nachricht führen kann.
 Bei einer Umwandlung von Kryptotext in Klartext gehen wir dabei ähnlich vor. Lediglich der Modus des Cipher und der verwendete Schlüssel müssen hier angepasst werden.  
 \section{Zusammenfassung}
-Zum Schluss bitte eine Zusammenfassung!
+Die hier dargestellte Ausarbeitung thematisiert den Bereich der asymmetrischen Kryptographie in Java. Dem Leser soll ein Überblick verschafft werden wie deren Grundlagen aussehen und man sie später anwendet. Der erste Teil dieser Arbeit spezifiziert die theoretischen Grundlagen und geht im zweiten auf die Implementierung ein. Um dem Leser einen Einstieg in das Thema zu erleichtern werden zu Beginn wichtige Ziele und Eigenschaften der asymmetrischen Kryptographie dargestellt und danach mathematische Grundlagen und Funktionsweisen sowie grundlegende Abläufe näher erläutert. Nach diesem Einstieg wird mit RSA ein Vertreter der asymmetrischen Kryptographie näher erläutert. Des weiteren werden Vorgehensweisen beschrieben, welche den Leser auf den Umgang mit Verschlüsselungen vorbereiten und sensibilisieren sollen. Im letzten Teil der Grundlagenschaffung wird die hybride Kryptographie als ein besonderer Bereich der Kryptographie vorgestellt. Im praktischen Teil wird dargelegt welche Möglichkeiten die Programmiersprache Java bietet um im Bereich der asymmetrischen Kryptographie zu agieren. Hierzu werden zunächst Implementationen wie der Kryptoprovider JCA in Java Vorgestellt auf dessen Grundlage wichtige Vorgänge wie die Schlüsselerzeugung, das Schlüsselmanagement oder das Ver- und Entschlüsseln von Nachrichten erläutert wird. 
 
 \bibliographystyle{plain}
 \bibliography{lit}
