@@ -10,7 +10,7 @@
 \usepackage[scaled]{beramono}
 \usepackage{multicol}
 \setkomafont{sectioning}{\normalcolor\bfseries} % Ändert Überschriftschriftart (nun mit Serifen)
-
+\usepackage{listings}
 \usepackage{graphicx} 
 % als letztes package (fuer funktionierende Link im und ausserhalb des Dokuments)
 \usepackage[pdftex]{hyperref} 
@@ -95,24 +95,24 @@ Um dies zu erreichen nutzen wir Einwegfunktionen.
 Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte Modul(n) (~\cite{Eckert13}). 
 
 \subsection{RSA}
-Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickeltes Verfahren (~\cite{Eckert13}), welches   alle vier von uns genannten Bedingungen für ein asymmetrisches Kryptosystem erfüllt. Es beruht auf dem Faktorisierungsproblem.
+Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickeltem Verfahren (~\cite{Eckert13}), welches   alle Vier von uns genannten Bedingungen für ein asymmetrisches Kryptosystem erfüllt. Es beruht auf dem Faktorisierungsproblem.
 
 \subsubsection{Schlüsselberechnung}
-Zur Berechnung unseres Schlüsselpaares mit dem öffentlichen Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) durchläuft man folgende Schritte:
+Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) gehen wir folgenden Weg:
 \begin{enumerate}
-\item Wähle zwei zufällige und große Primzahlen $p\neq q$.
+\item wähle zwei zufällige und große Primzahlen $p\neq q$.
 \item Ermittle $n = p \cdot q$ und $\varphi(n) = (p-1)(q-1)$.
 \item Wähle eine Zahl $e$ für die gilt: $ggt\Big(e,\varphi(n)\Big)$ und $1<e<\varphi(n)$
 \item Als nächstes berechne $d$ mit $ed = 1 mod \varphi(n)$.
-\item ($n,d$) ist der private Schlüssel, ($n,e$) ist der öffentliche Schlüssel
+\item ($n,d$) ist privater Schlüssel, ($n,e$) ist öffentlicher Schlüssel
 \end{enumerate} 
 
-\subsubsection{Verschlüsselung und Entschlüsselung}
-Möchten wir nun einen Klartext in einen Kryptotext umwandeln, haben wir zwei Schritte zu befolgen. Zunächst muss der Klartext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und wir erhalten den Kryptotext $c$. %~\cite{Schnor}
-Die Umkehrung erfolgt ähnlich. Jedoch nutzen wir diesmal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem wir $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
+\subsubsection{Verschlüsselung und Endschlüsselung}
+Möchten wir nun einen Klartext in einen Kryptotext umwandeln haben wir zwei Schritte zu befolgen. Als erstes muss der Klatext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und wir erhalten den Kryptotext $c$. %~\cite{Schnor}
+Die Umkehrung erfolgt ähnlich. Jedoch nutzen wir dieses mal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem wir $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
 \ \\
 
-Die Möglichkeit dieses Verfahren auch invers anzuwenden, ergo das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzterem wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt als Signatur an die Nachricht angehangen und dann verschickt wird. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht, Sondern um das Sicherstellen, dass sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlichen Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ,ist bewiesen, dass die Nachricht nach Anhängen der Signatur verändert wurde.
+Die Möglichkeit dieses Verfahren auch invers an zu wenden, also das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzteren wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt, als Signatur an die Nachricht angehangen und dann verschickt wirkt. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht. Sondern um das Sicherstellen das sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlich Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ist bewiesen das die Nachricht nach anhängen der Signatur verändert wurde.
 
 
 \subsection{Schlüsselmanagement}
@@ -130,20 +130,99 @@ muss gewährleisten, dass der private Schlüssel keinem Unbefugten zur Verfügun
 des öffentlich Schlüssels ist über beliebige Wege möglich. Zum Einen besteht die Möglichkeit den öffentlichen Schlüssel auf einem KeyServer zu lagern oder ihn per E-Mail zu verschicken. Es gibt noch wesentlich mehr Alternativen zur Verbreitung, welche hier nicht alle genannt werden sollen. Allerdings ist die Authentizität des öffentlich Schlüssels zu berücksichtigen.Denn nicht immer lässt sich garantieren das der Schlüssel den man als öffentlichen Schlüssel von Person A gefunden oder erhalten hat auch wirklich von dieser stammt. Zu diesem Zweck werden Schlüssel von Gesprächspartnern, welche sich bereits gegenseitig überprüft haben, unterschrieben. Somit bestätigt der Signierende die Zugehörigkeit des öffentlichen Schlüssels zu Person A. Es wird eine mit dem privaten Schlüssel des Signierenden verschlüsselte Signatur an den öffentlichen Schlüssel von Person A angehangen. Aufgrund dessen unsere Operationen umkehrbar sind. Lässt sich nun diese Signatur mit dem öffentlichen Schlüssel des Unterzeichners öffnen und überprüfen. Da die Signatur jedoch nicht geändert werden kann, ist sie zudem vor Fälschung sicher. Dieses Verfahren wird ebenso bei Certifikaten im WebOfTrust oder wie bereits erwähnt beim E-Mail Verkehr genutzt.
 
 \subsection{Hybride Kryptographie}
-
+Die hybride Kryptographie ist die Kombination von asymmetrischen und symmetrischen Verfahren. Eine symmetrische Verschlüsselung ist bei gleichem Sicherheitsgewinn im Gegensatz zu einer vergleichbaren asymmetrischen Verschlüsselung  wesentlich effizienter zu berechnen. Allerdings muss je Kommunikationsbeginn ein erneuter aufwendiger Schlüsselaustausch (z.B. über Diffie-Hellmann) erfolgen, auch wenn mit dem Partner bereits in der Vergangenheit kommuniziert wurde. Die Lösung dafür stellt die hybride Kryptographie dar. Gehen wir davon aus es steht uns eine längere Konversation mit Person A bevor. Nun möchten wir nicht jede einzelne Nachricht mit einem asymmetrischen System verschlüsseln denn je nach Größe der Nachricht kann dies sehr Rechenintensiv werden. Um einen derartigen Aufwand zu umgehen legen wir einen symmetrischen Schlüssel fest, verschlüsseln diesen mit dem öffentlichen Schlüssel von Person A und übermitteln ihm diesen sicher verschlüsselt. Person A verfügt nun, nach der Entschlüsselung, ebenso wie wir über den symmetrischen Schlüssel über den nun die Nachrichten des Gespräches wesentlich effizienter verschlüsselt werden können. Nicht immer wird bei der hybriden Kryptographie ein symmetrischer Schlüssel von einem Gesprächspartner bestimmt. Es existieren viele unterschiedliche Implementierungen auf die hier aber nicht eingegangen werden soll.
 
 \section{Kryptographie mit Java}
-\subsection{Java Cryptography Architecture}
 
+\subsection{Java Cryptography Architecture}
+Die Java Cryptography Architecture ist ein Provider (Anbieter) für Kryptographische Systeme der Programmiersprache Java.
+Er dient zur Implementierung von:
+\begin{enumerate}
+\item digitalen Signaturen,
+\item Hash's,
+\item Zertifikaten (und deren Überprüfung),
+\item Verschlüsselungen,
+\item Schlüsselerzeugung und Management,
+\item Zufallszahlen,
+\item und vieles mehr \cite{JCAdoc}
+\end{enumerate}
+Ausserdem beinhaltet das JCA noch andere Provider.
+In den folgenden Kapiteln wollen wir uns genauer mit den Punkten vier bis sechs befassen. 
+ 
 \subsection{Zufallszahlen}
+Das JCA bietet zur Generierung von Zufallszahlen einen implementierten, nicht Quelloffenen Zufallszahlengenerator welcher in die Klasse
+$SecureRandom$ eingebettet ist. Mittels des in Abbildung 2 gezeigten Aufrufes kann ein solches Zufallszahlen-Objekt generiert und später zur Erzeugung von Schlüsseln Verwendet werden.
+
+\begin{figure}[hbtp]
+\caption{Codebeispiel SecureRandom}
+\begin{lstlisting}[frame=shadowbox]
+SecureRandom random =
+	SecureRandom.getInstance("SHA1PRNG", "SUN");
+\end{lstlisting}
+\label{KeyPairGen}
+\end{figure}
+Der Generator befindet sich im Provider $SUN$ und trägt die Bezeichnung $SHA1PRNG$. Er funktioniert laut Angaben von Oracle wie folgt:  
+\begin{quote}
+``This algorithm uses SHA-1 as the foundation of the PRNG.
+It computes the SHA-1 hash over a true-random seed value
+ concatenated with a 64-bit counter which is incremented 
+ by 1 for each operation. From the 160-bit SHA-1 output, only 64 bits are used.'' \cite{Oracle}
+\end{quote}
+Da es sich hierbei um den einzigen Implementierten Zufallszahlengenerator im JCA handelt, ist es auch die Standard Auswahl wenn keine alternative bereitgestellt wurde.
 
 \subsection{Schlüsselgenerierung}
+\begin{figure}[hbtp]
+\caption{Codebeispiel KeyPairGenerator}
+\begin{lstlisting}[frame=shadowbox]
+ KeyPairGenerator keyGen = 
+ 	KeyPairGenerator.getInstance( "RSA" );
+ keyGen.initialize( int keysize );
+ KeyPair keys = keyGen.generateKeyPair();
+\end{lstlisting}
+(KeyGenerator ist analog zu benutzen)
+\label{KeyPairGen}
+\end{figure}
 
 \subsection{Schlüsselspeicherung}
 
 \subsection{Schlüsseleinigung}
+\begin{figure}[hbtp]
+\caption{Codebeispiel KeyAgreement}
+\begin{lstlisting}[frame=shadowbox]
+ KeyAgreement aKeyAgree =
+  	KeyAgreement.getInstance("DH", "JCE");
+ KeyAgreement bKeyAgree = 
+  	KeyAgreement.getInstance("DH", "JCE");
+   
+ KeyPair aPair = keyGen.generateKeyPair();
+ KeyPair bPair = keyGen.generateKeyPair();
+ 
+ aKeyAgree.init(aPair.getPrivate());
+ bKeyAgree.init(bPair.getPrivate());
+ 
+ aKeyAgree.doPhase(bPair.getPublic(), true);
+ bKeyAgree.doPhase(aPair.getPublic(), true);
+
+ SecretKey aSecret =
+   	aKeyAgree.generateSecret("AES");
+ SecretKey bSecret =
+   bKeyAgree.generateSecret("AES");
+\end{lstlisting}
+\label{KeyAgree}
+\end{figure}
 
 \subsection{Ver- und Entschlüsselung}
+\begin{figure}[hbtp]
+\caption{Codebeispiel KeyAgreement}
+\begin{lstlisting}[frame=shadowbox]
+ Cipher cipher = 
+ 	Cipher.getInstance( "RSA", "BC" );
+ cipher.init( Cipher.ENCRYPT_MODE, publicKey );
+ cipher.update( message );
+ byte[]crypt = cipher.doFinal();
+\end{lstlisting}
+\label{encrypt}
+\end{figure}
 
 \section{Zusammenfassung}
 Zum Schluss bitte eine Zusammenfassung!
