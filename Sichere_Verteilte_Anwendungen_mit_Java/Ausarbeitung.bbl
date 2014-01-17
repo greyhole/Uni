@@ -1,8 +1,25 @@
-\begin{thebibliography}{Eck13}
+\begin{thebibliography}{1}
 
-\bibitem[Eck13]{Eckert13}
+\bibitem{Eckert13}
 Claudia Eckert.
 \newblock {\em IT-Sicherheit : Konzepte - Verfahren - Protokolle}.
 \newblock Oldenburg, 2013.
+
+\bibitem{JCAdoc}
+Oracle.
+\newblock {Java Cryptography Architecture (JCA) Reference Guide}.
+\newblock
+  \url{http://docs.oracle.com/javase/6/docs/technotes/guides/security/crypto/CryptoSpec.html},
+  2011.
+\newblock [Online; accessed 17-January-2014].
+
+\bibitem{Oracle}
+Oracle.
+\newblock {Java Cryptography Architecture Standard Algirthm Name
+  Documentation}.
+\newblock
+  \url{http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#SecureRandom},
+  2014.
+\newblock [Online; accessed 17-January-2014].
 
 \end{thebibliography}

@@ -51,10 +51,10 @@ So sieht eine Section aus!
 Ein kryptographisches System dient zum verschlüsseln und entschlüsseln von Texten und anderen Daten, um deren Inhalt vor Dritten geheim zu halten. Genauer gibt ein Kryptosystem an wie ein Klartext in einen von Dritten nicht lesbaren Kryptotext umgewandelt werden kann. Und wie dieser Kryptotext später wieder in einen lesbaren Klartext transformiert wird. Anders als die Steganografie zielt die Kryptographie darauf ab lediglich den Inhalt einer Nachricht zu verschlüsseln, nicht aber deren Existenz zu verbergen. Die asymmetrische Kryptographie ist eines dieser kryptographischen Systeme.
 
 \subsection{Asymmetrische Kryptographie}
-Die asymmetrische Kryptographie wurde Mitte 1970 von Ralph Merkle sowie von Diffie und Hellmann entwickelt. Sie beruht auf der Idee zur Kommunikation zwischen 2 Instanzen ein Schlüsselpaar zu verwenden. Dieses Schlüsselpaar besteht aus dem privaten und dem öffentlichen Schlüssel. Zur Kommunikation muss im Vorhinein ein gegenseitiger Austausch des öffentlichen Schlüssels erfolgt sein, denn die zu schickende Nachricht ist vom Sender mit dem öffentlichen Schlüssel des Empfängers in einen Kryptotext um zu wandeln. Nach Empfang entschlüsselt der Empfänger nun die Nachricht mit seinem eigenen privaten Schüssel. Im Falle einer Antwort verschlüsselt der ehemalige Empfänger (nun Sender) seine Nachricht wieder mit dem öffentlichen Schlüssels seines Gegenüber. Welcher die Entschlüsselung erneut mit dem eigenen privaten Schlüssel durchführen muss. Somit ist während der Kommunikation kein erneuter Austausch eines sicheren Schlüssels notwendig und auch erneute Kommunikationen können mit den bereits vorhandenen Schlüsseln durchgeführt werden. Wichtig ist hierbei jedoch, dass die Sicherheit des privaten Schlüssels und die Authentizität des öffentlichen Schlüssels gewährleistet ist. Mehr dazu in den folgenden Kapiteln.
+Die asymmetrische Kryptographie wurde Mitte 1970 von Ralph Merkle sowie von Diffie und Hellmann entwickelt. Sie beruht auf der Idee zur Kommunikation zwischen zwei Instanzen ein Schlüsselpaar zu verwenden. Dieses Schlüsselpaar besteht aus dem privaten und dem öffentlichen Schlüssel. Zur Kommunikation muss im Vorhinein ein gegenseitiger Austausch des öffentlichen Schlüssels erfolgt sein, denn die zu schickende Nachricht ist vom Sender mit dem öffentlichen Schlüssel des Empfängers in einen Kryptotext um zu wandeln. Nach Empfang entschlüsselt der Empfänger nun die Nachricht mit seinem eigenen privaten Schüssel. Im Falle einer Antwort verschlüsselt der ehemalige Empfänger (nun Sender) seine Nachricht wieder mit dem öffentlichen Schlüssels seines Gegenüber. Welcher die Entschlüsselung erneut mit dem eigenen privaten Schlüssel durchführen muss. Somit ist während der Kommunikation kein erneuter Austausch eines sicheren Schlüssels notwendig und auch erneute Kommunikationen können mit den bereits vorhandenen Schlüsseln durchgeführt werden. Wichtig ist hierbei jedoch, dass die Sicherheit des privaten Schlüssels und die Authentizität des öffentlichen Schlüssels gewährleistet ist. Mehr dazu in den folgenden Kapiteln.
 \newpage
 \subsection{Grundlage asymmetrischer Systeme}
-Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwischen Zwei Parteien aussieht. Dieses wird in folgender Grafik ( nach ~\cite{Eckert13} ) veranschaulicht:
+Im obigen Szenario hat man gesehen wie ein grober Kommunikationsablauf zwischen zwei Parteien aussieht. Dieses wird in folgender Grafik ( nach ~\cite{Eckert13} ) veranschaulicht:
 \begin{figure}[htb]
 	\centering
 	\includegraphics[width=\textwidth]{async.eps}
@@ -86,19 +86,19 @@ Es muss (nach ~\cite{Eckert13} ):
 \item optional aber nicht notwendiger Weise die Möglichkeit bestehen mit beiden Schlüsselpaaren zu verschlüsseln und mit dem jeweils anderem das Resultat zu entschlüsseln. Somit ist das System für Certifikate geiegnet.
 \end{enumerate}
 
-Um dies zu erreichen nutzen wir Einwegfunktionen.
+Um dies zu erreichen nutzt man Einwegfunktionen.
 %\subsection{Anwendung asymmetrischer Systeme}
 \paragraph{Einwegfunktionen}
  sind besondere Funktionen ($f: X \rightarrow Y$) bei denen das Urbild ($X$) nicht unter vertretbarem zeitlichem Aufwand aus dem Bild ($Y$) zu berechnen ist. Mathematische Probleme, welche derartige Funktionen bilden, sind unter Anderem das Faktorisierungsproblem und der diskrete Algorithmus. Es ist nicht bewiesen, dass die Umkehrung nicht möglich ist, jedoch übersteigt die Komplexität der Berechnung unser heutiges Vermögen diese in einer vertretbaren Zeitspanne zu lösen.
 
 \ \\
-Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte Modul(n) (~\cite{Eckert13}). 
+Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Man benötigt zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte Modul(n) (~\cite{Eckert13}). 
 
 \subsection{RSA}
 Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickeltem Verfahren (~\cite{Eckert13}), welches   alle Vier von uns genannten Bedingungen für ein asymmetrisches Kryptosystem erfüllt. Es beruht auf dem Faktorisierungsproblem.
 
 \subsubsection{Schlüsselberechnung}
-Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) gehen wir folgenden Weg:
+Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) geht man folgenden Weg:
 \begin{enumerate}
 \item wähle zwei zufällige und große Primzahlen $p\neq q$.
 \item Ermittle $n = p \cdot q$ und $\varphi(n) = (p-1)(q-1)$.
@@ -108,11 +108,11 @@ Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) u
 \end{enumerate} 
 
 \subsubsection{Verschlüsselung und Endschlüsselung}
-Möchten wir nun einen Klartext in einen Kryptotext umwandeln haben wir zwei Schritte zu befolgen. Als erstes muss der Klatext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und wir erhalten den Kryptotext $c$. %~\cite{Schnor}
-Die Umkehrung erfolgt ähnlich. Jedoch nutzen wir dieses mal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem wir $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
+Möchte man nun einen Klartext in einen Kryptotext umwandeln hat man zwei Schritte zu befolgen. Als erstes muss der Klatext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und man erhält den Kryptotext $c$. %~\cite{Schnor}
+Die Umkehrung erfolgt ähnlich. Jedoch nutzt man dieses mal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem man $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
 \ \\
 
-Die Möglichkeit dieses Verfahren auch invers an zu wenden, also das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzteren wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt, als Signatur an die Nachricht angehangen und dann verschickt wirkt. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht. Sondern um das Sicherstellen das sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlich Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ist bewiesen das die Nachricht nach anhängen der Signatur verändert wurde.
+Die Möglichkeit dieses Verfahren auch invers an zu wenden, also das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzteren wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt, als Signatur an die Nachricht angehangen und dann verschickt wird. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht. Sondern um das Sicherstellen das sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlich Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ist bewiesen das die Nachricht nach anhängen der Signatur verändert wurde.
 
 
 \subsection{Schlüsselmanagement}
@@ -130,12 +130,14 @@ muss gewährleisten, dass der private Schlüssel keinem Unbefugten zur Verfügun
 des öffentlich Schlüssels ist über beliebige Wege möglich. Zum Einen besteht die Möglichkeit den öffentlichen Schlüssel auf einem KeyServer zu lagern oder ihn per E-Mail zu verschicken. Es gibt noch wesentlich mehr Alternativen zur Verbreitung, welche hier nicht alle genannt werden sollen. Allerdings ist die Authentizität des öffentlich Schlüssels zu berücksichtigen.Denn nicht immer lässt sich garantieren das der Schlüssel den man als öffentlichen Schlüssel von Person A gefunden oder erhalten hat auch wirklich von dieser stammt. Zu diesem Zweck werden Schlüssel von Gesprächspartnern, welche sich bereits gegenseitig überprüft haben, unterschrieben. Somit bestätigt der Signierende die Zugehörigkeit des öffentlichen Schlüssels zu Person A. Es wird eine mit dem privaten Schlüssel des Signierenden verschlüsselte Signatur an den öffentlichen Schlüssel von Person A angehangen. Aufgrund dessen unsere Operationen umkehrbar sind. Lässt sich nun diese Signatur mit dem öffentlichen Schlüssel des Unterzeichners öffnen und überprüfen. Da die Signatur jedoch nicht geändert werden kann, ist sie zudem vor Fälschung sicher. Dieses Verfahren wird ebenso bei Certifikaten im WebOfTrust oder wie bereits erwähnt beim E-Mail Verkehr genutzt.
 
 \subsection{Hybride Kryptographie}
-Die hybride Kryptographie ist die Kombination von asymmetrischen und symmetrischen Verfahren. Eine symmetrische Verschlüsselung ist bei gleichem Sicherheitsgewinn im Gegensatz zu einer vergleichbaren asymmetrischen Verschlüsselung  wesentlich effizienter zu berechnen. Allerdings muss je Kommunikationsbeginn ein erneuter aufwendiger Schlüsselaustausch (z.B. über Diffie-Hellmann) erfolgen, auch wenn mit dem Partner bereits in der Vergangenheit kommuniziert wurde. Die Lösung dafür stellt die hybride Kryptographie dar. Gehen wir davon aus es steht uns eine längere Konversation mit Person A bevor. Nun möchten wir nicht jede einzelne Nachricht mit einem asymmetrischen System verschlüsseln denn je nach Größe der Nachricht kann dies sehr Rechenintensiv werden. Um einen derartigen Aufwand zu umgehen legen wir einen symmetrischen Schlüssel fest, verschlüsseln diesen mit dem öffentlichen Schlüssel von Person A und übermitteln ihm diesen sicher verschlüsselt. Person A verfügt nun, nach der Entschlüsselung, ebenso wie wir über den symmetrischen Schlüssel über den nun die Nachrichten des Gespräches wesentlich effizienter verschlüsselt werden können. Nicht immer wird bei der hybriden Kryptographie ein symmetrischer Schlüssel von einem Gesprächspartner bestimmt. Es existieren viele unterschiedliche Implementierungen auf die hier aber nicht eingegangen werden soll.
+Die hybride Kryptographie ist die Kombination von asymmetrischen und symmetrischen Verfahren. Eine symmetrische Verschlüsselung ist bei gleichem Sicherheitsgewinn im Gegensatz zu einer vergleichbaren asymmetrischen Verschlüsselung  wesentlich effizienter zu berechnen. Allerdings muss je Kommunikationsbeginn ein erneuter aufwendiger Schlüsselaustausch (z.B. über Diffie-Hellmann) erfolgen, auch wenn mit dem Partner bereits in der Vergangenheit kommuniziert wurde. Die Lösung dafür stellt die hybride Kryptographie dar. Davon ausgehend, es steht uns eine längere Konversation mit Person A bevor. Nun soll nicht jede einzelne Nachricht mit einem asymmetrischen System verschlüsseln, denn je nach Größe der Nachricht kann dies sehr Rechenintensiv werden. Um einen derartigen Aufwand zu umgehen, legen wir einen symmetrischen Schlüssel fest, verschlüsseln diesen mit dem öffentlichen Schlüssel von Person A und übermitteln ihm diesen sicher verschlüsselt. Person A verfügt nun, nach der Entschlüsselung, ebenso wie wir über den symmetrischen Schlüssel, über den nun die Nachrichten des Gespräches wesentlich effizienter verschlüsselt werden können.\\
+\ \\
+Nicht immer wird bei der hybriden Kryptographie ein symmetrischer Schlüssel von einem Gesprächspartner bestimmt. Es existieren viele unterschiedliche Implementierungen auf die hier aber nicht eingegangen werden soll.
 
 \section{Kryptographie mit Java}
 
 \subsection{Java Cryptography Architecture}
-Die Java Cryptography Architecture ist ein Provider (Anbieter) für Kryptographische Systeme der Programmiersprache Java.
+Die Java Cryptography Architecture ist ein Provider (Anbieter) für kryptographische Systeme der Programmiersprache Java.
 Er dient zur Implementierung von:
 \begin{enumerate}
 \item digitalen Signaturen,
@@ -146,11 +148,11 @@ Er dient zur Implementierung von:
 \item Zufallszahlen,
 \item und vieles mehr \cite{JCAdoc}
 \end{enumerate}
-Ausserdem beinhaltet das JCA noch andere Provider.
-In den folgenden Kapiteln wollen wir uns genauer mit den Punkten vier bis sechs befassen. 
+Außerdem beinhaltet das JCA noch andere Provider.
+In den folgenden Kapiteln werden nun die Punkte vier bis sechs genauer betrachtet. 
  
 \subsection{Zufallszahlen}
-Das JCA bietet zur Generierung von Zufallszahlen einen implementierten, nicht Quelloffenen Zufallszahlengenerator welcher in die Klasse
+Das JCA bietet zur Generierung von Zufallszahlen einen implementierten, nicht quelloffenen Zufallszahlengenerator, welcher in die Klasse
 $SecureRandom$ eingebettet ist. Mittels des in Abbildung 2 gezeigten Aufrufes kann ein solches Zufallszahlen-Objekt generiert und später zur Erzeugung von Schlüsseln Verwendet werden.
 
 \begin{figure}[hbtp]
@@ -159,7 +161,7 @@ $SecureRandom$ eingebettet ist. Mittels des in Abbildung 2 gezeigten Aufrufes ka
 SecureRandom random =
 	SecureRandom.getInstance("SHA1PRNG", "SUN");
 \end{lstlisting}
-\label{KeyPairGen}
+\label{SecureRandom}
 \end{figure}
 Der Generator befindet sich im Provider $SUN$ und trägt die Bezeichnung $SHA1PRNG$. Er funktioniert laut Angaben von Oracle wie folgt:  
 \begin{quote}
@@ -168,25 +170,52 @@ It computes the SHA-1 hash over a true-random seed value
  concatenated with a 64-bit counter which is incremented 
  by 1 for each operation. From the 160-bit SHA-1 output, only 64 bits are used.'' \cite{Oracle}
 \end{quote}
-Da es sich hierbei um den einzigen Implementierten Zufallszahlengenerator im JCA handelt, ist es auch die Standard Auswahl wenn keine alternative bereitgestellt wurde.
+Da es sich hierbei um den einzigen implementierten Zufallszahlengenerator im JCA handelt, ist es auch die Standard-Auswahl wenn keine alternative bereitgestellt wurde.
 
 \subsection{Schlüsselgenerierung}
-\begin{figure}[hbtp]
+Wie in Abbildung 3 erkennbar, nutzt das JCA die Klassen $KeyPairGenerator$ und $KeyPair$ um das für uns wichtige asymmetrischen Schlüsselpaar zu erzeugen. Als erstes wird hierbei ein $KeyPairGenerator$ mit der $KeyPairGenerator.getInstance()$ Methode erzeugt. Diese Methode erwartet als Parameter das zu verwendene Verfahen, neben RSA sind ebenfalls DSA,AES und einige weitere möglich.
+Im nächsten Schritt wird unser Objekt mit der von uns gewünschten Schlüsselgröße initialisiert. Sollte dies nicht erfolgen nutzt Java automatisch die auf dem System maximal verfügbare Option je nach installierten Providern. 
+\begin{figure}[h]
 \caption{Codebeispiel KeyPairGenerator}
 \begin{lstlisting}[frame=shadowbox]
  KeyPairGenerator keyGen = 
  	KeyPairGenerator.getInstance( "RSA" );
  keyGen.initialize( int keysize );
  KeyPair keys = keyGen.generateKeyPair();
+ PrivateKey privKey = keys.getPrivate();
+ PublicKey pubKey = keys.getPublic();
 \end{lstlisting}
-(KeyGenerator ist analog zu benutzen)
-\label{KeyPairGen}
+\label{KeyPairGenerator}
 \end{figure}
+Zum Schluss erzeugen wir mittels $keyGen.generateKeyPair()$ unsere beiden Schlüssel, welche nun in einem $KeyPair$ Objekt gespeichert sind. Möchte man die Schlüssel aus dem $KeyPair$ extrahieren ist dies über $keys.getPrivate()$ oder $keys.getPublic()$ jederzeit möglich.
 
 \subsection{Schlüsselspeicherung}
-
+Java bietet zum speichern und verwalten von Schlüsseln eine spezielle Klasse namens ``$Keystore$'' an. Diese repräsentiert eine Datenbank bestehend aus Schlüsseln und Zertifikaten welche, jeweils hinter einem Alias verborgen, im Speicher gehalten werden. Erst beim   ausführen der mitgelieferten Methode $final void store(OutputStream stream, char[] password)$ wird der Keystore auf die Festplatte geschrieben.\\
+Methoden des Keystore sind unter anderem:
+\begin{itemize}
+\item final void setKeyEntry(String alias,Key key,
+                       char[] password,
+                       Certificate[] chain)
+\item final boolean isKeyEntry(String alias)
+\item final boolean isCertificateEntry(String alias)
+\item final void deleteEntry(String alias)
+\item final Key getKey(String alias, char[] password)
+\end{itemize}
+Weitere Informationen über den $Keystore$ entnehmen sie bitte der JCA Documentation: \cite{JCAdoc} .
+Neben dem Keystore ist es ebenfalls möglich die Schlüssel per Serialisierung zu Speichern. Dies ist jedoch nicht empfehlenswert da somit unter Umständen der Zugriff auf die Schlüssel nicht geschützt ist.
+ 
 \subsection{Schlüsseleinigung}
-\begin{figure}[hbtp]
+Im Falle der Implementierung einer Kommunikation über hybride Kryptographie ist nach der Erstellung des Schlüsselpaares eine Schlüsseleinigung für den symmetrischen Schlüssel notwendig. Die folgende Grafik veranschaulicht dieses Vorgehen:
+
+\begin{figure}[htb]
+	\centering
+	\includegraphics[width=\textwidth]{KeyAgreement.jpeg}   
+	\caption{KeyAgreement}
+	\label{KeyAgreement}
+\end{figure}\ \\
+Wie in Abbildung 4  und 5 zu erkennen, Initialisiert jeder Teilnehmer ein $KeyAgreement$ mit seinem privaten Schlüssel, welches von dem Gesprächspartner mit einem $doPhase()$ und dem öffentlich Schlüssel des jeweils Anderen bestätigt wird. Danach generiert sich jeder Teilnehmer den symmetrischen Schlüssel, welcher nun bei jedem identisch ist. Dieses Vorgehen wird bei den Providern BouncyCastle oder JCA fast ausschließlich über Diffie-Hellman unterstützt, und ist nicht abhängig von der Anzahl der Teilnehmer. Somit ist ebenfalls ein $KeyAgreement$ mit mehr als zwei Parteien möglich.
+\newpage
+\begin{figure}[h]
 \caption{Codebeispiel KeyAgreement}
 \begin{lstlisting}[frame=shadowbox]
  KeyAgreement aKeyAgree =
@@ -196,7 +225,7 @@ Da es sich hierbei um den einzigen Implementierten Zufallszahlengenerator im JCA
    
  KeyPair aPair = keyGen.generateKeyPair();
  KeyPair bPair = keyGen.generateKeyPair();
- 
+
  aKeyAgree.init(aPair.getPrivate());
  bKeyAgree.init(bPair.getPrivate());
  
@@ -212,8 +241,9 @@ Da es sich hierbei um den einzigen Implementierten Zufallszahlengenerator im JCA
 \end{figure}
 
 \subsection{Ver- und Entschlüsselung}
-\begin{figure}[hbtp]
-\caption{Codebeispiel KeyAgreement}
+Im folgenden soll gezeigt werden wie mit Hilfe der $Cipher$ Klasse in Java ein Klartext verschlüsselt oder ein Kryptotext entschlüsselt werden kann.
+\begin{figure}[h]
+\caption{Codebeispiel Cipher}
 \begin{lstlisting}[frame=shadowbox]
  Cipher cipher = 
  	Cipher.getInstance( "RSA", "BC" );
@@ -223,11 +253,23 @@ Da es sich hierbei um den einzigen Implementierten Zufallszahlengenerator im JCA
 \end{lstlisting}
 \label{encrypt}
 \end{figure}
-
+Obiger Programmauszug veranschaulicht die Implementierung einiger Methoden welche zur Verschlüsselung notwendig sind. Als erstes wird eine Instanz des Cipher mit Hilfe der $Cipher.Instance()$ Methode gebildet. Hier zu sehen ist die Angabe von RSA als Algorithmus und von BC (BouncyCastle) als CryptoProvider. Sollte nur der gewünschte Algorithmus angegeben werden wählt Java den Standard-Provider (JCA). Im nächsten Schritt muss der Cipher im gewünschten Modus und mit dem passenden Schlüssel initialisiert werden.\\
+Mögliche Modi sind:
+\begin{itemize}
+\item $ENCRYPT\_MODE$\\(zur Verschlüsselung von Klartexten)
+\item  $DECRYPT\_MODE$\\
+(zur Entschlüsselung von Klartexten)
+\item $WRAP\_MODE$
+(zum umwandeln eines Schlüssels in Bytecode)
+\item $UNWRAP\_MODE$
+(Umkehrung von $WRAP\_MODE$)
+\end{itemize}
+Sollte es der Falls sein das die Länge der Nachricht nicht bekannt oder die Nachricht zu groß für den Verfügbaren Arbeitsspeicher ist. So empfiehlt es sich wie im obigen Beispiel erst die $cipher.update()$ und danach dir $cipher.doFinal()$ Methode zu verwenden. Diese Aufteilung ermöglicht es den Klartext (message) nach und nach in Kryptotext um zu wandeln. Bei der alleinigen Verwendung von $cipher.doFinal()$ hingegen wird die gesamte Nachricht mit einem Mal transformiert, was zum überlaufen des Speichers oder Verlust der Nachricht führen kann.
+Bei einer Umwandlung von Kryptotext in Klartext gehen wir dabei ähnlich vor. Lediglich der Modus des Cipher und der verwendete Schlüssel müssen hier angepasst werden.  
 \section{Zusammenfassung}
 Zum Schluss bitte eine Zusammenfassung!
 
-\bibliographystyle{alpha}
+\bibliographystyle{plain}
 \bibliography{lit}
 
 \end{document}
