@@ -16,7 +16,7 @@
 \usepackage[pdftex]{hyperref} 
 
 % ggf. falsche Worttrennung hier korrigieren
-\hyphenation{op-tical net-works semi-conduc-tor}
+\hyphenation{op-tical net-works semi-conduc-tor Grund-idee}
 
 \begin{document}
 %
@@ -77,38 +77,57 @@ Im obigen Szenario haben wir gesehen wie ein grober Kommunikationsablauf zwische
 \end{enumerate}
 \end{multicols}
 Die Eigenschaft (11.) der obigen Legende zeigt uns das Zusammenspiel unserer einzelnen Komponenten. Wird ein Klartext m mit einem Schlüssel $K_E \in EK$ durch ein kryptographisches Verfahren E in einen Kryptotext umgewandelt. So ist gegeben, dass dieser Kryptotext unter Verwendung des zu $K_E$ gehörigen Schlüssels $K_D \in DK$, und des kryptographischen Verfahrens D wieder in den ursprünglichen Klartext m umgewandelt werden kann. Damit dies gegeben ist, muss unser asymmetrisches Kryptosystem einige wichtige Punkte erfüllen.
-Es muss:
+Es muss (nach ~\cite{Eckert13} ):
 \newpage
-\begin{itemize}
+\begin{enumerate}
 \item eine effiziente Möglichkeit zur Erzeugung von Schlüsselpaaren ($K_E,K_D$) geben.
 \item garantiert sein, dass der Private ($K_D$) nicht effizient aus dem öffentlichen Schlüssel ($K_E$) gebildet werden kann.
 \item möglich sein effizient zu Ver- und Entschlüsseln.
-\end{itemize}
+\item optional aber nicht notwendiger Weise die Möglichkeit bestehen mit beiden Schlüsselpaaren zu verschlüsseln und mit dem jeweils anderem das Resultat zu entschlüsseln. Somit ist das System für Certifikate geiegnet.
+\end{enumerate}
+
 Um dies zu erreichen nutzen wir Einwegfunktionen.
 %\subsection{Anwendung asymmetrischer Systeme}
 \paragraph{Einwegfunktionen}
  sind besondere Funktionen ($f: X \rightarrow Y$) bei denen das Urbild ($X$) nicht unter vertretbarem zeitlichem Aufwand aus dem Bild ($Y$) zu berechnen ist. Mathematische Probleme, welche derartige Funktionen bilden, sind unter Anderem das Faktorisierungsproblem und der diskrete Algorithmus. Es ist nicht bewiesen, dass die Umkehrung nicht möglich ist, jedoch übersteigt die Komplexität der Berechnung unser heutiges Vermögen diese in einer vertretbaren Zeitspanne zu lösen.
 
 \ \\
-Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte modulo(n) (~\cite{Eckert13}). 
+Bei der Verwendung von normalen Einwegfunktionen in einem Kryptosystem wäre zwar die Sicherheit der Daten garantiert, jedoch stellt die Umkehrung selbst für autorisierte Personen ein unüberwindbares Hindernis dar. Wir benötigen zum Entschlüsseln unserer Daten eine Hintertür - die so genannte Falltür. Einwegfunktionen mit Falltür bieten eine identische Sicherheit wie normale Einwegfunktionen, und die Option verschlüsselte Daten unter Kenntnis eines Geheimnisses (bei und der private oder öffentliche Schlüssel) zu entschlüsseln. Beispiele für mathematische Probleme mit Falltür sind die h-te Potenz modulo(n) und der zusammengesetzte Modul(n) (~\cite{Eckert13}). 
 
 \subsection{RSA}
+Bei RSA handelt es sich um ein 1978 von Ronald Rivest, Adi Shamir und Leonard Adleman entwickeltem Verfahren (~\cite{Eckert13}), welches   alle Vier von uns genannten Bedingungen für ein asymmetrisches Kryptosystem erfüllt. Es beruht auf dem Faktorisierungsproblem.
 
-\subsection{Verschlüsselung und Endschlüsselung}
+\subsubsection{Schlüsselberechnung}
+Zur Berechnung unseres Schlüsselpaares mit dem öffentlich Schlüssel ($e,n$) und dem privaten Schlüssel ($d,\varphi(n)$) gehen wir folgenden Weg:
+\begin{enumerate}
+\item wähle zwei zufällige und große Primzahlen $p\neq q$.
+\item Ermittle $n = p \cdot q$ und $\varphi(n) = (p-1)(q-1)$.
+\item Wähle eine Zahl $e$ für die gilt: $ggt\Big(e,\varphi(n)\Big)$ und $1<e<\varphi(n)$
+\item Als nächstes berechne $d$ mit $ed = 1 mod \varphi(n)$.
+\item ($n,d$) ist privater Schlüssel, ($n,e$) ist öffentlicher Schlüssel
+\end{enumerate} 
+
+\subsubsection{Verschlüsselung und Endschlüsselung}
+Möchten wir nun einen Klartext in einen Kryptotext umwandeln haben wir zwei Schritte zu befolgen. Als erstes muss der Klatext ($m$) in eine Folge von Zahlen mit $m_i \in \{0,1,...,n-1\}$ umgewandelt werden. Daraufhin wird für alle $m_i~~~c_i=m^e_i mod n$ mit Hilfe des vorher berechneten öffentlichen Schlüssels bestimmt und wir erhalten den Kryptotext $c$. %~\cite{Schnor}
+Die Umkehrung erfolgt ähnlich. Jedoch nutzen wir dieses mal den privaten Schlüssel ($d,n$). Zuerst wird der Kryptotext in die Zahlenfolge umgewandelt indem wir $m_i = c^d_i mod n$ für alle $c_i$ bestimmen. Im Anschluss muss lediglich die Zahlenfolge wieder in unseren Klartext transformiert werden.
+\ \\
+
+Die Möglichkeit dieses Verfahren auch invers an zu wenden, also das Verschlüsseln mit dem privaten und das Entschlüsseln mit dem öffentlichen Schlüssel, wird bei Zertifikaten und E-Mail-Signaturen in Anspruch genommen. Bei letzteren wird aus dem Inhalt der E-Mail ein Hashcode generiert, welcher mit dem privaten Schlüssel verschlüsselt, als Signatur an die Nachricht angehangen und dann verschickt wirkt. Dabei geht es weniger um das Geheimhalten des Inhaltes der Nachricht. Sondern um das Sicherstellen das sie unverfälscht beim Empfänger eintrifft. Nach Erhalt der E-Mail kann der Empfänger die Signatur mit dem öffentlich Schlüssel des Senders entschlüsseln und den Inhalt der Nachricht mit dem Hashcode abgleichen. Sollte es dabei zu Unstimmigkeiten kommen ist bewiesen das die Nachricht nach anhängen der Signatur verändert wurde.
+
 
 \subsection{Schlüsselmanagement}
 Bei der asymmetrischen Kryptographie ergeben sich aufgrund ihrer besonderen Grundidee der zwei Schlüssel auch ganz eigene Möglichkeiten und Pflichten zur Erzeugung, Aufbewahrung und möglichen Wiederherstellung dieser. 
 
 \paragraph{Die Erzeugung}
 asymmetrischen Schlüsselmaterials kann der Nutzer entweder selbst übernehmen oder einer zentralen Instanz (z.B. CA) überlassen.
-Sollte der Nutzer den Schlüssel selbst generieren hat dies zum Vorteil das er die volle Kontrolle über den Erstellungsprozess hat. Jedoch obliegt ihm somit auch die Verantwortung den Prozess und die fertigen Schlüssel durch nötige Einstellungen im System und nötige Vorsicht zu sichern. Besonderes Augenmerk liegt dabei auf dem privaten Schlüssel, welcher unter keinen Umständen öffentlich werden darf. Da die Sicherheit der verschlüsselten Daten dann nicht mehr gewährleistet ist. 
-Im falle der Erzeugung durch eine Zentrale Instanz gibt der Nutzer diese Verantwortung Größtenteils aus der Hand, sollte sich jedoch bewusst sein das somit auch keine Kontrolle seinerseits besteht. Des weiteren ist es nun notwendig den privaten Schlüssel sicher dem Nutzer zur Verfügung zu stellen, was unter Umständen kritisch werden kann. Ist der Schlüssel erstmal erzeugt muss dieser zwingend sicher aufbewahrt werden.
+Sollte der Nutzer den Schlüssel selbst generieren, hat dies zum Vorteil, dass er die volle Kontrolle über den Erstellungsprozess besitzt. Jedoch obliegt ihm somit auch die Verantwortung den Prozess und die fertigen Schlüssel durch nötige Einstellungen im System und nötige Vorsicht zu sichern. Besonderes Augenmerk liegt dabei auf dem privaten Schlüssel, welcher unter keinen Umständen öffentlich werden darf. Da die Sicherheit der verschlüsselten Daten dann nicht mehr gewährleistet ist. 
+Im Falle der Erzeugung durch eine zentrale Instanz gibt der Nutzer diese Verantwortung größtenteils aus der Hand. Dabei sollte er sich jedoch bewusst sein, dass so auch keine Kontrolle seinerseits besteht. Des Weiteren ist es nun notwendig den privaten Schlüssel sicher dem Nutzer zur Verfügung zu stellen, was unter Umständen kritisch werden kann. Ist der Schlüssel erstmal erzeugt, muss dieser zwingend sicher aufbewahrt werden.
 
 \paragraph{Die Schlüsselspeicherung}
-muss gewährleisten das der private Schlüssel keinem Unbefugten zur Verfügung steht. Um ein Fehlverhalten des Nutzers aus zu schließen wäre es also ratsam nicht einmal diesem den Zugang zu dem privaten Schlüssel zu gestatten. Diesen Weg gehen Token (oder SmartCard). Token sind Chipkarten oder USBsticks bei denen der Schlüssel auf einem internen Chip sicher verwahrt wird. Der Zugriff ist ausschließlich über Sicherheitssoftware in Emailprogrammen (PGP) oder anderen (OpenSSH) möglich, welche den Schlüssel selbstständig auslesen und ihn nicht zwischenspeichern. Außerdem ist es natürlich möglich den Schlüssel selbst sicher zu verwahren.
+muss gewährleisten, dass der private Schlüssel keinem Unbefugten zur Verfügung steht. Um ein Fehlverhalten des Nutzers auszuschließen, wäre es also ratsam nicht einmal diesem den Zugang zu dem privaten Schlüssel zu gestatten. Diesen Weg gehen Token (oder SmartCard). Token sind Chipkarten oder USBsticks bei denen der Schlüssel auf einem internen Chip sicher verwahrt wird. Der Zugriff ist ausschließlich über Sicherheitssoftware in Emailprogrammen (PGP) oder anderen (OpenSSH) möglich, welche den Schlüssel selbstständig auslesen und ihn nicht zwischenspeichern. Außerdem ist es natürlich möglich den Schlüssel selbst sicher zu verwahren.
 
 \paragraph{Die Verbreitung}
-des öffentlich Schlüssels ist über beliebige Wege möglich. Zum einen besteht die Möglichkeit den öffentlich Schlüssel auf einem KeyServer zu lagern, oder ihn per E-Mail zu verschicken. Es gibt noch wesentlich mehr Möglichkeiten welche jetzt hier nicht alle gennant werden sollen. Zu berücksichtigen ist jedoch das die Authentizität eines öffentlich Schlüssels gegeben sein muss. Nicht immer lässt sich garantieren das der Schlüssel den man als öffentlich Schlüssel von Person A gefunden oder erhalten hat auch wirklich von dieser ist. Zu diesem Zweck werden Schlüssel von Gesprächspartnern, welche sich bereits gegenseitig überprüft haben, Unterschrieben. Es wird also eine mit dem privaten Schlüssel des Signierenden verschlüsselte Signatur an den öffentlichen Schlüssel an gehangen. Aufgrund dessen unsere Operationen umkehrbar sind. Lässt sich nun diese Signatur mit dm öffentlichen Schlüssel des Unterzeichners öffnen und überprüfen. Da die Signatur jedoch nicht geändert werden kann ist sie zudem vor Fälschung sicher. Dieses Verfahren wird ebenso bei Certifikaten in anderen Situationen genutzt. 
+des öffentlich Schlüssels ist über beliebige Wege möglich. Zum Einen besteht die Möglichkeit den öffentlichen Schlüssel auf einem KeyServer zu lagern oder ihn per E-Mail zu verschicken. Es gibt noch wesentlich mehr Alternativen zur Verbreitung, welche hier nicht alle genannt werden sollen. Allerdings ist die Authentizität des öffentlich Schlüssels zu berücksichtigen.Denn nicht immer lässt sich garantieren das der Schlüssel den man als öffentlichen Schlüssel von Person A gefunden oder erhalten hat auch wirklich von dieser stammt. Zu diesem Zweck werden Schlüssel von Gesprächspartnern, welche sich bereits gegenseitig überprüft haben, unterschrieben. Somit bestätigt der Signierende die Zugehörigkeit des öffentlichen Schlüssels zu Person A. Es wird eine mit dem privaten Schlüssel des Signierenden verschlüsselte Signatur an den öffentlichen Schlüssel von Person A angehangen. Aufgrund dessen unsere Operationen umkehrbar sind. Lässt sich nun diese Signatur mit dem öffentlichen Schlüssel des Unterzeichners öffnen und überprüfen. Da die Signatur jedoch nicht geändert werden kann, ist sie zudem vor Fälschung sicher. Dieses Verfahren wird ebenso bei Certifikaten im WebOfTrust oder wie bereits erwähnt beim E-Mail Verkehr genutzt.
 
 \subsection{Hybride Kryptographie}
 
