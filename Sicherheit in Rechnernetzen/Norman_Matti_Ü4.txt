@@ -1,0 +1,83 @@
+﻿751259 Matti Hartfiel
+749229 Norman Vetter
+
+
+
+
+4.1)
+Key: Ascii: vetterhartfielde
+       hex:  766574746572686172746669656c6465
+d1: 41000000000000000000000000000000
+d2: 42000000000000000000000000000000
+d3: 43000000000000000000000000000000
+d4: 44000000000000000000000000000000
+d’1: 5bb6b735d34c417488fc7f6222214453
+d’2: 9aca4bbea4091fca2abf36191d1a3939
+d’3: c03752af5159993bbb72a00bfc6164c9
+d’4: e43128a23cfd8e1c1629ef2e7ac28d88
+h(d1,d2):2
+h(d2,d3):1
+h(d3,d4):3
+h(d’1,d’2):74
+h(d’2,d’3):65
+h(d’3,d’4):60
+
+
+4.2.1)
+751259:
+bf07e2b5c99c803c72fd96df1f031e0b
+
+
+749229:
+4264d04f6f66989a87c41aaede893078
+
+
+Hamming-Distanz: 68
+
+
+4.2.2)
+Die Datenblöcke müssen nicht aufgefüllt werden, da dies automatisch passiert (padding). An das ende der Nachricht wird eine 1 gehängt und der Rest bis zu 448 Stellen mit 0 aufgefüllt. Danach Folgen 64 Stellen die die Länge der ursprünglichen Nachricht angibt.
+Nach zu lesen im RFC1321.
+
+
+4.3)
+    1)    Bob bekommt A=ga mod p von Alice
+
+
+    2)    Alice bekommt B=gb mod p von Bob
+            A =   24 mod 29 = 16
+            B =  211 mod 29 = 18
+            K =   Ba mod p  = Ab mod p
+
+
+    3)    K =  184 mod 29 = 25
+
+
+    4)    K = 1611 mod 29 = 25
+
+
+
+
+4.4)    
+    primfaktoren: p= 23 und q= 29
+    phi(N)= (23-1)*(29-1) = 616
+    öfentlicher schlüssel=(667,13)
+    ggt(13,616):    616    = 13 * 47 rest 5
+                    13    = 5  *  2 rest 3
+                    5    = 3  *  1 rest 2
+                    3    = 2  *  1 rest 1
+                    2    = 1  *  2 rest 0
+
+
+            1    = 3-(1*2)
+                   = 3-1*2
+                   = 3-1*(5-1*3)
+                   = 3-5+1*3
+                   = -5 + 2*3
+                   = -5 + 2*(13-2*5)
+                   = -5 + 2*13 - 4*5 = 2*13 -5*5
+                   = 2*13 -5*(616-(13*47))=-5*616+ 237*13
+
+
+    d= 237
+    geheimer schlüssel=(667,237)

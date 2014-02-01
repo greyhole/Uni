@@ -1,0 +1,24 @@
+﻿http://www.stormzone.de/uni/THI2/Theoretische_Informatik_2.htm
+11.1.4
+
+
+
+
+Ich hab den Beweis nicht hingekriegt. Mein Vorschlag ist jetzt, dass wir alles beweisen, was wir beweisen können, also d(q0’, €) = qF’, daraus folgt, dass € in der Sprache ist.
+
+
+L* = L^+ (L hoch plus) + €
+den hinteren Teil haben wir schon bewiesen (also “+ €”), dann fehlt noch, dass L^+ enthalten ist.
+L ist enthalten, denn d(q0’,w) = d(q0,w) und laut Def ist d(q0,w) = d(qF,€) und dann d(qF,€) = d(qF’,€) daraus folgt, dass alle w die d(q0,w) = d(qF,€) erfüllen in der Sprache unseres Automaten drinnen sind.
+Der letzte Schritt ist dann d(q0’,wv) = d(q0,wv) = d(qF,v) = d(q0,v) daraus folgt, dass wenn w und v in der Sprache sind, dann kann man d(q0,v) = d(qF,€) = d(qF’,€) also werden 2 Wörter der Sprache L aneinandergehängt akzeptiert. Kann man hier vllt ne Induktion ansetzen? Immer unser Induktionswort konkateniert mit einem Wort der Sprache L?
+
+
+IVor: (q0’,w) T (qF’,€)
+IBeh: Av ele L. (q0’wv) T (qF’,€)
+
+
+Beweis:
+1:Fall: w = €
+(q0’,wv) T (q0’,v) T (q0,v) T (qF,€) T (qF’,€) q.e.d
+2.Fall: w ele L
+(q0’,wv) T (q0,wv) T (qF,v) T (q0,v) T (qF,€) T (qF’,€) q.e.d.

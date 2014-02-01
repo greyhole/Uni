@@ -1,0 +1,117 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\usepackage{qtree}
+\usepackage[pdftex]{graphicx}
+\ihead{Thomas Verweyen (759743) \\ Norman Vetter (749229)}
+\setheadsepline{0.2pt}
+\begin{document}
+\begin{center}
+\section*{ Theoretische Informatik 1 \\ Übung Blatt 12}
+\end{center}
+\ \\ \ \\
+
+\subsection*{Aufgabe 12.1}
+
+$P' = \Big(\{q\}, \{a, b, c\}, \{S, S_1, S_2, C, A\}, \delta, q, S, \emptyset\Big)$ \\
+mit $\delta$:
+\begin{tabular}{c|c|c|c}
+$Q$ & $\Sigma \cup \{\epsilon\}$ & $\Gamma$ & $Resultat$\\
+\hline
+$q$ & $a$ & $a$ & $\{(q, \epsilon)\}$\\
+\hline
+$q$ & $b$ & $b$ & $\{(q, \epsilon)\}$\\
+\hline
+$q$ & $c$ & $c$ & $\{(q, \epsilon)\}$\\
+\hline
+$q$ & $\epsilon$ & $S$ & $\{(q, S_1aC), (q, AcS_2)\}$\\
+\hline
+$q$ & $\epsilon$ & $S_1$ & $\{(q, aS_1bb), (q, acbb)\}$\\
+\hline
+$q$ & $\epsilon$ & $S_2$ & $\{(q, bbS_2c), (q, bbac)\}$\\
+\hline
+$q$ & $\epsilon$ & $C$ & $\{(q, Cc), (q,c)\}$\\
+\hline
+$q$ & $\epsilon$ & $A$ & $\{(q, Aa), (q, a)\}$\\
+\end{tabular}
+
+\subsection*{Aufgabe 12.2}
+$(a)$\\
+$h_1(0) = a, ~ h_2(0) = b, ~ h_2(1) = cc$\\
+$L_1 = (h_1(L_0))^* ~ \circ ~ h_2(L_{01}) \underset{Abschlusseigenschaften} {\Rightarrow} L_1 \in \textit{L}_2$\\
+
+$(b)$\\
+$h_1(0) = 0101, h_2(0) = 01, h_2(1) = 1010, h_3(2) = 202$\\
+$h_1(L_0) ~ \circ ~ L_2 = \Big {\{}(01)^n(10)^{2n}(202)^n | n \in \mathbb N, n \geq 2 \Big {\}}$ \\
+$(h_2^{-1}(h_1(L_0) ~ \circ ~ L_2)) = L_{012} \underset{Abschlusseigenschaften} {\Rightarrow} L_2 \notin \textit{L}_2$\\
+
+$(c)$\\
+$h_1(0) = a, h_1(1) = bb, h_2(0) = c, h_3(0) = a, h_4(0) = b, h_4(1) = cc$\\
+$L_3 = \Big(h_1(L_{01}) ~ \circ ~ (h_2(L_0))^*\Big) \cup \Big((h_3(L_0))^* \circ h_4(L_{01})\Big) \\
+\\
+	~~~~ \underset{Abschlusseigenschaften} {\Rightarrow} L_3 \in \textit{L}_2$\\
+
+$(d)$\\
+$h_1(0) = 0a, h_1(1) = a1, h_2(0) = a0, h_2(1) = 1a, h_2(2) = aa, h_3(0) = a, h_4(0) = 2s$ \\
+$L_H := h_2^{-1} \Big( h_3(L_0) \circ h_1(L_{01}) \circ h_3(L_0) \Big) = \Big\{0^n 2 1^n ~ | ~ n \in \mathbb N \Big\}$ \\
+$L_4 = L_H \circ (h_4(L_0) \circ L_H)^* \underset{Abschlusseigenschaften} {\Rightarrow} L_4 \in \textit{L}_2$
+
+\newpage
+
+\subsection*{Aufgabe 12.3}
+$G = (V, T, P, S), P \subseteq \{ A \rightarrow a\beta | A \in V, a \in T, \beta \in V^* \} $\\
+\\
+Zuerst benutzen wir das in der Vorlesung vorgestellte Verfahren um aus der Grammatik G einen 
+PDA $P_G$ mit nur einem Zustand zu erzeugen, mit $L(G) = L_\epsilon(P)$. Danach eliminieren wir alle $\epsilon -$Übergänge. \\
+\\
+$PDA ~ P_G = ( \{q\}, T, V \cup T, \delta, q, S, \emptyset) $ \\
+\\
+$ \forall A \in V. ~ \delta(q,\epsilon,A) = \{(q,\alpha) ~ | ~ A \rightarrow \alpha \in P\} $ \\
+$ \forall a \in T. ~ \delta(q,a,a) = \{(q,\epsilon)\} $ \\
+\\
+$ \Rightarrow ~ \delta'(q,a,A) = \{(q,\beta) ~ | ~ A \rightarrow \alpha \in P \wedge \alpha = a\beta \} $ \\
+$ \forall a \in T. ~ \delta'(q,a,a) = \{(q,\epsilon)\} $ \\
+$\delta'$ ist damit definiert.
+\\
+$PDA ~ P_G$'$ = ( \{q\}, T, V \cup T, \delta', q, S, \emptyset) $ \\
+\\
+Also hat unser neuer PDA $P_G$' keine $\epsilon -$Übergänge mehr und entspricht damit allen Voraussetzungen. \\
+Zu Beweisen ist allerdings noch L($P_G$) = L($P_G$'), also: \\
+{\itshape(Dabei sei $w \in T^*$, $a \in T$, $A \in \Gamma$, $\beta,\gamma \in \Gamma^*$, $n,m \in$} $\mathbb N$\textit)  \\
+
+$(q,w,\gamma) \vdash^*_{P_G} (q,\epsilon,\epsilon) \Leftrightarrow (q,w,\gamma) \vdash^*_{P_G'} (q,\epsilon,\epsilon) $ \\
+
+Induktion über die Anzahl der Übergänge. \\
+\\
+$ \Rightarrow : $ \\
+$ \underline{IA:} (q,w,\gamma) \vdash_{P_G} (q,\epsilon,\epsilon) $ \\
+ $ \Rightarrow$ w = a, $\gamma$ = a, also wegen Def. $\delta'$ (q,a,a) $\vdash_{P_G'} (q,\epsilon,\epsilon) $ \\
+$ \underline{IS:}$ ~ $\underline{IVor:} (q,w,\gamma) \vdash^n_{P_G} (q,\epsilon,\epsilon) \Rightarrow (q,w,\gamma) \vdash^m_{P_G'} (q,\epsilon,\epsilon) $ \\
+~~ $ \underline{IBeh:} (q,aw,A\gamma') \vdash^{n+2}_{P_G} (q,\epsilon,\epsilon) \Rightarrow (q,aw,A\gamma') \vdash^{m+1}_{P_G'} (q,\epsilon,\epsilon) $ \\
+$\underline{IBeweis:}$ \\
+$ (q,aw,A\gamma') \vdash^{n+2}_{P_G} (q,\epsilon,\epsilon) \Rightarrow (q,aw,A\gamma') \vdash^{m+1}_{P_G'} (q,\epsilon,\epsilon) $ ~~ mit $\gamma = \beta\gamma'$ \\
+$ \Leftrightarrow (q,aw,A\gamma') \vdash_{P_G} (q,aw,a\beta\gamma) \vdash_{P_G} (q,w,\beta\gamma) \vdash^n_{P_G} (q,\epsilon,\epsilon) $ \\
+~~~~~ $ \Rightarrow (q,aw,A\gamma') \vdash (q,w,\beta\gamma') \vdash^m_{P_G'} (q,\epsilon,\epsilon) $ \\
+\\
+
+\newpage
+
+$ \Leftarrow : $ \\
+$ \underline{IA:} (q,w,\gamma) \vdash_{P_G'} (q,\epsilon,\epsilon) $ \\
+$ \Rightarrow $ w = a, $\gamma$ = a, also (q,a,a) $\vdash_{P_G} (q,\epsilon,\epsilon) $ \\
+
+$ \underline{IS:}$ ~ $\underline{IVor:} (q,w,\gamma) \vdash^n_{P_G'} (q,\epsilon,\epsilon) \Rightarrow (q,w,\gamma) \vdash^m_{P_G} (q,\epsilon,\epsilon) $ \\
+~~ $ \underline{IBeh:} (q,aw,A\gamma') \vdash^{n+1}_{P_G'} (q,\epsilon,\epsilon) \Rightarrow (q,aw,A\gamma') \vdash^{m+2}_{P_G} (q,\epsilon,\epsilon) $ \\
+$\underline{IBeweis:}$ \\
+$ (q,aw,A\gamma') \vdash^{n+1}_{P_G'} (q,\epsilon,\epsilon) \Rightarrow (q,aw,A\gamma') \vdash^{m+2}_{P_G} (q,\epsilon,\epsilon) $ ~~ mit $\gamma = \beta\gamma'$ \\
+$ \Leftrightarrow (q,aw,A\gamma') \vdash (q,w,\beta\gamma') \vdash^n_{P_G'} (q,\epsilon,\epsilon) $ \\
+~~~~~ $ \Rightarrow (q,aw,A\gamma') \vdash_{P_G} (q,aw,a\beta\gamma) \vdash_{P_G} (q,w,\beta\gamma) \vdash^m_{P_G} (q,\epsilon,\epsilon) $ \\
+
+
+
+\end{document}

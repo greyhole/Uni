@@ -1,0 +1,31 @@
+Erstmal war uns die Aufgabenstellung nicht ganz klar, wir haben dann aber entschieden den Beweis zu führen, 
+dass die in HA 2.1 beschriebene Definition der reflexiven bzw. transitiven Hülle der dritten Definition in 
+PA 2.3 entspricht. Also zu beweisen, dass
+
+/*
+ * R(D) ist R Dreieck also unsere reflexive Hülle
+ * u ist das Vereinigungssymbol
+ * (A) ist der Allquantor
+ * € ist Element von
+ * c Teilmenge (nicht echte Teilmenge)
+ * UND für das logische Und
+ * ODER für das logische Oder
+ */
+
+R(D) = R u {(s,s) | s € S} <=> (A)s € S . sR(D)s UND (A)R' € {R'' | R c R''} . ( (A)s € S . sR's ) UND R(D) c R'
+//									reflexiv				kleinste reflexive Relation die R enthält
+Auf der linken Seite steht die Definition aus der Hausaufgabe, auf der rechten Seite stehen die Bedingungen der Präsenzaufgabe.
+
+Leider ist uns der Beweis dieser Formel nicht gelungen, wir wollten aber wenigstens zeigen, dass wir es versucht haben.
+
+Der Beweis, dass R(D) reflexiv ist:
+{(s,s) | s € S} ist reflexiv
+Wenn A ODER B reflexiv, dann ist auch A u B reflexiv
+Daraus folgt, R u {(s,s) | s € S} = R(D) ist reflexiv
+
+Der Beweis, dass R(D), R enthält ist:
+R(D) = R u {(s,s) | s € S} => R c R(D)
+
+Die beiden Beweise waren noch recht offensichtlich, jetzt fehlt noch der Beweis, dass R(D) die kleinste Relation ist, und der Beweis 
+in die Gegenrichtung. Bei dem Beweis, dass die Relation R(D) die kleinste reflexive Relation auf S ist, die R enthält hatten wir große 
+Schwierigkeiten. Wir haben verschiedene Beweisverfahren ausprobiert und sind zu keinem Ergebnis gekommen.

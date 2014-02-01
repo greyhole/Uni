@@ -1,0 +1,60 @@
+\documentclass{beamer}
+
+\usetheme{Antibes}
+
+\usepackage[ngerman]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{totpages}
+
+
+\setbeamercovered{transparent}
+\beamertemplatenavigationsymbolsempty
+%\setbeamertemplate{footline}[frame number]
+\setbeamertemplate{footline}
+  {%
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+      leftskip=.3cm,rightskip=.3cm plus1fil]{upper separation line foot}
+       \hfill Folie~\thepage / \ref{TotPages}
+    \end{beamercolorbox}
+    \begin{beamercolorbox}[ht=2.5ex,dp=1.125ex,%
+      leftskip=.3cm,rightskip=.3cm plus1fil]{author in head/foot}%
+      \leavevmode{\usebeamerfont{author in head/foot}\insertshortauthor}%
+      \hfill%
+      {\usebeamerfont{institute in head/foot}\usebeamercolor[fg]{institute in 						head/foot}\insertshortinstitute}%
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[colsep=1.5pt]{lower separation line foot}	
+    \end{beamercolorbox}
+  }
+  
+\title{Asymmetrische Kryptografie mit JAVA}
+\subtitle{SVAMJ}
+\author{A. H. W. Lindemann, N. Vetter}
+\date{\today}
+
+\institute[Universität Potsdam]{
+	Institut für Informatik
+}
+
+\begin{document}
+
+\begin{frame}
+
+\titlepage
+
+\end{frame}
+
+\section{Übersicht}
+\begin{frame}
+\frametitle{Gliederung}
+\tableofcontents
+\end{frame}
+
+\section{Cryptoprovider}
+\section{}
+\section{Hybride Cryptografie}
+\subsection{Symmetrisch}
+\subsection{Asymetrisch}
+
+
+
+\end{document}

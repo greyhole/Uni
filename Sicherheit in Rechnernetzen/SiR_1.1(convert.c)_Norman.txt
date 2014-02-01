@@ -1,0 +1,54 @@
+﻿/* convert.c
+Norman Vetter 729229
+Matti Hartfield 751259
+*/
+
+
+#include <stdio.h>
+#include <string.h>
+int n,ii;
+char *ok,*temp;
+char phone[17];        /*Die größe von phone wurde auf 17 erhöt da für Nummern <=15, 15+'\n'+'\0'=17 Plätze benötigt werden*/ 
+char junk[16];         //junk dient zum löschen der stdin bis zum Nächsten \n falls erforderlich.
+
+
+/*check_stdin() ist zum überprüfen und notfalls entfernen von zu vielen zeichen oder falschen zeichen
+aus einer Zeile von stdin. Bei Fehleingabe wird über stderr eine Fehlermeldung ausgegeben.*/
+
+
+int check_stdin(){        
+        if(phone[strlen(phone)-1]!='\n'){
+                do temp=fgets(junk,16,stdin);
+                while((junk[strlen(junk)-1]!='\n') && (temp!=NULL));
+                fprintf(stderr, "Nummer ist zu lang:%s\n",phone);
+                return 0;
+        }
+        else {
+                phone[strlen(phone)-1]='\0';
+                for (ii=0;ii<strlen(phone);ii++) 
+                        if (!(isdigit(phone[ii]))){
+                                fprintf(stderr, "Nummer enthaelt ungueltige Zeichen:%s\n",phone);
+                                return 0;
+                        }
+                return 1;
+        }
+}
+
+
+
+
+int main(int argc,char *argv[]){
+        while(1){
+                ok=fgets(phone,17,stdin); /*scanf() wurde wegen gefahr auf bufferOverflow durch 
+                                                fgets() ersetzt.*/
+                if (ok==NULL) break;                
+                if(!check_stdin()) continue;                
+                for (n=strlen(phone);n-->0;){
+                        putchar(phone[n]);
+                        putchar('.');
+                }
+                puts("e164.arpa");
+                putchar('\n');
+                }
+                return 0;
+        }

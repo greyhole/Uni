@@ -1,0 +1,51 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{scrpage2}\pagestyle{scrheadings}
+\usepackage[pdftex]{graphicx}
+\ihead{Thomas Verweyen (759743) \\ Norman Vetter (749229)}
+\setheadsepline{0.2pt}
+\begin{document}
+\begin{center}
+\section*{ Theoretische Informatik 1 \\ Übung Blatt 2}
+\end{center}
+\ \\ \ \\
+\subsection*{Aufgabe 2.1}
+Erstmal war uns die Aufgabenstellung nicht ganz klar, wir haben dann aber entschieden den Beweis zu führen, 
+dass die in HA 2.1 beschriebene Definition der reflexiven bzw. transitiven Hülle der dritten Definition in 
+PA 2.3 entspricht. Also zu beweisen, dass\\
+\ \\
+\begin{small}
+$R^\triangle ~=~ R~ \cup ~ \{(s,s)|s \in S\} \Leftrightarrow \underset{reflexiv}{\underbrace{\forall s \in S~.~s R^\triangle s}} ~\wedge~ \underset{kleinste ~ reflexive ~ Relation ~ die ~ R ~ enthaelt}{\underbrace{\forall R' \in \{R''| R \subseteq R''\}. \big (( \forall s \in S ~.~ sR's) \wedge R^\triangle \subseteq R' \big )}}$
+\end{small}\\
+Auf der linken Seite steht die Definition aus der Hausaufgabe, auf der rechten Seite stehen die Bedingungen der Präsenzaufgabe.\\
+\ \\
+Leider ist uns der Beweis dieser Formel nicht gelungen, wir wollten aber wenigstens zeigen, dass wir es versucht haben.\\
+\ \\
+Der Beweis, dass $R^\triangle$ reflexiv ist:\\
+$\{(s,s)|s \in S\} ~ist ~reflexiv$\\
+Wenn A $\vee$ B reflexiv, dann ist auch A $\cup$ B reflexiv.\\
+Daraus folgt, $R \cup \{(s,s)|s \in S\}=R^\triangle$ ist reflexiv.\\
+\ \\
+Der Beweis, dass $R^\triangle$, R enthält ist:\\
+$R^\triangle = R \cup \{(s,s)|s \in S \} \Rightarrow R \subseteq R^\triangle$\\
+\ \\
+Die beiden Beweise waren noch recht offensichtlich, jetzt fehlt noch der Beweis, dass $R^\triangle$ die kleinste Relation ist, und der Beweis in die Gegenrichtung. Bei dem Beweis, dass die Relation $R^\triangle$ die kleinste reflexive Relation auf S ist, die R enthält hatten wir große Schwierigkeiten. Wir haben verschiedene Beweisverfahren ausprobiert und sind zu keinem Ergebnis gekommen.\\
+
+\subsection*{Aufgabe 2.2}
+L(A)=$\{w \in \{a,i,m,u\}^*~|w=(mia^+u)\}^*$
+\subsection*{Aufgabe 2.3}
+\paragraph*{a)}\ \\
+$L_1~=~\{w \in \{0,1,2\}^*$ w ist die Darstellung zur Basis 3 einer Dreierpotenz\}.\\
+A($L_1) = \{\{q0,q1,F\},\{0,1,2\},\delta,q0,\{q0,q1\}\}$.\\
+$\delta:$\\
+\includegraphics[scale=1.5]{TI23a.eps}
+\paragraph*{b)}\ \\
+$L_2=\{w \in \{\heartsuit,\spadesuit,\diamondsuit\}^*~|$ nach jedem $\diamondsuit$ kommt mindestens ein $\heartsuit~oder~ein~\spadesuit$\}.\\
+A($L_2) = \{\{q0,q1,F\},\{\heartsuit,\spadesuit,\diamondsuit\},\delta,q0,\{q0\}\}$.\\
+$\delta:$\\
+\includegraphics[scale=1.5]{TI23b.eps}
+\end{document}

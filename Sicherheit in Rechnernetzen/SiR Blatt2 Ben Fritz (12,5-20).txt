@@ -1,0 +1,87 @@
+﻿Benjamin Plewka 754639                                                                SRN Blatt 2
+Fritz Meiners 743338                                                                                
+2.1         Portscanning: Legitime Nutzung
+SYN-Flood: Verfügbarkeit
+Sniffing: Legitime Nutzung, Vertraulichkeit
+
+
+2.2        Der Angriff besteht darin, die Variable filename in dem Aufruf
+        execve(interpreter, filename, NULL);
+        nach dem Evaluieren des setuid-Bits zu verändern.
+Dies ist möglich, wenn der Scheduler während während des Aufrufs die Abarbeitung unterbricht.
+
+
+2.3        anbei
+
+
+2.4        find /bin/* -perm -4000
+
+
+./mount        ./ping6                ./su                ./ping                ./umount
+
+
+./mount & ./umount: es muss auch für nicht priviligierte Nutzer möglich sein, Wechseldatenträger ein- und auszuhängen
+
+
+2.5
+
+
+
+
+
+
+
+
+
+
+        1) 
+
+
+[plewka@mull ~]$ nmap -sT -p1-5000 mull.haiti.cs.uni-potsdam.de
+
+
+Starting Nmap 5.00 ( http://nmap.org ) at 2013-05-16 14:58 CEST
+Interesting ports on mull.haiti.cs.uni-potsdam.de (141.89.59.178):
+Not shown: 4999 closed ports
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+
+Nmap done: 1 IP address (1 host up) scanned in 0.09 seconds
+
+
+→ Offener TCP-Port 22 → dienst SSH
+
+
+
+
+2)        -sT:                TCP connect scan
+ -p1-5000:        Portbereich der gescannt wird
+
+
+3)        Es wird nur der Port 22 (SSH) angezeigt, anstelle von Ports:
+111 tcp/udp → sunrpc
+22 tcp → ssh
+25 tcp → smtp
+54659 tcp → frei gewählter port
+3306 tcp →  mysql
+123 tcp/udp  → ntp
+
+
+4)        [plewka@mull ~]$ ssh -V
+OpenSSH_5.5p1 Debian-6+squeeze3, OpenSSL 0.9.8o 01 Jun 2010
+
+
+5)
+
+
+[plewka@localhost ~ ]$ sudo nmap -sU -p1-5000 mull.haiti.cs.uni-potsdam.de
+
+
+Starting Nmap 6.25 ( http://nmap.org ) at 2013-05-16 23:33 CEST
+Nmap scan report for mull.haiti.cs.uni-potsdam.de (141.89.59.178)
+Host is up (0.025s latency).
+All 5000 scanned ports on mull.haiti.cs.uni-potsdam.de (141.89.59.178) are open|filtered
+
+
+Nmap done: 1 IP address (1 host up) scanned in 125.49 seconds

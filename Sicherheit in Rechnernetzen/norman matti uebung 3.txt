@@ -1,0 +1,75 @@
+﻿Norman Vetter 749229
+Matti Hartfield 751259
+
+
+Sicherheit in Rechnernetzen Übung 3
+
+
+3.1)
+Basic NAT: bedeutet Basic Network Adress Translation und dient zum verbinden von 2 Netzwerken mit unterschiedlichen IP-Bereichen durch ändern der IP-Adresse im IP-Header.
+
+
+NAPT: bedeutet Network Address Port Translation und dient auch zum Verbinden von 2 Netzwerken. Jedoch wird hierbei eine Gruppe von IP-Adressen inklusive derer Ports auf eine einzelne Adresse gemapped.
+
+
+NAT: bedeutet Network Adress Translation und ist die Kombination von Basic NAT und NAPT. Es dienst zum verbinden 2er Netzwerke wobei eines Beispielsweise aus privaten Adressen und das andere aus global registrierten Adressen besteht.
+
+
+Source NAT: bedeutet Source Network Address Translation, hierbei wird die Addresse des Computers umgeschrieben der die Verbindung aufbaut, also der die Verbindung beginnt.
+
+
+Destination NAT: Destination Network Address Translation, hierbei wird die Addresse des Computers geändert zu dem die Verbindung aufgebaut werden soll.
+
+
+3.2.
+zu 5)
+iptables -F
+iptables -P OUTPUT DROP
+iptables -P INPUT DROP
+iptables -P FORWARD DROP
+
+
+zu 1)
+iptables -A FORWARD -i eth0 -o eth1 -p UDP -dport 161 -s 10.1.2.3 -j Accept
+
+
+zu 2)
+iptables -A FORWARD -i eth1 -o eth0 -p tcp -dport 993 -m state --state NEW -j Accept
+iptables -A FORWARD -i eth1 -o eth0 -p tcp -dport 25 -m state --state NEW -j Accept
+iptables -A FORWARD -i eth1 -o eth0 -p tcp -dport 22 -m state --state NEW -j Accept
+iptables -t nat -A POSTROUTING -i eth1 -o eth0 -p tcp -dport 993 -j MASQUERADE
+iptables -t nat -A POSTROUTING -i eth1 -o eth0 -p tcp -dport 25 -j MASQUERADE
+iptables -t nat -A POSTROUTING -i eth1 -o eth0 -p tcp -dport 22 -j MASQUERADE
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j Accept
+
+
+
+
+zu 3)
+iptables -t nat -A PREROUTING -i eth0 -o eth1 -p tcp -dport 80 -j DNAT --to-destination 192.168.2.14 --to-port 8080
+iptables -t nat -A PREROUTING -i eth0 -o eth1 -p tcp -dport 22 -j DNAT --to-destination 192.168.2.23 --to-port 22
+iptables -t nat -A PREROUTING -i eth0 -o eth1 -d 192.168.2.14 -p tcp -dport 8080 -m state --state NEW -j Accept 
+iptables -t nat -A PREROUTING -i eth0 -o eth1 -d 192.168.2.23 -p tcp -dport 22 -m state --state NEW -j Accept 
+iptables -A FORWARD -m state --state ESTABLISHED,RELATED -j Accept
+
+
+zu 4)
+iptables -t nat -A PREROUTING -i eth0 -o eth1 -p tcp --dport 2222 -j REDIRECT --to-ports 22
+iptables -A INPUT -p tcp --dport 22 -m state --state NEW -j Accept
+iptables -A OUTPUT -m state --state ESTABLISHED,RELATED -j Accept
+iptables -A INPUT -m state --state ESTABLISHED,RELATED -j Accept
+
+
+3.3)
+NAT verarbeitet lediglich Ports, welche im IP-Header stehen. Dadurch kann es zu Problemen bei der Weiterleitung kommen, da SIP Ports im Payload vermerkt.
+
+
+3.5)
+1. Nutzdaten: Hallo
+ - mit tcpdump -vX -r szenario-0.pcap
+
+
+2. 0.Accept, weil die Verbindung zustande kommt.
+1. Reject, weil ein Reset-Paket zurück geschickt wird und die Verbindung nicht zustande kommt
+2. Drop, weil der Zielrechner nicht erreichbar ist.
+3. Drop, es kommt keine Antwort.

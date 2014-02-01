@@ -1,0 +1,64 @@
+﻿Benjamin Plewka 754639                                                                SRN Blatt 4
+Fritz Meiners 743338                                        
+Aufgabe 4.1:
+
+
+Schlüssel:         Klartext: PlewkaUndMeiners
+                Hexadezimal: 506c65776b61556e644d65696e657273
+
+
+Verschlüsselte Nachrichten:
+
+
+d1’=b48f0125c3054133477c25ca7871fd06
+                d2’=8ce19c379f618b36a4b971b0816b56b8
+                d3’=c4e12f317641f039960d0490185165dc
+                d4’=13d1ed53976c3024134927f522660d70
+
+
+Hammingabstände:
+h(d1,d2)=2    h(d2,d3)=1    h(d3,d4)=3
+h(d1’,d2’)=65   h(d2’,d3’)=53   h(d3’,d4’)=76
+
+
+	Aufgabe 4.2:
+
+
+1.
+m1: 754639                
+m2: 743338                
+Hex Hash m1:         9c34c03bec57de9ba07c61391a0e40e2
+Hex Hash m2:                18d35c4b6ce5bf52e97ca6a5cb80759f
+Bin Hash m1:        
+1001 1100 0011 0100 1100 0000 0011 1011 1110 1100 0101 0111 1101 
+1110 1001 1011 1010 0000 0111 1100 0110 0001 0011 1001 0001 1010 
+0000 1110 0100 0000 1110 0010
+Bin Hash m2:
+0001 1000 1101 0010 0101 1100 0100 1011 0110 1100 1110 0101 1011 
+1111 0101 0010 1110 1001 0111 1100 1010 0110 1010 0101 1100 1011 
+1000 0000 0111 0101 1001 1111        
+
+
+Hamming-Abstand Bin Hash m1 & Bin Hash m2: 57
+
+
+2.
+
+
+MD5 funktioniert nur auf 512 Bit großen Blöcken.
+Daher muss ein Padding auf die Matrikelnummern angewendet werden. Dies wird allerdings vom Algorithmus übernommen.
+Quelle: stackoverflow.com
+
+
+
+
+Aufgabe 4.3:
+
+
+p = 29, g = 2, A = 4 und B = 11.
+
+
+Alice berechnet 24 mod 29 = 16 und sendet dies an Bob.
+Bob berechnet 211 mod 29 = 18 und sendet dies an Alice.
+Alice berechnet K = 184 mod 29 = 25.
+Bob berechnet K = 1611 mod 29 = 25.

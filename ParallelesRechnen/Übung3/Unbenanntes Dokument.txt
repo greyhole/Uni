@@ -1,0 +1,68 @@
+﻿Norman Vetter 749229
+Matti Hartfield 751259
+Paralleles Rechnen Übung 3
+
+
+Aufgabe 3.1)
+Partitionierung:
+Die kleinste mögliche Einteilung ist die Verteilung eines Punktes auf einen Thread.
+Also jeder Thread berechnet die Färbung von genau einen Punkt.
+
+
+Kommunikation:
+Da jeder Punkt die Färbung seines Nachbarn benötigt, muss jeder Punkt auch mit seinen Nachbarn Kommunizieren. Was einen enormen Aufwand darstellt.
+
+
+Agglomeration:
+Um den Kommunikationsaufwand zwischen den Threads zu verringern ist es ratsam  
+mehrere Punkte zu Streifen zusammen zu fügen.
+Desweiteren werden so genannte “Ghost Zones” eingerichtet. welche überlappende Daten des benachbarten Streifen erhalten damit die Punkte an den Rändern berechnent werden können.
+
+
+Mapping:
+Ein Streifen wird einem Thread zugewiesen, welcher diesen abarbeitet.
+Desweiteren wird ein (oder mehere) Threads dazu benutzt um die Kommunikation zwischen den Ghost-Zones zu gewährleisten.
+
+
+Aufgabe 3.2)
+a)
+Partitionierung:
+Es ist möglich jeden einzelnen Zufallsversuch (also Punkt x,y), mit Test auf Lage im Kreis, als eigenen Thread um zu setzen und somit eine Maximale partitionierung zu erhalten.
+
+
+Communication:
+Es bietet sich hierbei eine Verteilung in Master-Slave Form an.
+Da der Master so die “Steps” aufteilen und auf die Ergebnisse warten (sie weiter verarbeiten) kann wärend Slaves noch rechnen.
+
+
+Agglomeration:
+Je nach Systembeschaffenheit bieten sich hier unterschiedliche Möglichkeiten/Anforderungen.
+Auf einem 1-Kern System lohnt sich eine hohe Partitionierung natürlich nicht. Da der Kommunikations-overhaed drastisch steigt. Die möglichst gleichmäßige Aufteilung der Steps auf die Threads wäre sicher angebracht.
+
+
+
+
+Mapping:
+1 Thread je Prozessor, aufgrund des Kommunkations-overheads wäre zu empfehlen.
+
+
+b)
+f:
+Aufgrund mehrfachen Testens habend wir festgestellt das der relative Fehler unter Umständen schwankt (in den Testfällen der Abgabe leider nicht erkennbar). Dies kann daran liegen das die Monaco-Simulation auf Zufallswerten basiert und somit erst bei einer hohen Anzahl an versuchen eindeutige Ergebnisse liefert.
+
+
+Aufgabe 3.3)
+Partitionierung:
+Jeder neu gefundene Zustand kann in einen Thread gepackt werden um die möglichen Eingaben zu überprüfen und vllt neue Zustände zu finden.
+
+
+Kommunikation:
+Zur Kommunikation wäre ein Master-Slave modell praktisch, da immer wieder neu anfallende Zustände so leicht verteilt werden können.
+
+
+Agglomeration:
+Je nach größe des Automaten und Verfügbarkeit von prozessoren können mehr oder weniger Aufgaben auf die Threads verteilt werden.
+
+
+Mapping:
+Der Master teilt den Slaves die zu überprüfenden Zustaände zu. Falls neue Zustände gefunden werden, werden auch diese wieder weiter vergeben. Somit muss eine Kommunikation nur mit dem Master erfolgen.
