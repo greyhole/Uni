@@ -10,30 +10,32 @@
 \pagestyle{scrheadings}
 \usepackage{qtree}
 \usepackage[pdftex]{graphicx}
-\ihead{Thomas Verweyen (759743) \\ Norman Vetter (749229)}
+\ihead{Thomas Verweyen (759743), Norman Vetter (749229)\\ Lukas Sprinck (770616)}
 \setheadsepline{0.2pt}
 \begin{document}
 \begin{center}
 \section*{ Theoretische Informatik 1 \\ Übung Blatt 13}
 \end{center}
 \subsection*{Aufgabe 13.1}
-\paragraph*{a}
+\paragraph*{a)}
 \ \\
 $G=(\{S,A,B,C,D,E,F\},\{a,b,c\},P,S)$\\
-$\begin{tabu}{lllll}
-P=&\{S \rightarrow aaAac &| cbBb &| \epsilon,\\
-&A \rightarrow SF &| C &| aab,\\
-&B \rightarrow aB &| Bbba &| BD &| cbE,\\
-&C \rightarrow \epsilon &| S,\\
-&D\rightarrow a &| Ebc,\\
-&E \rightarrow b &| Bb &|BC,\\
-&F \rightarrow ACA &| CccE\}
+$\begin{tabu}{ll}
+P=&\{S \rightarrow aaAac | cbBb | \epsilon,\\
+&A \rightarrow SF | C | aab,\\
+&B \rightarrow aB | Bbba | BD | cbE,\\
+&C \rightarrow \epsilon | S,\\
+&D\rightarrow a | Ebc,\\
+&E \rightarrow b | Bb |BC,\\
+&F \rightarrow ACA | CccE\}
 \end{tabu}$
 \ \\
 \ \\
-1) $\epsilon$-Übergänge eliminieren:\\
-$\begin{tabu}{llllllllllll}
-P=&\{S \rightarrow aaAac | cbBb | aaac,\\
+\subparagraph{1.$\epsilon$-Übergänge eliminieren:}
+\ \\
+$G_1=(\{S,A,B,C,D,E,F\},\{a,b,c\},P,S)$\\
+$\begin{tabu}{ll}
+P_1=&\{S \rightarrow aaAac | cbBb | aaac,\\
 &A \rightarrow SF | C | aab | F,\\
 &B \rightarrow aB | Bbba | BD | cbE,\\
 &C \rightarrow S,\\
@@ -43,11 +45,13 @@ P=&\{S \rightarrow aaAac | cbBb | aaac,\\
 \end{tabu}$
 \ \\
 \ \\
-2) Einheitproduktionen eliminieren:\\
+\subparagraph{2. Einheitproduktionen eliminieren:}
+\ \\
 Einheitsproduktionen:\\
 (A,F),(A,C),(C,S),(A,S),(E,B),(F,A),(F,C),(F,S)\\
+$G_2=(\{S,A,B,C,D,E,F\},\{a,b,c\},P,S)$\\
 $\begin{tabu}{ll}
-P=&\{S \rightarrow aaAac | cbBb | aaac,\\
+P_2=&\{S \rightarrow aaAac | cbBb | aaac,\\
 &A \rightarrow SF | AC | CA | AA | ACA | CccE | ccE | aab | aaAac | cbBb | aaac,\\
 &B \rightarrow aB | Bbba | BD | cbE,\\
 &C \rightarrow aaAac | cbBb | aaac,\\
@@ -57,32 +61,61 @@ P=&\{S \rightarrow aaAac | cbBb | aaac,\\
 \end{tabu}$
 \ \\
 \ \\
-4) Terminale auflösen:\\
-$\begin{tabu}{ll}
-P=&\{S \rightarrow X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac,\\
-&A \rightarrow SF | AC | CA | AA | ACA | CccE | ccE | X_aX_aX_b | X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac,\\
-&B \rightarrow X_aB | BX_bX_bX_a | BD | cX_bE,\\
-&C \rightarrow X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac,\\
-&D \rightarrow X_a | EX_bc,\\
-&E \rightarrow X_b | BX_b |BC | X_aB | BX_bX_bX_a | BD | cX_bE,\\
-&F \rightarrow SF | X_aX_aX_b | X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac | AC | CA | AA | ACA | CccE | ccE,\\
-&X_a \rightarrow a,\\
-&X_b \rightarrow b\}
+\subparagraph{3. Erreichbarkeit und Produktion testen}
+\ \\
+Erreichbar: S,A,B,a,b,c,C,D,E,F\\
+Priduzierend: a,b,c,S,A,B,C,D,E,F\\
+$\Rightarrow$ es wird nichts geändert.
+
+\subparagraph{4. Terminale auflösen}
+\ \\
+$G_3=(\{S,A,B,C,D,E,F,X_a,X_b,X_c\},\{a,b,c\},P,S)$\\
+$\begin{tabu}{lll}
+P_3=&\{S \rightarrow& X_aX_aAX_aX_c | X_cX_bBX_b | X_aX_aX_aX_c,\\
+&A \rightarrow& SF | AC | CA | AA | ACA | CX_cX_cE | X_cX_cE | X_aX_aX_b | X_aX_aAX_aX_c |\\
+ &&X_cX_bBX_b | X_aX_aX_aX_c,\\
+&B \rightarrow& X_aB | BX_bX_bX_a | BD | X_cX_bE,\\
+&C \rightarrow& X_aX_aAX_aX_c | X_cX_bBX_b | X_aX_aX_aX_c,\\
+&D \rightarrow& X_a | EX_bX_c,\\
+&E \rightarrow& X_b | BX_b |BC | X_aB | BX_bX_bX_a | BD | X_cX_bE,\\
+&F \rightarrow& SF | X_aX_aX_b | X_aX_aAX_aX_c | X_cX_bBX_b | X_aX_aX_aX_c | AC | CA | AA |\\
+&&ACA | CX_cX_cE | X_cX_cE,\\
+&X_a \rightarrow& a,\\
+&X_b \rightarrow& b,\\
+&X_c \rightarrow& c\}
 \end{tabu}$
 \ \\
 \ \\
-5) ...
+\subparagraph{5. Aufspalten von Produktionen}
+\ \\
+$G_4=(\{S,A,B,C,D,E,F,Y_{aAac},Y_{Aac},Y_{ac},Y_{bBb},Y_{Bb},Y_{aac},Y_{ba},Y_{ccE},Y_{ab},$\\
+$Y_{bba},Y_{ac},Y_{cE},Y_{CA},Y_{bE},Y_{bc}\},\{a,b,c\},P,S)$\\
 $\begin{tabu}{ll}
-P=&\{S \rightarrow X_aY_{aAac} | X_cY_{bBb} | X_aY_{aac},\\
+P_4=&\{S \rightarrow X_aY_{aAac} | X_cY_{bBb} | X_aY_{aac},\\
 &A \rightarrow SF | AC | CA | AA | AY_{CA} | CY_{ccE} | X_cY_{cE} | X_aY_{ab} | X_aY_{aAac} | X_cY_{bBb} | X_aY_{aac},\\
 &B \rightarrow X_aB | BY_{bba} | BD | X_cY_{bE},\\
 &C \rightarrow X_aY_{aAac} | X_cY_{bBb} | X_aY_{aac},\\
 &D \rightarrow X_a | EY_{bc},\\
 &E \rightarrow X_b | Bb |BC | X_aB | BY_{bba} | BD | X_cY_{bE},\\
 &F \rightarrow SF | X_aY_{ab} | X_aY_{aAac} | X_cY_{bBb} | X_aY_{aac} | AC | CA | AA | ACA | CY_{ccE} | X_cY_{cE}\}\\
-&
-&X_a \rightarrow a,\\
-&X_b \rightarrow b\}
+&\begin{tabu}{lll}
+&Y_{aAac} \rightarrow X_aY_{Aac},&Y_{Aac} \rightarrow Y_{ac},\\
+&Y_{bBb} \rightarrow X_bY_{Bb},&Y_{Bb} \rightarrow BX_b,\\
+&Y_{aac} \rightarrow X_aY_{ac},&Y_{ba} \rightarrow X_bX_a,\\
+&Y_{ccE} \rightarrow X_cY_{cE},&Y_{ab} \rightarrow X_aX_b,\\
+&Y_{bba} \rightarrow X_bY_{ba},&Y_{ac} \rightarrow X_aX_c\\
+&Y_{cE} \rightarrow X_cE,&X_a \rightarrow a,\\
+&Y_{CA} \rightarrow CA,&X_b \rightarrow b,\\
+&Y_{bE} \rightarrow X_bE,&X_c \rightarrow c\}\\
+&Y_{bc} \rightarrow X_bX_c,
+\end{tabu}
 \end{tabu}$
-
+\paragraph{b)}
+\ \\
+$\begin{tabu}{|c|c|c|c|c|c|c|}
+a&a&a&a&b&a&c\\
+\hline
+\{D,X_a\}&\{D,X_a\}&\{D,X_a\}&\{D,X_a\}&\{E,X_b\}&\{D,X_a\}&\{X_c\}\\
+\{\}&
+\end{tabu}$
 \end{document}
