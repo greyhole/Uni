@@ -1,0 +1,87 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{tabu}
+\usepackage{scrpage2}
+\pagestyle{scrheadings}
+\usepackage{qtree}
+\usepackage[pdftex]{graphicx}
+\ihead{Thomas Verweyen (759743) \\ Norman Vetter (749229)}
+\setheadsepline{0.2pt}
+\begin{document}
+\begin{center}
+\section*{ Theoretische Informatik 1 \\ Übung Blatt 13}
+\end{center}
+\subsection*{Aufgabe 13.1}
+\paragraph*{a}
+\ \\
+$G=(\{S,A,B,C,D,E,F\},\{a,b,c\},P,S)$\\
+$\begin{tabu}{lllll}
+P=&\{S \rightarrow aaAac &| cbBb &| \epsilon,\\
+&A \rightarrow SF &| C &| aab,\\
+&B \rightarrow aB &| Bbba &| BD &| cbE,\\
+&C \rightarrow \epsilon &| S,\\
+&D\rightarrow a &| Ebc,\\
+&E \rightarrow b &| Bb &|BC,\\
+&F \rightarrow ACA &| CccE\}
+\end{tabu}$
+\ \\
+\ \\
+1) $\epsilon$-Übergänge eliminieren:\\
+$\begin{tabu}{llllllllllll}
+P=&\{S \rightarrow aaAac | cbBb | aaac,\\
+&A \rightarrow SF | C | aab | F,\\
+&B \rightarrow aB | Bbba | BD | cbE,\\
+&C \rightarrow S,\\
+&D\rightarrow a | Ebc,\\
+&E \rightarrow b | Bb |BC | B,\\
+&F \rightarrow A | C | AC | CA | AA | ACA | CccE | ccE\}
+\end{tabu}$
+\ \\
+\ \\
+2) Einheitproduktionen eliminieren:\\
+Einheitsproduktionen:\\
+(A,F),(A,C),(C,S),(A,S),(E,B),(F,A),(F,C),(F,S)\\
+$\begin{tabu}{ll}
+P=&\{S \rightarrow aaAac | cbBb | aaac,\\
+&A \rightarrow SF | AC | CA | AA | ACA | CccE | ccE | aab | aaAac | cbBb | aaac,\\
+&B \rightarrow aB | Bbba | BD | cbE,\\
+&C \rightarrow aaAac | cbBb | aaac,\\
+&D \rightarrow a | Ebc,\\
+&E \rightarrow b | Bb |BC | aB | Bbba | BD | cbE,\\
+&F \rightarrow SF | aab | aaAac | cbBb | aaac | AC | CA | AA | ACA | CccE | ccE\}\\
+\end{tabu}$
+\ \\
+\ \\
+4) Terminale auflösen:\\
+$\begin{tabu}{ll}
+P=&\{S \rightarrow X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac,\\
+&A \rightarrow SF | AC | CA | AA | ACA | CccE | ccE | X_aX_aX_b | X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac,\\
+&B \rightarrow X_aB | BX_bX_bX_a | BD | cX_bE,\\
+&C \rightarrow X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac,\\
+&D \rightarrow X_a | EX_bc,\\
+&E \rightarrow X_b | BX_b |BC | X_aB | BX_bX_bX_a | BD | cX_bE,\\
+&F \rightarrow SF | X_aX_aX_b | X_aX_aAX_ac | cX_bBX_b | X_aX_aX_ac | AC | CA | AA | ACA | CccE | ccE,\\
+&X_a \rightarrow a,\\
+&X_b \rightarrow b\}
+\end{tabu}$
+\ \\
+\ \\
+5) ...
+$\begin{tabu}{ll}
+P=&\{S \rightarrow X_aY_{aAac} | cbBb | aaac,\\
+&A \rightarrow SF | AC | CA | AA | ACA | CccE | ccE | aab | aaAac | cbBb | aaac,\\
+&B \rightarrow aB | Bbba | BD | cbE,\\
+&C \rightarrow aaAac | cbBb | aaac,\\
+&D \rightarrow a | Ebc,\\
+&E \rightarrow b | Bb |BC | aB | Bbba | BD | cbE,\\
+&F \rightarrow SF | aab | aaAac | cbBb | aaac | AC | CA | AA | ACA | CccE | ccE\}\\
+&X_a \rightarrow a,\\
+&X_b \rightarrow b\}
+\end{tabu}$
+
+\end{document}
