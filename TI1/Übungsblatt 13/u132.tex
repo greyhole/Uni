@@ -9,6 +9,7 @@
 \usepackage{scrpage2}
 \pagestyle{scrheadings}
 \usepackage{qtree}
+\usepackage{paralist}
 \usepackage[pdftex]{graphicx}
 \ihead{Thomas Verweyen (759743), Norman Vetter (749229)\\ Lukas Sprinck (770616)}
 \setheadsepline{0.2pt}
@@ -165,23 +166,33 @@ Sei $u,v,w,x,y \in \Gamma^*$ bieliebig mit z=uvwxy,\\
 
 $\begin{tabu}{ll}
 1.Fall)\\
-&vx=(0^+ \vee 1^+ \vee 2^+):\\
+&(v \circ x) \in L(0^+ + 1^+ + 2^+):\\
 &u=0^a,v=0^b,w=0^c,x=0^d,y=0^{m-a-b-c-d}1^{m*p}2^p\\
 &$für$~ b,d \neq 0 ~und~ b+c+d \leq n'.\\
 &$Wir wählen: i=2.$\\
 &\Rightarrow uv^2wx^2y=0^{m+b+d}1^{m*p}2^p \notin L.\\
-&da ~ |vwx| \leq n' \leq m,p~$gilt dies ebenfalls für$~ vx=1^+ ~und~ vx=2^+.\\ 
+&da ~ |vwx| \leq n' \leq m,p~$gilt dies ebenfalls für$~ vx=1^+ ~und~ vx=2^+.\\
 \ \\
 2.Fall)\\
-&vx=(0^+1^+ \vee 1^+2^+):\\
-&u=0^{m-b-c},v=0^b,w=0^c,x=1^d,y=1^{p*(m-d)}2^p\\
-&$für$~ b,d \neq 0 ~und~ b+c+d \leq n'.\\
-&$Wir wählen: i=2.$\\
-&\Rightarrow uv^2wx^2y=(0^{m+b}1^{p*(m+d)}2^p) \rightarrow |vx|=b+p(d) > n'.\\
-&$somit haben wir einen Wiederspruch zu (2),$\\
-&$welcher sich auf gleiche Art und Weise bei $|vx|=1^+2^+$zeigen lässt.$\\
+&(v \circ x) \in L(0^+1^+ + 1^+2^+):\\
+&|vx|_0 * p \neq |vx|_1$ gilt immer, denn $ p > n’ \geq |vwx| \geq |vx| \\
+&a := |vx|_0, b := |vx|_1 \\
+I. &a * p = b \\
+II.&a + b \leq n \\
+III.&p > n \\
+$I in II$.& a + a * p \leq n \\
+&\Leftrightarrow a * (p + 1) \leq n \\
+&\Leftrightarrow a = 0 \\
+&\Rightarrow b = 0 \\
+&\Rightarrow $ (1) ist verletzt $\\
+\ \\
+
+&$Weiterführend sei i = 0$ \\
+&\Rightarrow z$ liegt nicht mehr in der Sprache$ \\
+&$Der Beweis ist für $|vx|=1^+2^+$analog. $\\
 \end{tabu}$
 Da wir in allen Fällen zu Wiedersprüchen gelangen ist $L \notin \mathcal{L}_2$.
+
 \section*{Aufgabe 13.3}
 $G = (V,T,P,S), P \subset \{ A \rightarrow uBv \lor A \rightarrow \epsilon | A,B \in V, u,v \in T^*\}$ \\
 \\
@@ -205,4 +216,17 @@ mit den Eigenschaften \\
 2. $|vx| \geq 1$ \\
 {\centering\tiny{(, denn vx ist das Teilwort, dass bei der Wiederholung von A entsteht)}}\\
 3. $\forall i \geq 0. uv^iwx^iz \in L$
+\ \\
+\ \\
+\ \\
+\paragraph{Anmerkung wegen Gruppenwechsel}
+\ \\
+Aufgrund eines Gruppenwechsels setzt sich unsere Gruppe nun aus den in der Kopfzeile benannten Personen zusammen.
+Neu hinzu kam dabei Lukas Sprinck.
+Vorherige Übungsabgaben erfolgten bei:
+\begin{itemize}
+\item Thomas Verweyen (759743):G4 (Tina Beigel),
+\item Norman Vetter (749229):G4 (Tina Beigel),
+\item Lukas Sprinck (770616):G3 (Thorsten Alten).
+\end{itemize}
 \end{document}
