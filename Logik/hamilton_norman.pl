@@ -1,7 +1,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 % < Namen, Matrikelnummern und Mail-Adressen ALLER Gruppenmitglieder >         %
-%                                                                              %
+%  Norman Vetter, 749229, nvetter@uni-potsdam.de
+%                                                                            %
 % (Pro Gruppe sind MAXIMAL ZwEI Mitglieder erlaubt!)                           %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -16,16 +17,12 @@
 % Termen der Form "r(N,R)" ueber die Adjazenzlisten "R" der Knoten "N" den
 % zugrunde liegenden Graphen beschreibt.
 
-hamilton(Start,Graph,[Start|Path]) :- select(r(Start,[A|B]),Graph,Graphnew),help(Start,A,Graph,Path).
-hamilton(Start,Graph,[Start|Path]) :- select(r(Start,[_|[A|B]]),Graph,Graphnew),help(Start,A,Graph,Path).
-%hamilton(Start,Graph,Path) :- help(Start,Start,Graph,Path).
+hamilton(StartNode,Graph,[StartNode|Path]) :-
+  select(r(StartNode,NList),Graph,Graphnew),member(NNext,NList),help(StartNode,NNext,Graphnew,Path).
 
-help(_,_,[],[]) :- !.
-help(Start,A,Graph,[A|Path]) :- 
-            select(r(A,[C|B]),Graph,Graphnew),help(Start,C,Graphnew,Path).
-help(Start,A,Graph,[A|Path]) :-       
-              select(r(A,[_|[C|B]]),Graph,Graphnew),help(Start,C,Graphnew,Path).
-
+help(StartNode,StartNode,[],[StartNode]).
+help(StartNode,NNext,Graph,[NNext|Path]) :-       
+              select(r(NNext,NList),Graph,Graphnew),member(N2Next,NList),help(StartNode,N2Next,Graphnew,Path).
 
 
 
