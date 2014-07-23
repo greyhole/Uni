@@ -37,6 +37,26 @@ do([Sum|Sums],[Sol|Sols], Solution) :-
  do(Sums,Sols, SolsNew),
  once(connect(SolNew,SolsNew, Solution)).
 
+getSum(' ',Sol, Sol) :-!.
+getSum(Sum,Sol, SolNew) :- getSum(Sum,Sol,0,0,0, _,_,SolNew).
+getSum(Sum,[],_,_,_, 0,0,[]).
+getSum(Sum,[1|Sols],I,Min,Max, NimNew,XamNew,[1|SolsNew]) :-
+ INew is I+1, MinNew is Min+INew, MaxNew is Max+INew,
+ getSum(Sum,Sols,INew,MinNew,MaxNew, Nim,Xam,SolsNew),
+ NimNew is Nim+INew, XamNew is Xam+INew.
+getSum(Sum,[0|Sols],I,Min,Max, Nim,Xam,[0|SolsNew]) :-
+ INew is I+1,
+ getSum(Sum,Sols,INew,Min,Max, Nim,Xam,SolsNew).
+getSum(Sum,[' '|Sols],I,Min,Max, NimNew,XamNew,[SolNew|SolsNew]) :-
+ INew is I+1, MaxNew is Max+INew,
+ getSum(Sum,Sols,INew,Min,MaxNew, Nim,Xam,SolsNew),
+ getValue(Sum,INew,Min,Max,Nim,Xam, NimNew,XamNew,SolNew).
+
+getValue(Sum,I,Min,Max,Nim,Xam, NimNew,XamNew,Sol) :-
+ (Max+Xam<Sum,Sol=1,NimNew is Nim+I,XamNew is Xam+I,!;
+  I+Min+Nim>Sum,Sol=0,NimNew=Nim,XamNew=Xam,!;
+  Sol=' ',NimNew=Nim,XamNew is Xam+I).
+
 getSol(Cols,Rows,Sol, Solution) :-
  getSol(Cols,Sol, Sol2),
  do(Cols,Rows,Sol2, Solution).
@@ -73,41 +93,12 @@ testSol(0,_,[]).
 testSol(Sum,I,[1|Sols]) :- INew is I+1,SumNew is Sum-INew,SumNew>=0,testSol(SumNew,INew,Sols).
 testSol(Sum,I,[0|Sols]) :- INew is I+1,testSol(Sum,INew,Sols).
 
-getSum(' ',Sol, Sol) :-!.
-getSum(Sum,Sol, SolNew) :- getSum(Sum,Sol,0,0,0, _,_,SolNew).
-getSum(Sum,[],_,_,_, 0,0,[]).
-getSum(Sum,[1|Sols],I,Min,Max, NimNew,XamNew,[1|SolsNew]) :-
- INew is I+1, MinNew is Min+INew, MaxNew is Max+INew,
- getSum(Sum,Sols,INew,MinNew,MaxNew, Nim,Xam,SolsNew),
- NimNew is Nim+INew, XamNew is Xam+INew.
-getSum(Sum,[0|Sols],I,Min,Max, Nim,Xam,[0|SolsNew]) :-
- INew is I+1,
- getSum(Sum,Sols,INew,Min,Max, Nim,Xam,SolsNew).
-getSum(Sum,[' '|Sols],I,Min,Max, NimNew,XamNew,[SolNew|SolsNew]) :-
- INew is I+1, MaxNew is Max+INew,
- getSum(Sum,Sols,INew,Min,MaxNew, Nim,Xam,SolsNew),
- getValue(Sum,INew,Min,Max,Nim,Xam, NimNew,XamNew,SolNew).
-
-getValue(Sum,I,Min,Max,Nim,Xam, NimNew,XamNew,Sol) :-
- (Max+Xam<Sum,Sol=1,NimNew is Nim+I,XamNew is Xam+I,!;
-  I+Min+Nim>Sum,Sol=0,NimNew=Nim,XamNew=Xam,!;
-  Sol=' ',NimNew=Nim,XamNew is Xam+I).
  
 initSol(Cols,Rows, Sol) :-
  length(Rows,X),length(Cols,Y),
  fill(X,' ', Tmp), fill(Y,Tmp, Sol).
 fill(0,X, []).
 fill(I,X, [X|Sol]) :- INew is I-1,fill(INew,X, Sol).
-
-testSol(Sum,[],I) :- Sum=0.
-testSol(Sum,[Col|Cols],I) :-
- Sum>=0,SumNew is Sum-I*Col,INew is I+1,
- testSol(SumNew,Cols,INew).
-
-testSols([],[]).
-testSols([Col|Cols],[Sol|Sols]) :- member(x,Sol), !, fail.
-testSols([Col|Cols],[Sol|Sols]) :- testSol(Col,Sol,1),
- testSols(Cols,Sols).
 
 connect([],[], []).
 connect([SolH|SolT],[], [[SolH]|Sol]) :-
