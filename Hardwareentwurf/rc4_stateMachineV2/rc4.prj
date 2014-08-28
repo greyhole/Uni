@@ -1,0 +1,3 @@
+verilog work "ipcore_dir/fpga_mem.v"
+vhdl work "coder.vhd"
+vhdl work "rc4.vhd"

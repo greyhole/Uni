@@ -1,0 +1,17 @@
+# Output products list for <fpga_mem>
+_xmsgs\pn_parser.xmsgs
+dist_mem_gen_ds322.pdf
+dist_mem_gen_readme.txt
+fpga_mem.asy
+fpga_mem.gise
+fpga_mem.ngc
+fpga_mem.sym
+fpga_mem.v
+fpga_mem.veo
+fpga_mem.vhd
+fpga_mem.vho
+fpga_mem.xco
+fpga_mem.xise
+fpga_mem_flist.txt
+fpga_mem_readme.txt
+fpga_mem_xmdf.tcl

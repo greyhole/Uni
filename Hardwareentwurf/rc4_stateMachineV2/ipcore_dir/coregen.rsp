@@ -1,0 +1,3 @@
+NEWPROJECT "C:/Users/nvetter/Hardwareentwurf/rc4/ipcore_dir/coregen.cgp"
+SETPROJECT "C:/Users/nvetter/Hardwareentwurf/rc4/ipcore_dir/coregen.cgp"
+LAUNCHXCO "C:/Users/nvetter/Hardwareentwurf/rc4/ipcore_dir/fpga_mem.xco"
