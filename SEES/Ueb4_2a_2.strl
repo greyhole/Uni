@@ -1,0 +1,16 @@
+module TP:
+	input GO,STOP,FRONT,BACK;
+	output FORWARD,BACKWARD,STOPP;
+
+	loop
+	  await GO;
+	  abort
+	  loop
+	    emit FORWARD;
+	    await FRONT;
+	    emit BACKWARD;
+	    await BACK;
+	  end loop;
+	  when STOP do emit STOPP;
+        end abort;
+end module 
