@@ -1,0 +1,51 @@
+#include "systemc.h"
+
+#ifndef CONSUMER_H_
+#define CONSUMER_H_
+
+SC_MODULE(Consumer){
+
+	sc_out<int> cFloor;
+	sc_vector< sc_in< sc_bv< 1 > > > upList,downList;
+	bool etst;
+
+	SC_CTOR(Consumer){
+		etst(false);
+		upList.init(4);
+		cFloor.initialize(0);
+		SC_METHOD(consume);
+		sensitive << upList[2];
+	}
+
+	void consume()
+	{	cout << "checkList"
+		if(checkUpList()){
+			etst = true;
+		}
+		else{
+			etst = false;
+			}
+
+		cout << etst << endl;
+	}
+
+	bool checkUpList(){
+		for(uint i(cFloor);i < upList.size();i++){
+			if(upList[i].read()== "1"){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool checkDownList(){
+		for(int i(0);cFloor > i;i++){
+			if(downList[i].read()== "1"){
+				return true;
+			}
+		}
+		return false;
+	}
+};
+
+#endif
