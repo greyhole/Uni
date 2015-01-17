@@ -38,7 +38,7 @@ SC_MODULE(Consumer){
 					moveTo(highUp);
 				}
 				else{
-					moveTo(lowDown);
+					moveTo()
 				}
 			}
 			break;
