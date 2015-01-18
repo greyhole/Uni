@@ -11,8 +11,9 @@ SC_MODULE(Consumer){
 	sc_out<int> cFloor,cState;
 	sc_out<bool> carry;
 	sc_vector< sc_in< sc_bv< 1 > > > upList,downList;
-	int lastDirection;
-	sc_in<bool> clock;
+	sc_in_rv<4> request;
+	int lastDirection,highDown,lowUp;
+	sc_in<bool> clock,ready;
 
 	SC_CTOR(Consumer){
 		lastDirection = 2;
@@ -26,33 +27,32 @@ SC_MODULE(Consumer){
 
 	void consume(){
 		while(true){
+			highDown = checkDown();
+			lowUp = checkUp();
 			cout << "consume" << endl;
-			int lowDown,highUp;
 			cout << "@" << sc_time_stamp() << endl;
 			switch(cState){
 				case IDLE:
 					cout << "consume.IDLE" << endl;
-					lowDown = checkDownList();
-					highUp = checkUpList();
-					if ((lowDown != -1) & (highUp != -1)){
+					if ((highDown != -1) & (lowUp != -1)){
 						if(lastDirection == 2){
 							cState.write(UP);
 							lastDirection = 1;
 							carry.write(false);
-						}
+							}
 						else{
 							lastDirection = 2;
 							cState.write(DOWN);
 							carry.write(false);
-						}
+							}
 					}
-					else if((lowDown == -1) & (highUp != -1)){
-						cout << "consume.IDLE.highUp" << endl;
+					else if((highDown == -1) & (lowUp != -1)){
+						cout << "consume.IDLE.lowUp" << endl;
 						lastDirection = 1;
 						cState.write(UP);
 						carry.write(false);
-					}
-					else if((lowDown != -1) & (highUp == -1)){
+						}
+					else if((highDown != -1) & (lowUp == -1)){
 						lastDirection = 2;
 						cState.write(DOWN);
 						carry.write(false);
@@ -63,33 +63,59 @@ SC_MODULE(Consumer){
 					wait();
 					break;
 				case UP:
-					cout << "UP:" << cState << endl;
-					cState.write(IDLE);
-					wait();
+					if(lowUp == -1){
+						cState.write(IDLE);
+					}
+					else if(cFloor == lowUp){
+						carry.write(true);
+						wait(ready);
+						carry.write(false);
+						}
+					else if(cFloor > lowUp){
+						cFloor.write(cFloor-1);
+						wait(4);
+					}
+					else{
+						cFloor.write(cFloor+1);
+						wait(4);
+					}
 					break;
 				case DOWN:
-					cout << "DOWN:" << cState << endl;
-					cState.write(IDLE);
-					wait();
+					if(highDown == -1){
+						cState.write(IDLE);
+					}
+					else if(cFloor == highDown){
+						carry.write(true);
+						wait(ready);
+						carry.write(false);
+					}
+					else if(cFloor > highDown){
+						cFloor.write(cFloor-1);
+						wait(4);
+					}
+					else{
+						cFloor.write(cFloor+1);
+						wait(4);
+					}
 					break;
 				}
 		}
 	}
 
-	int checkUpList(){
+	int checkUp(){
 		int tmp = -1;
-		for(uint i(0);i < upList.size();i++){
-			if(upList[i].read()== "1"){
+		for(int i(0);i < 4;i++){
+			if(upList[i].read()== 1 | request[i]== 1){
 				tmp = i;
 			}
 		}
 		return tmp;
 	}
 
-	int checkDownList(){
+	int checkDown(){
 		int tmp = -1;
 		for(int i(3);i >= 0 ;i--){
-			if(downList[i].read() == "1"){
+			if(downList[i].read() == 1 | request[i]== 1){
 				tmp = i;
 			}
 		}
