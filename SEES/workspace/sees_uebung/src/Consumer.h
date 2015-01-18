@@ -9,8 +9,10 @@
 SC_MODULE(Consumer){
 
 	sc_out<int> cFloor,cState;
+	sc_out<bool> carry;
 	sc_vector< sc_in< sc_bv< 1 > > > upList,downList;
 	int lastDirection;
+	sc_in<bool> clock;
 
 	SC_CTOR(Consumer){
 		lastDirection = 2;
@@ -18,37 +20,65 @@ SC_MODULE(Consumer){
 		downList.init(4);
 		cFloor.initialize(0);
 		cState.initialize(IDLE);
-
-		SC_METHOD(consume);
-
-		for( uint i = 0;i<4;i++){
-			sensitive << upList[i] << downList[i];
-		}
+		carry.initialize(false);
+		SC_CTHREAD(consume,clock.pos());
 	}
 
-	void consume()
-	{
-		int lowDown,highUp;
-		switch(cState){
-		case IDLE:
-			lowDown = checkDownList();
-			highUp = checkUpList();
-			if ((lowDown != -1) & (highUp != -1)){
-				if(lastDirection == 2){
-					moveTo(highUp);
+	void consume(){
+		while(true){
+			cout << "consume" << endl;
+			int lowDown,highUp;
+			cout << "@" << sc_time_stamp() << endl;
+			switch(cState){
+				case IDLE:
+					cout << "consume.IDLE" << endl;
+					lowDown = checkDownList();
+					highUp = checkUpList();
+					if ((lowDown != -1) & (highUp != -1)){
+						if(lastDirection == 2){
+							cState.write(UP);
+							lastDirection = 1;
+							carry.write(false);
+						}
+						else{
+							lastDirection = 2;
+							cState.write(DOWN);
+							carry.write(false);
+						}
+					}
+					else if((lowDown == -1) & (highUp != -1)){
+						cout << "consume.IDLE.highUp" << endl;
+						lastDirection = 1;
+						cState.write(UP);
+						carry.write(false);
+					}
+					else if((lowDown != -1) & (highUp == -1)){
+						lastDirection = 2;
+						cState.write(DOWN);
+						carry.write(false);
+					}
+					else{
+						cout << "IDLE:" << cState;
+					}
+					wait();
+					break;
+				case UP:
+					cout << "UP:" << cState << endl;
+					cState.write(IDLE);
+					wait();
+					break;
+				case DOWN:
+					cout << "DOWN:" << cState << endl;
+					cState.write(IDLE);
+					wait();
+					break;
 				}
-				else{
-					moveTo(lowDown);
-				}
-			}
-			break;
 		}
-		cout << checkUpList() << endl;
 	}
 
 	int checkUpList(){
 		int tmp = -1;
-		for(uint i(cFloor);i < upList.size();i++){
+		for(uint i(0);i < upList.size();i++){
 			if(upList[i].read()== "1"){
 				tmp = i;
 			}
@@ -58,7 +88,7 @@ SC_MODULE(Consumer){
 
 	int checkDownList(){
 		int tmp = -1;
-		for(int i(cFloor);i >= 0 ;i--){
+		for(int i(3);i >= 0 ;i--){
 			if(downList[i].read() == "1"){
 				tmp = i;
 			}

@@ -5,22 +5,30 @@
 
 SC_MODULE(Producer){
 
-	sc_out< sc_bv<1> > test_out;
-	int i;
-
+	sc_out< sc_bv<1> > btnUp,btnDown;
+	sc_in<bool> clock;
 	SC_CTOR(Producer){
-		i = 0;
-		test_out.initialize(0);
-		SC_THREAD(produce);
+		btnUp.initialize(0);
+		btnDown.initialize(0);
+		SC_CTHREAD(produce,clock.pos());
 	}
 
 	void produce()
 	{
-		i = 0;
-		while(i < 10) {
-			test_out.write(i);
-			wait(SC_ZERO_TIME); //sonst kommt der Consumer nie dran
-			i++;
+		while(true) {
+			btnUp.write(1);
+			btnDown.write(0);
+			wait(4);
+			btnUp.write(0);
+			btnDown.write(1);
+			wait(4);
+			btnUp.write(0);
+			btnDown.write(0);
+			wait(4);
+			btnUp.write(1);
+			btnDown.write(1);
+			wait(4);
+			sc_stop();
 		}
 	}
 
