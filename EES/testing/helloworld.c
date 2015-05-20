@@ -44,11 +44,15 @@ void user_1ms_isr_type2(void)
 }
 
 /* Task1 executed every 1msec */
-TASK(Task1){
+TASK(MotorikTask){
   motorikTask();
+  TerminateTask();
+}
+
+TASK(MainTask){
   if(!flag){
     flag = 1;
-    rotateL();
+    moveF();
   }
   TerminateTask();
 }
