@@ -1,22 +1,23 @@
 /************************************/
 /* motorik.c für rescueFinderRobot  */
+//#include "kernel.h"
 #include "nxt_config.h"
 #include "ecrobot_interface.h"
+//#include "helloworld.h"
+
 #define ROTATE_L 0
 #define ROTATE_R 1
 #define MOVE_F   2
 #define ADJUST   3
-#define FORWARDVAL 3000
+#define FORWARDVAL 600
 #define BACKVAL  70
-#define motorInitSpeed 95
+#define motorInitSpeed 35 
 
 /* OSEK declarations */
 int lightInitLeft;
 int lightInitRight;
 int state = 100;
 int innerState;
-int motorSpeedRight = motorInitSpeed;
-int motorSpeedLeft = motorInitSpeed;
 
 void moveF(){
   nxt_motor_set_count(MOTOR_LEFT, 0);
@@ -78,6 +79,7 @@ void motorikTask(){
         nxt_motor_set_speed(MOTOR_LEFT,0,1);
         nxt_motor_set_count(MOTOR_LEFT, 0);
         nxt_motor_set_count(MOTOR_RIGHT, 0);
+ //       SetEvent(MainTask, MoveReadyEvent);
         state = 100;
       }
       else{
@@ -175,7 +177,7 @@ void motorikTask(){
         break;
       }
       else if(motorCountRight > motorCountLeft + 2){
-        nxt_motor_set_speed(MOTOR_LEFT, motorSpeedLeft -3, 1);
+        nxt_motor_set_speed(MOTOR_LEFT, motorInitSpeed -3, 1);
         break;
       }
       else{

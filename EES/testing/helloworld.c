@@ -4,11 +4,13 @@
 #include "ecrobot_interface.h"
 #include "nxt_config.h"
 #include "motorik.h"
-int flag = 0;
-/* OSEK declarations */
-DeclareCounter(SysTimerCnt);
-DeclareTask(Task1);
 
+/* OSEK declarations */
+//DeclareEvent(MoveReadyEvent);
+DeclareCounter(SysTimerCnt);
+DeclareTask(MainTask);
+DeclareTask(MotorikTask);
+int flag = 0;
 /* nxtOSEK hooks */
 void ecrobot_device_initialize(void)
 {
@@ -51,8 +53,17 @@ TASK(MotorikTask){
 
 TASK(MainTask){
   if(!flag){
-    flag = 1;
+    flag=1;
     moveF();
   }
+  /*WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  rotateR();
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  moveF();
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  */
   TerminateTask();
 }

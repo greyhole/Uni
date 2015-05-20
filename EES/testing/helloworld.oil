@@ -14,6 +14,10 @@ CPU ATMEL_AT91SAM7S256
     USEPARAMETERACCESS = FALSE;
     USERESSCHEDULER = FALSE;
   };
+ 
+ EVENT MoveReadyEvent{
+    MASK = AUTO;
+  };
 
   /* Definition of application mode */
   APPMODE appmode1{};
@@ -27,10 +31,11 @@ CPU ATMEL_AT91SAM7S256
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
   };
+  
   TASK MainTask
   {
     AUTOSTART = FALSE;
-    PRIORITY = 1;
+    PRIORITY = 2;
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
