@@ -1,9 +1,10 @@
 /************************************/
 /* motorik.c für rescueFinderRobot  */
-//#include "kernel.h"
+#include "kernel.h"
+//#include "kernel_id.h"
 #include "nxt_config.h"
 #include "ecrobot_interface.h"
-//#include "helloworld.h"
+#include "helloworld.h"
 
 #define ROTATE_L 0
 #define ROTATE_R 1
@@ -79,7 +80,7 @@ void motorikTask(){
         nxt_motor_set_speed(MOTOR_LEFT,0,1);
         nxt_motor_set_count(MOTOR_LEFT, 0);
         nxt_motor_set_count(MOTOR_RIGHT, 0);
- //       SetEvent(MainTask, MoveReadyEvent);
+        SetEvent(MainTask, MoveReadyEvent);
         state = 100;
       }
       else{
