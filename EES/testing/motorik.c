@@ -1,17 +1,16 @@
 /************************************/
 /* motorik.c für rescueFinderRobot  */
 #include "kernel.h"
-//#include "kernel_id.h"
+#include "kernel_id.h"
 #include "nxt_config.h"
 #include "ecrobot_interface.h"
-#include "helloworld.h"
 
 #define ROTATE_L 0
 #define ROTATE_R 1
 #define MOVE_F   2
 #define ADJUST   3
 #define FORWARDVAL 600
-#define BACKVAL  70
+#define BACKVAL  80
 #define motorInitSpeed 35 
 
 /* OSEK declarations */
@@ -80,8 +79,9 @@ void motorikTask(){
         nxt_motor_set_speed(MOTOR_LEFT,0,1);
         nxt_motor_set_count(MOTOR_LEFT, 0);
         nxt_motor_set_count(MOTOR_RIGHT, 0);
-        SetEvent(MainTask, MoveReadyEvent);
         state = 100;
+
+        SetEvent(MainTask, MoveReadyEvent);
       }
       else{
         nxt_motor_set_speed(MOTOR_RIGHT,motorInitSpeed,1);
@@ -173,17 +173,26 @@ void motorikTask(){
         state = ADJUST;
         break;
       }
-      else if(motorCountRight < motorCountLeft - 2){
-        nxt_motor_set_speed(MOTOR_LEFT, motorInitSpeed - 3, 1);
+      else if(motorCountRight - 2 > motorCountLeft ){
+        nxt_motor_set_speed(MOTOR_RIGHT, motorInitSpeed - 5, 1);
+        display_goto_xy(0,2);
+        display_string("runter");
+        display_update();
         break;
       }
-      else if(motorCountRight > motorCountLeft + 2){
-        nxt_motor_set_speed(MOTOR_LEFT, motorInitSpeed -3, 1);
+      else if(motorCountRight + 2 < motorCountLeft ){
+        nxt_motor_set_speed(MOTOR_RIGHT, motorInitSpeed + 5, 1);
+        display_goto_xy(0,2);
+        display_string("hoch");
+        display_update();
         break;
       }
       else{
         nxt_motor_set_speed(MOTOR_RIGHT,motorInitSpeed,1);
         nxt_motor_set_speed(MOTOR_LEFT,motorInitSpeed,1);
+        display_goto_xy(0,2);
+        display_string("NORMAL");
+        display_update();
         break;
       }
   }

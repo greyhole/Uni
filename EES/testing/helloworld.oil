@@ -21,8 +21,20 @@ CPU ATMEL_AT91SAM7S256
 
   /* Definition of application mode */
   APPMODE appmode1{};
+  
+  TASK MainTask
+  {
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+    };
+    PRIORITY = 2;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512; /* Stack size */
+    EVENT = MoveReadyEvent;
+  };
 
-  /* Definition of Task1 */
   TASK MotorikTask
   {
     AUTOSTART = FALSE;
@@ -32,14 +44,6 @@ CPU ATMEL_AT91SAM7S256
     STACKSIZE = 512; /* Stack size */
   };
   
-  TASK MainTask
-  {
-    AUTOSTART = FALSE;
-    PRIORITY = 2;
-    ACTIVATION = 1;
-    SCHEDULE = FULL;
-    STACKSIZE = 512; /* Stack size */
-  };
 
   /* Definition of OSEK Alarm Counter */
   COUNTER SysTimerCnt
@@ -48,8 +52,7 @@ CPU ATMEL_AT91SAM7S256
     MAXALLOWEDVALUE = 120000;
     TICKSPERBASE = 1; /* One tick is equal to 1msec */
   };
-
-  /* Definition of Task1 execution timing */
+  
   ALARM motorik_alarm
   {
     COUNTER = SysTimerCnt;
@@ -62,22 +65,6 @@ CPU ATMEL_AT91SAM7S256
       ALARMTIME = 1;
       CYCLETIME = 10; /* Task1 is executed every 10msec */
           APPMODE = appmode1;
-    };
-  };
-  
-  /* Definition of Task1 execution timing */
-  ALARM main_alarm
-  {
-    COUNTER = SysTimerCnt;
-    ACTION = ACTIVATETASK
-    {
-      TASK = MainTask;
-    };
-    AUTOSTART = TRUE
-    {
-      ALARMTIME = 1;
-      CYCLETIME = 10; /* Task1 is executed every 10msec */
-      APPMODE = appmode1;
     };
   };
 };
