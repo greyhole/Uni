@@ -17,6 +17,9 @@
 /* NXT sensor port configuration */
 #define LIGHT_LEFT NXT_PORT_S2
 #define LIGHT_RIGHT NXT_PORT_S3
+#define SOUND NXT_PORT_S1
+
+DeclareCounter(SysTimerCnt);
 DeclareTask(MainTask);
 DeclareTask(MotorikTask);
 DeclareEvent(MoveReadyEvent);

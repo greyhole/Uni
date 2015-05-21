@@ -9,21 +9,25 @@
 #define ROTATE_R 1
 #define MOVE_F   2
 #define ADJUST   3
+#define MOVE_F_LINE 4
 #define FORWARDVAL 600
 #define BACKVAL  80
-#define motorInitSpeed 35 
+#define INITSPEED 35 
 
 /* OSEK declarations */
 int lightInitLeft;
 int lightInitRight;
 int state = 100;
 int innerState;
-
+int lightValLeftOld = 0;
+int lightValRightOld = 0;
+int count = 0;
 void moveF(){
   nxt_motor_set_count(MOTOR_LEFT, 0);
   nxt_motor_set_count(MOTOR_RIGHT, 0);
   state = MOVE_F;
 }
+
 
 void rotateL(){
   nxt_motor_set_count(MOTOR_LEFT, 0);
@@ -39,6 +43,10 @@ void rotateR(){
   innerState = 0;
 }
 
+void adjust(){
+  state = ADJUST;  
+}
+
 void motorikTask(){
   int lightValRight = ecrobot_get_light_sensor(LIGHT_RIGHT);
   int lightValLeft = ecrobot_get_light_sensor(LIGHT_LEFT);
@@ -46,12 +54,9 @@ void motorikTask(){
   int motorCountLeft = nxt_motor_get_count(MOTOR_LEFT);
 
   display_clear(0);
-  display_goto_xy(0,0);
-  display_int(motorCountLeft,0);
-  display_goto_xy(10,0);
-  display_int(motorCountRight,0);
+  display_goto_xy(5,3);
+  display_int(count, 5);
   display_update();
-
   switch(state){
     // 
     // An Line Justieren
@@ -61,15 +66,15 @@ void motorikTask(){
       //wenn erst Links Kontakt des Lichtsensors dann drehe links zurück
       //
       if((lightValLeft > lightInitLeft) && (lightValRight < lightInitRight)){
-        nxt_motor_set_speed(MOTOR_LEFT,-motorInitSpeed,1);
-        nxt_motor_set_speed(MOTOR_RIGHT,0,1);
+        nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
+        nxt_motor_set_speed(MOTOR_LEFT,-INITSPEED,1);
       }
       //
       //wenn erst rechts Kontakt des Lichsensors dann drehe rechts zurück
       //
       else if((lightValRight > lightInitRight) && (lightValLeft < lightInitLeft)){ 
-        nxt_motor_set_speed(MOTOR_LEFT,0,1);
-        nxt_motor_set_speed(MOTOR_RIGHT,-motorInitSpeed,1);
+        nxt_motor_set_speed(MOTOR_RIGHT,-INITSPEED,1);
+        nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
       }
       //
       //wenn Kontakt mit beiden Sensoren bleibe stehen
@@ -79,13 +84,15 @@ void motorikTask(){
         nxt_motor_set_speed(MOTOR_LEFT,0,1);
         nxt_motor_set_count(MOTOR_LEFT, 0);
         nxt_motor_set_count(MOTOR_RIGHT, 0);
+        lightValLeftOld = lightValLeft;
+        lightValRightOld = lightValRight;
         state = 100;
 
         SetEvent(MainTask, MoveReadyEvent);
       }
       else{
-        nxt_motor_set_speed(MOTOR_RIGHT,motorInitSpeed,1);
-        nxt_motor_set_speed(MOTOR_LEFT,motorInitSpeed,1);
+        nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
+        nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
       }
       break;
     //
@@ -102,8 +109,8 @@ void motorikTask(){
           innerState = 1;
         }
         else{
-          nxt_motor_set_speed(MOTOR_RIGHT,-motorInitSpeed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,-motorInitSpeed,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,-INITSPEED,1);
+          nxt_motor_set_speed(MOTOR_LEFT,-INITSPEED,1);
         }
       }
       else{
@@ -138,8 +145,8 @@ void motorikTask(){
           innerState = 1;
         }
         else {
-          nxt_motor_set_speed(MOTOR_RIGHT,-motorInitSpeed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,-motorInitSpeed,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,-INITSPEED,1);
+          nxt_motor_set_speed(MOTOR_LEFT,-INITSPEED,1);
         }
       }
       else{
@@ -164,6 +171,18 @@ void motorikTask(){
       }
       break;
     case MOVE_F:
+      if((lightValRight < lightValRightOld - 30 ) || (lightValLeft < lightValLeftOld - 30 )){
+        state = MOVE_F_LINE;
+        break;
+      }
+      else{
+        nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
+        nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
+        break;
+      }
+      break;
+      
+    case MOVE_F_LINE:
       if((motorCountRight >= FORWARDVAL) && (motorCountLeft >= FORWARDVAL)){
         nxt_motor_set_speed(MOTOR_RIGHT,0,1);
         nxt_motor_set_speed(MOTOR_LEFT,0,1);
@@ -173,26 +192,22 @@ void motorikTask(){
         state = ADJUST;
         break;
       }
-      else if(motorCountRight - 2 > motorCountLeft ){
-        nxt_motor_set_speed(MOTOR_RIGHT, motorInitSpeed - 5, 1);
-        display_goto_xy(0,2);
-        display_string("runter");
-        display_update();
+
+      else if(motorCountRight - 4 > motorCountLeft ){
+        nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED - 10, 1);
+        nxt_motor_set_speed(MOTOR_LEFT, INITSPEED + 5, 1);
+        count = count - 1;
         break;
       }
-      else if(motorCountRight + 2 < motorCountLeft ){
-        nxt_motor_set_speed(MOTOR_RIGHT, motorInitSpeed + 5, 1);
-        display_goto_xy(0,2);
-        display_string("hoch");
-        display_update();
+      else if(motorCountRight + 4 < motorCountLeft ){
+        nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED + 10, 1);
+        nxt_motor_set_speed(MOTOR_LEFT, INITSPEED  - 5, 1);
+        count = count + 1;
         break;
       }
       else{
-        nxt_motor_set_speed(MOTOR_RIGHT,motorInitSpeed,1);
-        nxt_motor_set_speed(MOTOR_LEFT,motorInitSpeed,1);
-        display_goto_xy(0,2);
-        display_string("NORMAL");
-        display_update();
+        nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
+        nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
         break;
       }
   }

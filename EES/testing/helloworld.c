@@ -7,8 +7,6 @@
 
 /* OSEK declarations */
 //DeclareEvent(MoveReadyEvent);
-DeclareCounter(SysTimerCnt);
-int flag = 0;
 /* nxtOSEK hooks */
 void ecrobot_device_initialize(void)
 {
@@ -50,6 +48,11 @@ TASK(MotorikTask){
 }
 
 TASK(MainTask){
+  adjust();
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+
+  while(1){
   moveF();
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
@@ -60,21 +63,6 @@ TASK(MainTask){
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
   moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  rotateR();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  rotateR();
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
   moveF();
@@ -86,5 +74,9 @@ TASK(MainTask){
   moveF();
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
+  rotateL();
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  }
   TerminateTask();
 }

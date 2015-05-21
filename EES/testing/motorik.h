@@ -9,4 +9,5 @@ void rotateL(void);
 void rotateR(void); 
 void moveF(void);
 void motorikTask(void);
+void adjust(void);
 #endif
