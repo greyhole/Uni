@@ -6,6 +6,7 @@
 struct motorikRotate_t {
   int left;
   int right;
+  int monitor;
 };
 
 struct motorikCmd_t {
