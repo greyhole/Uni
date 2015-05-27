@@ -5,6 +5,7 @@
 #include "nxt_config.h"
 #include "ecrobot_interface.h"
 #include <string.h>
+#include "motorik.h"
 
 #define ROTATE_L  0
 #define ROTATE_R  1
@@ -19,30 +20,15 @@
 #define ROTATEVAL 475
 #define INITSPEED 35 
 
-struct rotateCnt {
-  int left;
-  int right;
-};
 
-struct cmd {
-  int cmdLst[10];
-  int cmdCnt;
-};
-
-int lightInitLeft;
-int lightInitRight;
-int lightValLeftOld = 0;
-int lightValRightOld = 0;
 int count = 0;
-int lightValRight;
-int lightValLeft;
 int motorCountRight;
 int motorCountLeft;
 
-struct cmd lapse = { {100}, 0 };
-struct rotateCnt rotateRightCnt = {ROTATEVAL, -ROTATEVAL};
-struct rotateCnt rotateLeftCnt  = {-ROTATEVAL, ROTATEVAL};
-
+struct motorikCmd_t lapse = { {100}, 0 };
+struct motorikRotate_t rotateRightCnt = {ROTATEVAL, -ROTATEVAL};
+struct motorikRotate_t rotateLeftCnt  = {-ROTATEVAL, ROTATEVAL};
+struct motorikLight_t lightVal;
 
 void moveF(){
   nxt_motor_set_count(MOTOR_LEFT, 0);
@@ -80,31 +66,32 @@ void adjust(){
   lapse.cmdLst[3] = HAPPYENDING;
 }
 
+
 void adjustFUN(){
         //
         //wenn erst Links Kontakt des Lichtsensors dann drehe links zurück
         //
-        if((lightValLeft > lightInitLeft) && (lightValRight < lightInitRight)){
+        if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight < lightVal.initRight)){
           nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
           nxt_motor_set_speed(MOTOR_LEFT,-INITSPEED,1);
         }
         //
         //wenn erst rechts Kontakt des Lichsensors dann drehe rechts zurück
         //
-        else if((lightValRight > lightInitRight) && (lightValLeft < lightInitLeft)){ 
+        else if((lightVal.newRight > lightVal.initRight) && (lightVal.newLeft < lightVal.initLeft)){ 
           nxt_motor_set_speed(MOTOR_RIGHT,-INITSPEED,1);
           nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
         }
         //
         //wenn Kontakt mit beiden Sensoren bleibe stehen
         //
-        else if((lightValLeft > lightInitLeft) && (lightValRight > lightInitRight)){
+        else if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight > lightVal.initRight)){
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
           nxt_motor_set_speed(MOTOR_LEFT,0,1);
           nxt_motor_set_count(MOTOR_LEFT, 0);
           nxt_motor_set_count(MOTOR_RIGHT, 0);
-          lightValLeftOld = lightValLeft;
-          lightValRightOld = lightValRight;
+          lightVal.oldLeft = lightVal.newLeft;
+          lightVal.oldRight = lightVal.newRight;
           lapse.cmdCnt++;
         }
         else{
@@ -112,6 +99,7 @@ void adjustFUN(){
           nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
         }
 }
+
 
 void move_bFUN(){
         if((motorCountRight <= -BACKVAL) && (motorCountLeft <= -BACKVAL)){
@@ -126,6 +114,8 @@ void move_bFUN(){
           nxt_motor_set_speed(MOTOR_LEFT,-INITSPEED,1);
         }
 }
+
+
 void rotate_rFUN(){
         if( motorCountRight > rotateRightCnt.right ){
           nxt_motor_set_speed(MOTOR_RIGHT,-45,1);
@@ -146,6 +136,7 @@ void rotate_rFUN(){
         }
 }
 
+
 void rotate_lFUN(){
         if( motorCountRight < rotateLeftCnt.right ){
           nxt_motor_set_speed(MOTOR_RIGHT,45,1);
@@ -165,8 +156,10 @@ void rotate_lFUN(){
           lapse.cmdCnt++;
         }
 }
+
+
 void move_lineFUN(){
-      if((lightValRight < lightValRightOld - 30 ) || (lightValLeft < lightValLeftOld - 30 )){
+      if((lightVal.newRight < lightVal.oldRight - 30 ) || (lightVal.newLeft < lightVal.oldLeft - 30 )){
         lapse.cmdCnt++;
       }
       else{
@@ -174,6 +167,8 @@ void move_lineFUN(){
         nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
       }
 }
+
+
 void move_fFUN(){
       if((motorCountRight >= FORWARDVAL) && (motorCountLeft >= FORWARDVAL)){
         nxt_motor_set_speed(MOTOR_RIGHT,0,1);
@@ -198,6 +193,8 @@ void move_fFUN(){
         nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
       }
   }
+
+
 void readyFUN(){
   lapse.cmdCnt = 0;
   memset(lapse.cmdLst, 100, sizeof(lapse.cmdLst));
@@ -206,8 +203,8 @@ void readyFUN(){
 
 void motorikTask(){
   if(lapse.cmdLst[0] != 100){
-    lightValRight = ecrobot_get_light_sensor(LIGHT_RIGHT);
-    lightValLeft = ecrobot_get_light_sensor(LIGHT_LEFT);
+    lightVal.newRight = ecrobot_get_light_sensor(LIGHT_RIGHT);
+    lightVal.newLeft = ecrobot_get_light_sensor(LIGHT_LEFT);
     motorCountRight = nxt_motor_get_count(MOTOR_RIGHT);
     motorCountLeft = nxt_motor_get_count(MOTOR_LEFT);
 

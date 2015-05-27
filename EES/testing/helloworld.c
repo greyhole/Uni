@@ -17,8 +17,8 @@ void ecrobot_device_initialize(void)
   nxt_motor_set_count(MOTOR_LEFT, 0);
   nxt_motor_set_count(MOTOR_RIGHT, 0);
 
-  lightInitRight = ecrobot_get_light_sensor(LIGHT_RIGHT) + 30;
-  lightInitLeft = ecrobot_get_light_sensor(LIGHT_LEFT) + 30;
+  lightVal.initRight = ecrobot_get_light_sensor(LIGHT_RIGHT) + 30;
+  lightVal.initLeft = ecrobot_get_light_sensor(LIGHT_LEFT) + 30;
 }
 
 void ecrobot_device_terminate(void)

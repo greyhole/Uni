@@ -3,8 +3,27 @@
 
 #include "ecrobot_interface.h"
 
-extern int lightInitLeft;
-extern int lightInitRight;
+struct motorikRotate_t {
+  int left;
+  int right;
+};
+
+struct motorikCmd_t {
+  int cmdLst[10];
+  int cmdCnt;
+};
+
+struct motorikLight_t {
+  int initLeft;
+  int initRight;
+  int newLeft;
+  int newRight;
+  int oldLeft;
+  int oldRight;
+};
+
+extern struct motorikLight_t lightVal;
+
 void rotateL(void); 
 void rotateR(void); 
 void moveF(void);
