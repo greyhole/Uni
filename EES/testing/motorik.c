@@ -15,16 +15,29 @@
 #define MOVE_B    5
 #define HAPPYENDING     6
 
-#define FORWARDVAL 600
-#define BACKVAL   80
-#define ROTATEVAL 475
-#define INITSPEED 35 
+#define FORWARDVAL 800
+#define BACKVAL  200 
+#define ROTATEVAL 465
+#define INITSPEED 40 
+#define TURNSPEED 45
+#define ADJUSTSPEED 25
 
+struct motorikRotate_t {
+  int left;
+  int right;
+  int monitor;
+};
+
+struct motorikCmd_t {
+  int cmdLst[10];
+  int cmdCnt;
+};
 
 int count = 0;
 int motorCountRight;
 int motorCountLeft;
 void *ptr;
+char xxxx[10] = "BEGIN";
 
 struct motorikCmd_t lapse = { {100}, 0 };
 struct motorikRotate_t rotateRightCnt = {ROTATEVAL, -ROTATEVAL, 0};
@@ -64,9 +77,9 @@ void rotateR(){
 void adjust(){
   nxt_motor_set_count(MOTOR_LEFT, 0);
   nxt_motor_set_count(MOTOR_RIGHT, 0);
-  lapse.cmdLst[1] = ADJUST;
-  lapse.cmdLst[2] = MOVE_B;
-  lapse.cmdLst[3] = HAPPYENDING;
+  lapse.cmdLst[0] = ADJUST;
+  lapse.cmdLst[1] = MOVE_B;
+  lapse.cmdLst[2] = HAPPYENDING;
 }
 
 
@@ -78,17 +91,19 @@ void adjustFUN(void *data){
         //
         //wenn erst Links Kontakt des Lichtsensors dann drehe links zurück
         //
+        nxt_motor_set_count(MOTOR_LEFT, 0);
+        nxt_motor_set_count(MOTOR_RIGHT, 0);
         if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight < lightVal.initRight)){
-          nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
-          nxt_motor_set_speed(MOTOR_LEFT,-INITSPEED,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,ADJUSTSPEED,1);
+          nxt_motor_set_speed(MOTOR_LEFT,-ADJUSTSPEED,1);
           ((struct motorikRotate_t *)data)->monitor = 1;
         }
         //
         //wenn erst rechts Kontakt des Lichsensors dann drehe rechts zurück
         //
         else if((lightVal.newRight > lightVal.initRight) && (lightVal.newLeft < lightVal.initLeft)){ 
-          nxt_motor_set_speed(MOTOR_RIGHT,-INITSPEED,1);
-          nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,-ADJUSTSPEED,1);
+          nxt_motor_set_speed(MOTOR_LEFT,ADJUSTSPEED,1);
           ((struct motorikRotate_t *)data)->monitor = 1;
         }
         //
@@ -97,16 +112,14 @@ void adjustFUN(void *data){
         else if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight > lightVal.initRight)){
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
           nxt_motor_set_speed(MOTOR_LEFT,0,1);
-          nxt_motor_set_count(MOTOR_LEFT, 0);
-          nxt_motor_set_count(MOTOR_RIGHT, 0);
           lightVal.oldLeft = lightVal.newLeft;
           lightVal.oldRight = lightVal.newRight;
           ((struct motorikRotate_t *)data)->monitor = 0;
           lapse.cmdCnt++;
         }
         else{
-          nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
-          nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,ADJUSTSPEED,1);
+          nxt_motor_set_speed(MOTOR_LEFT,ADJUSTSPEED,1);
           ((struct motorikRotate_t *)data)->monitor = 0;
         }
 }
@@ -130,13 +143,13 @@ void move_bFUN(){
 
 void rotate_rFUN(){
         if( motorCountRight > rotateRightCnt.right ){
-          nxt_motor_set_speed(MOTOR_RIGHT,-45,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,-TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
         }
         if (motorCountLeft < rotateRightCnt.left ){
-          nxt_motor_set_speed(MOTOR_LEFT,45,1);
+          nxt_motor_set_speed(MOTOR_LEFT,TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_LEFT,0,1); 
@@ -152,13 +165,13 @@ void rotate_rFUN(){
 
 void rotate_lFUN(){
         if( motorCountRight < rotateLeftCnt.right ){
-          nxt_motor_set_speed(MOTOR_RIGHT,45,1);
+          nxt_motor_set_speed(MOTOR_RIGHT,TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
         }
         if (motorCountLeft > rotateLeftCnt.left ){
-          nxt_motor_set_speed(MOTOR_LEFT,-45,1);
+          nxt_motor_set_speed(MOTOR_LEFT,-TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_LEFT,0,1); 
@@ -193,17 +206,18 @@ void move_fFUN(){
         ptr = NULL;
         lapse.cmdCnt++;
       }
-
-      else if(motorCountRight - 4 > motorCountLeft ){
-        nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED - 10, 1);
+      
+      else if(motorCountRight - 1 > motorCountLeft ){
+        nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED - 5, 1);
         nxt_motor_set_speed(MOTOR_LEFT, INITSPEED + 5, 1);
         count = count - 1;
       }
-      else if(motorCountRight + 4 < motorCountLeft ){
-        nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED + 10, 1);
+      else if(motorCountRight + 1 < motorCountLeft ){
+        nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED + 5, 1);
         nxt_motor_set_speed(MOTOR_LEFT, INITSPEED  - 5, 1);
         count = count + 1;
       }
+      
       else{
         nxt_motor_set_speed(MOTOR_RIGHT,INITSPEED,1);
         nxt_motor_set_speed(MOTOR_LEFT,INITSPEED,1);
@@ -224,39 +238,50 @@ void motorikTask(){
     motorCountRight = nxt_motor_get_count(MOTOR_RIGHT);
     motorCountLeft = nxt_motor_get_count(MOTOR_LEFT);
 
-    display_clear(0);
-    display_goto_xy(5,3);
-    display_int(count, 5);
-    display_update();
     switch(lapse.cmdLst[lapse.cmdCnt]){
       case ADJUST:
         adjustFUN(ptr);
+        memcpy(xxxx,"ADJUST",10);
         break;
 
       case MOVE_B:
         move_bFUN();
+        memcpy(xxxx,"MOVE_B",10);
         break;
 
       case ROTATE_R:
         rotate_rFUN();
+         memcpy(xxxx,"ROTATE_R",10);
         break;
 
       case ROTATE_L:
         rotate_lFUN();
+        memcpy(xxxx,"ROTATE_L",10);
         break;
 
       case MOVE_LINE:
         move_lineFUN();
+        memcpy(xxxx,"MOVE_LINE",10);
         break;
         
       case MOVE_F:
         move_fFUN();
-      break;
+        memcpy(xxxx,"MOVE_F",10);
+        break;
 
       case HAPPYENDING:
         readyFUN();
+        memcpy(xxxx,"HAPPYEND",10);
         break;
     }
+    display_clear(0);
+    display_goto_xy(0,0);
+    display_int(rotateRightCnt.left, 3);
+    display_goto_xy(0,1);
+    display_int(rotateRightCnt.right, 3);
+    display_goto_xy(5,3);
+    display_string(xxxx);
+    display_update();
   }
 }
 

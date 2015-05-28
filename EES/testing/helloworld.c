@@ -48,35 +48,46 @@ TASK(MotorikTask){
 }
 
 TASK(MainTask){
-  adjust();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
+ adjust();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ rotateR();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ rotateR();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ rotateR();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ rotateR();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
 
-  while(1){
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  rotateL();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  moveF();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  rotateL();
-  WaitEvent(MoveReadyEvent);
-  ClearEvent(MoveReadyEvent);
-  }
+ /*
+ while(1){
+ moveF();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ moveF();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ moveF();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ moveF();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ rotateL();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ moveF();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ rotateL();
+ WaitEvent(MoveReadyEvent);
+ ClearEvent(MoveReadyEvent);
+ }
+ */
   TerminateTask();
 }

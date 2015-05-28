@@ -3,16 +3,6 @@
 
 #include "ecrobot_interface.h"
 
-struct motorikRotate_t {
-  int left;
-  int right;
-  int monitor;
-};
-
-struct motorikCmd_t {
-  int cmdLst[10];
-  int cmdCnt;
-};
 
 struct motorikLight_t {
   int initLeft;
