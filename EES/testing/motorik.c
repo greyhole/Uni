@@ -6,6 +6,7 @@
 #include "ecrobot_interface.h"
 #include <string.h>
 #include "motorik.h"
+#include <math.h>
 
 #define ROTATE_L  0
 #define ROTATE_R  1
@@ -33,12 +34,21 @@ struct motorikCmd_t {
   int cmdCnt;
 };
 
+struct motor {
+  int cntNew;
+  int cntOld;
+  int speed;
+  int time;
+  int mCnt;
+  int rpmCnt;
+};
+
 int count = 0;
-int motorCountRight;
-int motorCountLeft;
 void *ptr;
 char xxxx[10] = "BEGIN";
 
+struct motor motorRight { 0,0,0,0,0,0 };
+struct motor motorLeft { 0,0,0,0,0,0 };
 struct motorikCmd_t lapse = { {100}, 0 };
 struct motorikRotate_t rotateRightCnt = {ROTATEVAL, -ROTATEVAL, 0};
 struct motorikRotate_t rotateLeftCnt  = {-ROTATEVAL, ROTATEVAL, 0};
@@ -85,8 +95,8 @@ void adjust(){
 
 void adjustFUN(void *data){
         if(data && ((struct motorikRotate_t *)data)->monitor){
-          ((struct motorikRotate_t *)data)->right += motorCountRight; 
-          ((struct motorikRotate_t *)data)->left += motorCountLeft;
+          ((struct motorikRotate_t *)data)->right += motorStat.cntRightNew; 
+          ((struct motorikRotate_t *)data)->left += motorStat.cntLeftNew;
         }
         //
         //wenn erst Links Kontakt des Lichtsensors dann drehe links zurück
@@ -126,7 +136,7 @@ void adjustFUN(void *data){
 
 
 void move_bFUN(){
-        if((motorCountRight <= -BACKVAL) && (motorCountLeft <= -BACKVAL)){
+        if((motorStat.cntRightNew <= -BACKVAL) && (motorStat.cntLeftNew <= -BACKVAL)){
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
           nxt_motor_set_speed(MOTOR_LEFT,0,1);        
           nxt_motor_set_count(MOTOR_RIGHT, 0);
@@ -142,19 +152,19 @@ void move_bFUN(){
 
 
 void rotate_rFUN(){
-        if( motorCountRight > rotateRightCnt.right ){
+        if( motorStat.cntRightNew > rotateRightCnt.right ){
           nxt_motor_set_speed(MOTOR_RIGHT,-TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
         }
-        if (motorCountLeft < rotateRightCnt.left ){
+        if (motorStat.cntLeftNew < rotateRightCnt.left ){
           nxt_motor_set_speed(MOTOR_LEFT,TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_LEFT,0,1); 
         }
-        if ( (motorCountRight <= rotateRightCnt.right ) && (motorCountLeft >= rotateRightCnt.left )){
+        if ( (motorStat.cntRightNew <= rotateRightCnt.right ) && (motorStat.cntLeftNew >= rotateRightCnt.left )){
           nxt_motor_set_count(MOTOR_RIGHT,0);
           nxt_motor_set_count(MOTOR_LEFT,0);
           ptr = & rotateRightCnt;
@@ -164,19 +174,19 @@ void rotate_rFUN(){
 
 
 void rotate_lFUN(){
-        if( motorCountRight < rotateLeftCnt.right ){
+        if( motorStat.cntRightNew < rotateLeftCnt.right ){
           nxt_motor_set_speed(MOTOR_RIGHT,TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_RIGHT,0,1);
         }
-        if (motorCountLeft > rotateLeftCnt.left ){
+        if (motorStat.cntLeftNew > rotateLeftCnt.left ){
           nxt_motor_set_speed(MOTOR_LEFT,-TURNSPEED,1);
         }
         else{
           nxt_motor_set_speed(MOTOR_LEFT,0,1); 
         }
-        if ( (motorCountRight >= rotateLeftCnt.right ) && (motorCountLeft <= rotateLeftCnt.left )){
+        if ( (motorStat.cntRightNew >= rotateLeftCnt.right ) && (motorStat.cntLeftNew <= rotateLeftCnt.left )){
           nxt_motor_set_count(MOTOR_RIGHT,0);
           nxt_motor_set_count(MOTOR_LEFT,0);
           ptr = &rotateLeftCnt;
@@ -198,7 +208,7 @@ void move_lineFUN(){
 
 
 void move_fFUN(){
-      if((motorCountRight >= FORWARDVAL) && (motorCountLeft >= FORWARDVAL)){
+      if((motorStat.cntRightNew >= FORWARDVAL) && (motorStat.cntLeftNew >= FORWARDVAL)){
         nxt_motor_set_speed(MOTOR_RIGHT,0,1);
         nxt_motor_set_speed(MOTOR_LEFT,0,1);
         nxt_motor_set_count(MOTOR_LEFT, 0);
@@ -207,12 +217,12 @@ void move_fFUN(){
         lapse.cmdCnt++;
       }
       
-      else if(motorCountRight - 1 > motorCountLeft ){
+      else if(motorStat.cntRightNew - 1 > motorStat.cntLeftNew ){
         nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED - 5, 1);
         nxt_motor_set_speed(MOTOR_LEFT, INITSPEED + 5, 1);
         count = count - 1;
       }
-      else if(motorCountRight + 1 < motorCountLeft ){
+      else if(motorStat.cntRightNew + 1 < motorStat.cntLeftNew ){
         nxt_motor_set_speed(MOTOR_RIGHT, INITSPEED + 5, 1);
         nxt_motor_set_speed(MOTOR_LEFT, INITSPEED  - 5, 1);
         count = count + 1;
@@ -231,12 +241,29 @@ void readyFUN(){
   SetEvent(MainTask, MoveReadyEvent);
 }
 
+void rpmFUN(struct motor *data){
+  tNew = systick_get_ms();
+  int tmpRpm = 0;
+  
+  if( (*data.cntNew - 90) >= *data.cntOld ){
+    *data.mCnt++;
+  }
+
+  if( *data.time == tNew ) tmpRpm = 0;
+  else{
+    tmpRpm = (M_PI_2*(*data.cntNew - *data.cntOld))/(tNew - *data.time);
+  }
+  *data.time = tNew;
+  *data.rpmCnt = tmpRpm;
+}
 void motorikTask(){
+  motorRight.cntNew = nxt_motor_get_count(MOTOR_RIGHT);
+  motorLeft.cntNew = nxt_motor_get_count(MOTOR_LEFT);
+  rpm(motorRight);
+  rpm(motorLeft);
   if(lapse.cmdLst[0] != 100){
     lightVal.newRight = ecrobot_get_light_sensor(LIGHT_RIGHT);
     lightVal.newLeft = ecrobot_get_light_sensor(LIGHT_LEFT);
-    motorCountRight = nxt_motor_get_count(MOTOR_RIGHT);
-    motorCountLeft = nxt_motor_get_count(MOTOR_LEFT);
 
     switch(lapse.cmdLst[lapse.cmdCnt]){
       case ADJUST:
