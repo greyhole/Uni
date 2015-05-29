@@ -3,6 +3,8 @@
 
 #include "ecrobot_interface.h"
 
+#define Q0 ( KI*TA )
+#define Q1 ( KD/TA )
 
 struct motorikLight_t {
   int initLeft;

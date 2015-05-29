@@ -51,20 +51,19 @@ TASK(MainTask){
  adjust();
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
- rotateR();
+ /*moveF();
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
- rotateR();
+ moveF();
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
- rotateR();
+ moveF();
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
- rotateR();
+ moveF();
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
-
- /*
+ */
  while(1){
  moveF();
  WaitEvent(MoveReadyEvent);
@@ -88,6 +87,5 @@ TASK(MainTask){
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
  }
- */
   TerminateTask();
 }
