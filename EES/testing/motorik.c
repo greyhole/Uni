@@ -119,50 +119,44 @@ void adjustFUN(){
         //wenn erst Links Kontakt des Lichtsensors dann drehe links zurück
         //
         if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight < lightVal.initRight)){
-          motorSet(MBOTH,1);
-          nxt_motor_set_speed(MOTOR_RIGHT,motorRight.speed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,-motorLeft.speed,1);
+          motorSet(&motorRight,FORWARD);
+          motorSet(&motorLeft,BACKWARD);
         }
         //
         //wenn erst rechts Kontakt des Lichsensors dann drehe rechts zurück
         //
         else if((lightVal.newRight > lightVal.initRight) && (lightVal.newLeft < lightVal.initLeft)){ 
-          motorSet(MBOTH,1);
-          nxt_motor_set_speed(MOTOR_RIGHT,-motorRight.speed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,motorLeft.speed,1);
+          motorSet(&motorRight,BACKWARD);
+          motorSet(&motorLeft,FORWARD);
         }
         //
         //wenn Kontakt mit beiden Sensoren bleibe stehen
         //
         else if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight > lightVal.initRight)){
-          motorSet(MBOTH,0);
-          nxt_motor_set_speed(MOTOR_RIGHT,motorRight.speed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,motorLeft.speed,1);        
+          motorSet(&motorRight,STOP);
+          motorSet(&motorLeft,STOP);
           lightVal.oldLeft = lightVal.newLeft;
           lightVal.oldRight = lightVal.newRight;
           motorReset();
           lapse.cmdCnt++;
         }
         else{
-          motorSet(MBOTH,1);
-          nxt_motor_set_speed(MOTOR_RIGHT,motorRight.speed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,motorLeft.speed,1);        
+          motorSet(&motorRight,FORWARD);
+          motorSet(&motorLeft,FORWARD);
         }
 }
 
 
 void move_bFUN(){
         if((motorRight.mCnt >= BACKVAL) && (motorLeft.mCnt >= BACKVAL)){
-          motorSet(MBOTH,0);
-          nxt_motor_set_speed(MOTOR_RIGHT,motorRight.speed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,motorLeft.speed,1);        
+          motorSet(&motorRight,STOP);
+          motorSet(&motorLeft,STOP);
           motorReset();
           lapse.cmdCnt++;
         }
         else{
-          motorSet(MBOTH,1);
-          nxt_motor_set_speed(MOTOR_RIGHT,-motorRight.speed,1);
-          nxt_motor_set_speed(MOTOR_LEFT,-motorRight.speed,1);
+          motorSet(&motorRight,BACKWARD);
+          motorSet(&motorLeft,BACKWARD);
         }
 }
 
@@ -290,14 +284,10 @@ void motorikTask(){
     }
     
     display_clear(0);
-    display_goto_xy(0,0);
-    display_int(rotateRightCnt.left, 3);
-    display_goto_xy(0,1);
-    display_int(rotateRightCnt.right, 3);
     display_goto_xy(5,3);
     display_string(xxxx);
     display_goto_xy(0,4);
-    display_int(motorLeft.rpmxxCnt*RPMMULTI, 5);
+    display_int(motorLeft.rpmNew*RPMMULTI, 5);
     display_goto_xy(0,5);
     display_int(motorLeft.speed,5);
     display_goto_xy(7,4);
