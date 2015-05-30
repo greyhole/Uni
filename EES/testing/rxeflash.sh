@@ -1,6 +1,6 @@
-echo Executing NeXTTool to upload helloworld_OSEK.rxe...
-nexttool /COM=usb -download=helloworld_OSEK.rxe
-FILE=`nexttool /COM=usb -listfiles=helloworld_OSEK.rxe`
+echo Executing NeXTTool to upload nxtRobotMain_OSEK.rxe...
+nexttool /COM=usb -download=nxtRobotMain_OSEK.rxe
+FILE=`nexttool /COM=usb -listfiles=nxtRobotMain_OSEK.rxe`
 echo $FILE
 if [ "$FILE" != "" ] ; then
   echo File helloworld_OSEK.rxe successfully uploaded to brick.
