@@ -1,9 +1,9 @@
 # Target specific macros
-TARGET = helloworld_OSEK
+TARGET = nxtRobotMain_OSEK
 TARGET_SOURCES = \
-	helloworld.c \
+	nxtRobotMain.c \
 	motorik.c
-TOPPERS_OSEK_OIL_SOURCE = ./helloworld.oil
+TOPPERS_OSEK_OIL_SOURCE = ./nxtRobotMain.oil
 ROOT=$(nxtOSEK)
 
 # Don't modify below part

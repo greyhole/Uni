@@ -30,7 +30,7 @@
 #define KI 0
 
 #define FORWARDVAL 970
-#define BACKVAL  200 
+#define BACKWARDVAL  200 
 #define ROTATEVAL 465
 #define RPMMULTI 100
 
@@ -41,12 +41,9 @@ struct motorikCmd_t {
 
 struct motor_t {
   U32 motor;
-  float speed;
-  int cntNew;
-  unsigned int mCnt;
-  float rpmNew;
   float rpmNorm;
-  float pid;
+  float speed;
+  unsigned int mCnt;
   float errorOld;
   float errorSum;
 };
@@ -54,8 +51,8 @@ struct motor_t {
 char xxxx[10] = "BEGIN";
 struct motorikCmd_t lapse = { {100}, 0 };
 
-struct motor_t motorRight = { MOTOR_RIGHT,0,0,0,0,0,0,0,0 };
-struct motor_t motorLeft = { MOTOR_LEFT,0,0,0,0,0,0,0,0 };
+struct motor_t motorRight = { MOTOR_RIGHT,0,0,0,0,0 };
+struct motor_t motorLeft = { MOTOR_LEFT,0,0,0,0,0 };
 struct motorikLight_t lightVal;
 
 void motorReset(){
@@ -147,19 +144,6 @@ void adjustFUN(){
 }
 
 
-void move_bFUN(){
-        if((motorRight.mCnt >= BACKVAL) && (motorLeft.mCnt >= BACKVAL)){
-          motorSet(&motorRight,STOP);
-          motorSet(&motorLeft,STOP);
-          motorReset();
-          lapse.cmdCnt++;
-        }
-        else{
-          motorSet(&motorRight,BACKWARD);
-          motorSet(&motorLeft,BACKWARD);
-        }
-}
-
 void rotateFUN(int direction){
         if( motorRight.mCnt <= ROTATEVAL ){
           motorSet(&motorRight,direction*BACKWARD);
@@ -190,16 +174,16 @@ void move_lineFUN(){
 }
 
 
-void move_fFUN(){
-      if((motorRight.mCnt >= FORWARDVAL) && (motorLeft.mCnt >= FORWARDVAL)){
+void moveFUN(int direction, int distance){
+      if((motorRight.mCnt >= distance) && (motorLeft.mCnt >= distance)){
         motorSet(&motorRight,STOP);
         motorSet(&motorLeft,STOP);
         motorReset();
         lapse.cmdCnt++;
       }
       else{
-        motorSet(&motorRight,FORWARD);
-        motorSet(&motorLeft,FORWARD);
+        motorSet(&motorRight,direction);
+        motorSet(&motorLeft,direction);
       }
   }
 
@@ -210,37 +194,35 @@ void readyFUN(){
   SetEvent(MainTask, MoveReadyEvent);
 }
 
-void rpmFUN(struct motor_t *data){
-  data->mCnt += data->cntNew;
-  data->rpmNew = ((data->cntNew) / (360*TA));
-}
+void pidFUN(struct motor_t *motor){
+  int cntNew = 0;
+  float error = 0;
+  float rpmNew = 0;
+  float pid = 0;
 
-
-void pidFUN(struct motor_t *data){
-  float error = (data->rpmNorm)/RPMMULTI - (data->rpmNew);
-  (data->errorSum) += error;
-  (data->pid) = (KP * error) + (Q0 * (data->errorSum)) + (Q1 * (error - (data->errorOld)));
-  (data->errorOld) = error;
-  if( data->pid > 3 ){
-    data->speed += 3;
+  cntNew = abs(nxt_motor_get_count(motor->motor));
+  motor->mCnt += cntNew;
+  rpmNew = (cntNew / (360*TA));
+  error = (motor->rpmNorm)/RPMMULTI - rpmNew;
+  (motor->errorSum) += error;
+  pid = (KP * error) + (Q0 * (motor->errorSum)) + (Q1 * (error - (motor->errorOld)));
+  (motor->errorOld) = error;
+  if( pid > 3 ){
+    motor->speed += 3;
   }
-  else if( data->pid < -3){
-  (data->speed) -= -3;
+  else if( pid < -3){
+  (motor->speed) -= -3;
   }
   else{
-  (data->speed) += (data->pid);
+  (motor->speed) += pid;
    }
 }
 
 void motorikTask(){
-  motorRight.cntNew = abs(nxt_motor_get_count(MOTOR_RIGHT));
-  motorLeft.cntNew = abs(nxt_motor_get_count(MOTOR_LEFT));
-  nxt_motor_set_count(MOTOR_LEFT, 0);
-  nxt_motor_set_count(MOTOR_RIGHT, 0);
-  rpmFUN(&motorRight);
-  rpmFUN(&motorLeft);
   pidFUN(&motorLeft);
   pidFUN(&motorRight);
+  nxt_motor_set_count(MOTOR_LEFT, 0);
+  nxt_motor_set_count(MOTOR_RIGHT, 0);
   
   if(lapse.cmdLst[0] != 100){
     lightVal.newRight = ecrobot_get_light_sensor(LIGHT_RIGHT);
@@ -253,7 +235,7 @@ void motorikTask(){
         break;
 
       case MOVE_B:
-        move_bFUN();
+        moveFUN(BACKWARD,BACKWARDVAL);
         memcpy(xxxx,"MOVE_B",10);
         break;
 
@@ -273,7 +255,7 @@ void motorikTask(){
         break;
         
       case MOVE_F:
-        move_fFUN();
+        moveFUN(FORWARD,FORWARDVAL);
         memcpy(xxxx,"MOVE_F",10);
         break;
 
