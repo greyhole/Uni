@@ -20,10 +20,15 @@
 #define SOUND NXT_PORT_S1
 
 DeclareCounter(SysTimerCnt);
-DeclareResource(mCntRes);
 DeclareTask(MainTask);
 DeclareTask(MotorikTask);
-DeclareTask(MotorCntTask);
-DeclareTask(RpmTask);
+DeclareTask(MotorTask);
 DeclareEvent(MoveReadyEvent);
+DeclareEvent(MotorRightEvent);
+DeclareEvent(MotorLeftEvent);
+DeclareEvent(MoveF);
+DeclareEvent(RotateL);
+DeclareEvent(RotateR);
+DeclareEvent(Adjust);
+DeclareResource(MotorResource);
 #endif

@@ -6,9 +6,9 @@
 #include "ecrobot_interface.h"
 #include <string.h>
 #include "motorik.h"
-#include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "motor.h"
 
 #define ROTATE_L    -1
 #define ROTATE_R    1
@@ -24,38 +24,17 @@
 #define STOP 12
 #define RPMNORM 80
 
-#define TA 0.03
-#define KP 10
-#define KD 0
-#define KI 0
 
 #define FORWARDVAL 970
 #define BACKVAL  200 
 #define ROTATEVAL 465
 #define RPMMULTI 100
 
-struct motorikCmd_t {
-  int cmdLst[10];
-  int cmdCnt;
-};
 
-struct motor_t {
-  U32 motor;
-  float speed;
-  int cntNew;
-  unsigned int mCnt;
-  float rpmNew;
-  float rpmNorm;
-  float pid;
-  float errorOld;
-  float errorSum;
-};
 
 char xxxx[10] = "BEGIN";
 struct motorikCmd_t lapse = { {100}, 0 };
 
-struct motor_t motorRight = { MOTOR_RIGHT,0,0,0,0,0,0,0,0 };
-struct motor_t motorLeft = { MOTOR_LEFT,0,0,0,0,0,0,0,0 };
 struct motorikLight_t lightVal;
 
 void motorReset(){
@@ -210,38 +189,10 @@ void readyFUN(){
   SetEvent(MainTask, MoveReadyEvent);
 }
 
-void rpmFUN(struct motor_t *data){
-  data->mCnt += data->cntNew;
-  data->rpmNew = ((data->cntNew) / (360*TA));
-}
 
+Task(MotorikTask){
+  while(true)
 
-void pidFUN(struct motor_t *data){
-  float error = (data->rpmNorm)/RPMMULTI - (data->rpmNew);
-  (data->errorSum) += error;
-  (data->pid) = (KP * error) + (Q0 * (data->errorSum)) + (Q1 * (error - (data->errorOld)));
-  (data->errorOld) = error;
-  if( data->pid > 3 ){
-    data->speed += 3;
-  }
-  else if( data->pid < -3){
-  (data->speed) -= -3;
-  }
-  else{
-  (data->speed) += (data->pid);
-   }
-}
-
-void motorikTask(){
-  motorRight.cntNew = abs(nxt_motor_get_count(MOTOR_RIGHT));
-  motorLeft.cntNew = abs(nxt_motor_get_count(MOTOR_LEFT));
-  nxt_motor_set_count(MOTOR_LEFT, 0);
-  nxt_motor_set_count(MOTOR_RIGHT, 0);
-  rpmFUN(&motorRight);
-  rpmFUN(&motorLeft);
-  pidFUN(&motorLeft);
-  pidFUN(&motorRight);
-  
   if(lapse.cmdLst[0] != 100){
     lightVal.newRight = ecrobot_get_light_sensor(LIGHT_RIGHT);
     lightVal.newLeft = ecrobot_get_light_sensor(LIGHT_LEFT);
