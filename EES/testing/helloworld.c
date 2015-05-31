@@ -3,7 +3,7 @@
 #include "kernel_id.h"
 #include "ecrobot_interface.h"
 #include "nxt_config.h"
-#include "motorik.h"
+#include "light.h"
 
 /* OSEK declarations */
 //DeclareEvent(MoveReadyEvent);
@@ -39,12 +39,6 @@ void user_1ms_isr_type2(void)
   {
     ShutdownOS(ercd);
   }
-}
-
-/* Task1 executed every 1msec */
-TASK(MotorikTask){
-  motorikTask();
-  TerminateTask();
 }
 
 TASK(MainTask){

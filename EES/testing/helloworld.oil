@@ -14,15 +14,63 @@ CPU ATMEL_AT91SAM7S256
     USEPARAMETERACCESS = FALSE;
     USERESSCHEDULER = FALSE;
   };
- 
- EVENT MoveReadyEvent{
-    MASK = AUTO;
-  };
+
 
   /* Definition of application mode */
   APPMODE appmode1{};
+ 
+ RESOURCE MotorResource{
+    RESOURCEPROPERTY = STANDARD;
+ };
+
+ EVENT MotorRight{
+    MASK = AUTO;
+  };
+ EVENT MotorLeft{
+    MASK = AUTO;
+  };
+ EVENT MoveReadyEvent{
+    MASK = AUTO;
+  };
+ EVENT LightRightDown{
+    MASK = AUTO;
+  };
+ EVENT LightRightDown{
+    MASK = AUTO;
+  };
+ EVENT LightBothDown{
+    MASK = AUTO;
+  };
+ EVENT LightBothUp{
+    MASK = AUTO;
+  };
+ EVENT RotateL{
+    MASK = AUTO;
+  };
+ EVENT RotateR{
+    MASK = AUTO;
+  };
+ EVENT MoveF{
+    MASK = AUTO;
+  };
+ EVENT Adjust{
+    MASK = AUTO;
+  };
   
   TASK MainTask
+  {
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+    };
+    PRIORITY = 3;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512; /* Stack size */
+    EVENT = MoveReadyEvent;
+  };
+
+  TASK MotorikTask
   {
     AUTOSTART = TRUE
     {
@@ -32,10 +80,20 @@ CPU ATMEL_AT91SAM7S256
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
-    EVENT = MoveReadyEvent;
+    RESOURCE = MotorResource;
+    EVENT = Adjust;
+    EVENT = MoveF;
+    EVENT = RotateL;
+    EVENT = RotateR;
+    EVENT = LightLeftDown;
+    EVENT = LightRightDown;
+    EVENT = LightBothDown;
+    EVENT = LightBothUp;
+    EVENT = MotorRight;
+    EVENT = MotorLeft;
   };
-
-  TASK MotorikTask
+  
+  TASK LightTask
   {
     AUTOSTART = FALSE;
     PRIORITY = 1;
@@ -43,8 +101,17 @@ CPU ATMEL_AT91SAM7S256
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
   };
-  
 
+  TASK MotorTask
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512; /* Stack size */
+    RESOURCE = MotorResource;
+  };
+  
   /* Definition of OSEK Alarm Counter */
   COUNTER SysTimerCnt
   {
@@ -53,12 +120,26 @@ CPU ATMEL_AT91SAM7S256
     TICKSPERBASE = 1; /* One tick is equal to 1msec */
   };
   
-  ALARM motorik_alarm
+  ALARM light_alarm
   {
     COUNTER = SysTimerCnt;
     ACTION = ACTIVATETASK
     {
-      TASK = MotorikTask;
+      TASK = LightTask;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 10; /* Task1 is executed every 10msec */
+          APPMODE = appmode1;
+    };
+  };
+  ALARM motor_alarm
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = MotorTask;
     };
     AUTOSTART = TRUE
     {
