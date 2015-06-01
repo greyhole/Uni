@@ -53,6 +53,10 @@ void resetEvents(){
   ClearEvent(LightLeftDown);
   ClearEvent(LightBothDown);
   ClearEvent(LightBothUp);
+  ClearEvent(MoveF);
+  ClearEvent(Adjust);
+  ClearEvent(RotateL);
+  ClearEvent(RotateR);
 }
 
 void adjustFUN(){
@@ -70,9 +74,9 @@ void adjustFUN(){
         motorSet(&motorRight,BACKWARD, 0, RPSNORM,0);
         motorSet(&motorLeft,FORWARD, 0, RPSNORM,0);
     }
-    else if(eventmask0 & LightBothDown){
-        motorSet(&motorRight,0, 0, 0,0);
-        motorSet(&motorLeft,0, 0, 0,0);
+    else if(eventmask0 & (LightRightDown | LightLeftDown)){
+        motorSet(&motorRight,0, 0, 0,1);
+        motorSet(&motorLeft,0, 0, 0,1);
         run = 0;
     }
     else{
@@ -99,19 +103,8 @@ void moveFUN(int safe){
   }
 }
 
-void readyFUN(){
-  lapse.cmdCnt = 0;
-  memset(lapse.cmdLst, 100, sizeof(lapse.cmdLst));
-  SetEvent(MainTask, MoveReadyEvent);
-}
-
-
 TASK(MotorikTask){
   while(true){
-            display_clear(0);
-            display_goto_xy(0,0);
-            display_string(xxxx);
-            display_update();
     WaitEvent(MoveF | RotateL | RotateR | Adjust);
     GetEvent(MotorikTask, &eventmask0);
     
@@ -205,9 +198,15 @@ TASK(MotorikTask){
             break;
 
           case HAPPYENDING:
+            memcpy(xxxx,"HAPPY",10);
+            display_clear(0);
+            display_goto_xy(0,0);
+            display_string(xxxx);
+            display_update();
             run = 0;
-            readyFUN();
-            memcpy(xxxx,"HAPPYEND",10);
+            lapse.cmdCnt = 0;
+            memset(lapse.cmdLst, 100, sizeof(lapse.cmdLst));
+            SetEvent(MainTask, MoveReadyEvent);
             break;
         }
       }

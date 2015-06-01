@@ -11,10 +11,12 @@ TASK(LightTask){
   lightVal.newLeft = ecrobot_get_light_sensor(LIGHT_LEFT);
 
   if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight < lightVal.initRight)){
-    SetEvent(MotorikTask, LightBothDown);
+    lightVal.oldLeft = lightVal.newLeft;
+    SetEvent(MotorikTask, LightLeftDown);
   }
   else if((lightVal.newRight > lightVal.initRight) && (lightVal.newLeft < lightVal.initLeft)){ 
-    SetEvent(MotorikTask, LightLeftDown);
+    lightVal.oldRight = lightVal.newRight;
+    SetEvent(MotorikTask, LightRightDown);
   }
   else if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight > lightVal.initRight)){
     SetEvent(MotorikTask, LightBothDown);
