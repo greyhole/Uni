@@ -268,14 +268,6 @@ void motorikTask(){
     display_clear(0);
     display_goto_xy(5,3);
     display_string(xxxx);
-    display_goto_xy(0,4);
-    display_int(motorLeft.rpmNew*RPMMULTI, 5);
-    display_goto_xy(0,5);
-    display_int(motorLeft.speed,5);
-    display_goto_xy(7,4);
-    display_int(motorRight.rpmNew*RPMMULTI, 5);
-    display_goto_xy(7,5);
-    display_int(motorRight.speed,5);
     display_update();
   }
 }
