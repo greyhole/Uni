@@ -5,8 +5,6 @@
 #include "nxt_config.h"
 #include "ecrobot_interface.h"
 #include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 #include "motor.h"
 
 #define ROTATE_L    -1
@@ -25,9 +23,9 @@
 
 
 #define FORWARDVAL 970
-#define BACKVAL  200 
+#define BACKWARDVAL  200 
 #define ROTATEVAL 465
-#define RPMMULTI 100
+#define RPSMULTI 100
 EventMaskType eventmask0 = 0;
 EventMaskType eventmask1 = 0;
 
@@ -40,70 +38,63 @@ char xxxx[10] = "BEGIN";
 struct motorikCmd_t lapse = { {100}, 0 };
 
 
-void motorSet(struct motor_t *motor,int dir, int dis, int rps){
+void motorSet(struct motor_t *motor,int dir, int dis, float rps, int aktBreak){
   GetResource(MotorResource);
   motor->dir = dir;
   motor->dis = dis;
-  motor->rps = rps;
+  motor->rps = rps/RPSMULTI;
+  motor->aktBreak = aktBreak;
   ReleaseResource(MotorResource);
+}
+void resetEvents(){
+  eventmask0 = 0;
+  ClearEvent(MotorStopped);
+  ClearEvent(LightRightDown);
+  ClearEvent(LightLeftDown);
+  ClearEvent(LightBothDown);
+  ClearEvent(LightBothUp);
 }
 
 void adjustFUN(){
-int run = 1;
+  resetEvents();
+  int run = 1;
   while(run){
+    resetEvents();
     WaitEvent(LightRightDown | LightLeftDown | LightBothDown | LightBothUp);
-    GetEvent(MotorikTask, &eventmask);
-    switch(eventmask){
-      case LightLeftDown:
-        motorSet(&motorRight,FORWARD, 0, RPSNORM);
-        motorSet(&motorLeft,BACKWARD, 0, RPSNORM);
-        ClearEvent(LightLeftDown);
-        break;
-
-      case LightRightDown:
-        motorSet(&motorRight,BACKWARD, 0, RPSNORM);
-        motorSet(&motorLeft,FORWARD, 0, RPSNORM);
-        ClearEvent(LightRightDown);
-        break;
-
-      case LightBothDown:
-        motorSet(&motorRight,0, 0, 0);
-        motorSet(&motorLeft,0, 0, 0);
-        lapse.cmdCnt++;
+    GetEvent(MotorikTask, &eventmask0);
+    if((eventmask0 & LightLeftDown) && !(eventmask0 & LightRightDown)){
+        motorSet(&motorRight,FORWARD, 0, RPSNORM,0);
+        motorSet(&motorLeft,BACKWARD, 0, RPSNORM,0);
+    }
+    else if((eventmask0 & LightRightDown) && !(eventmask0 & LightLeftDown)){
+        motorSet(&motorRight,BACKWARD, 0, RPSNORM,0);
+        motorSet(&motorLeft,FORWARD, 0, RPSNORM,0);
+    }
+    else if(eventmask0 & LightBothDown){
+        motorSet(&motorRight,0, 0, 0,0);
+        motorSet(&motorLeft,0, 0, 0,0);
         run = 0;
-        ClearEvent(LightBothDown);
-        break;
-      
-      default:
-        motorSet(&motorRight,FORWARD, 0, RPSNORM);
-        motorSet(&motorLeft,FORWARD, 0, RPSNORM);
-        ClearEvent(LightBothUp);
-        break;
+    }
+    else{
+        motorSet(&motorRight,FORWARD, 0, RPSNORM,0);
+        motorSet(&motorLeft,FORWARD, 0, RPSNORM,0);
     }
   }
 }
 
 
-void moveFUN(int aktBreak,int safe){
+void moveFUN(int safe){
   int run = 1;
   while(run){
-    WaitEvent(MotorRight | MotorLeft | LightRightDown | LightLeftDown);
+    resetEvents();
+    eventmask0 = 0;
+    WaitEvent( MotorStopped | LightRightDown | LightLeftDown);
     GetEvent(MotorikTask, &eventmask0);
-    switch(eventmask0){
-      case LightRight:
-        ClearEvent(LightRight);
-        if(safe){
-
-    if(eventmask0 && MotorRight) ClearEvent(MotorRight);
-    else ClearEvent(MotorLeft);
-    eventmask1 |= eventmask0;
-    if(eventmask1 && (MotorLeft | MotorRight)){
+    //if(eventmask0 == LightRightDown){
+    //    if(safe){}
+   // }
+   if(eventmask0 & MotorStopped){
       run = 0;
-      lapse.cmdCnt++;
-      if(aktBreak){
-        motorSet(&motorRight,0, 0, 0);
-        motorSet(&motorLeft,0, 0, 0);
-      }
     }
   }
 }
@@ -117,69 +108,84 @@ void readyFUN(){
 
 TASK(MotorikTask){
   while(true){
+            display_clear(0);
+            display_goto_xy(0,0);
+            display_string(xxxx);
+            display_update();
     WaitEvent(MoveF | RotateL | RotateR | Adjust);
     GetEvent(MotorikTask, &eventmask0);
-    switch(eventmask0){
-      case MoveF:
-        lapse.cmdLst[0] = ADJUST;
-        lapse.cmdLst[1] = MOVE_LINE;
-        lapse.cmdLst[2] = MOVE_F;
-        lapse.cmdLst[3] = ADJUST;
-        lapse.cmdLst[4] = HAPPYENDING;
-        break;
-      case RotateL:
+    
+    if(eventmask0 & MoveF){
+        //lapse.cmdLst[0] = ADJUST;
+        //lapse.cmdLst[1] = MOVE_LINE;
+        lapse.cmdLst[0] = MOVE_F;
+        lapse.cmdLst[1] = ADJUST;
+        lapse.cmdLst[2] = HAPPYENDING;
+    }
+    else if(eventmask0 & RotateL){
         lapse.cmdLst[0] = MOVE_B;
         lapse.cmdLst[1] = ROTATE_L;
         lapse.cmdLst[2] = ADJUST;
         lapse.cmdLst[3] = HAPPYENDING;
-        break;
-      case RotateR:
+    }
+    else if(eventmask0 & RotateR){
         lapse.cmdLst[0] = MOVE_B;
         lapse.cmdLst[1] = ROTATE_R;
         lapse.cmdLst[2] = ADJUST;
         lapse.cmdLst[3] = HAPPYENDING;
-        break;
-      case Adjust:
+    }
+    else if(eventmask0 & Adjust){
         lapse.cmdLst[0] = ADJUST;
         lapse.cmdLst[1] = HAPPYENDING;
-        break;
     }
+    resetEvents();
     int run = 1;
     while(run){
       if(lapse.cmdLst[0] != 100){
 
         switch(lapse.cmdLst[lapse.cmdCnt]){
           case ADJUST:
-            motorSet(&motorRight, BACKWARD, BACKWARDVAL, RPSNORM);
-            motorSet(&motorRight, BACKWARD, BACKWARDVAL, RPSNORM);
-            adjustFUN();
             memcpy(xxxx,"ADJUST",10);
+            display_clear(0);
+            display_goto_xy(0,0);
+            display_string(xxxx);
+            display_update();
+            motorSet(&motorRight, FORWARD, 0, RPSNORM, 0);
+            motorSet(&motorLeft, FORWARD, 0, RPSNORM, 0);
+            adjustFUN();
+            lapse.cmdCnt++;
             break;
 
           case MOVE_B:
-            motorSet(&motorRight, BACKWARD, BACKWARDVAL, RPSNORM);
-            motorSet(&motorLeft, BACKWARD, BACKWARDVAL, RPSNORM);
-            moveFUN(1);
+            memcpy(xxxx,"MOVE_B",10);
+            display_clear(0);
+            display_goto_xy(0,0);
+            display_string(xxxx);
+            display_update();
+            motorSet(&motorRight, BACKWARD, BACKWARDVAL, RPSNORM, 1);
+            motorSet(&motorLeft, BACKWARD, BACKWARDVAL, RPSNORM, 1);
+            moveFUN(0);
             memcpy(xxxx,"MOVE_B",10);
             break;
 
           case ROTATE_R:
-            motorSet(&motorRight, BACKWARD, ROTATEVAL, RPSNORM);
-            motorSet(&motorLeft, FORWARD, ROTATEVAL, RPSNORM);
-            moveFUN(1);
+            motorSet(&motorRight, BACKWARD, ROTATEVAL, RPSNORM, 1);
+            motorSet(&motorLeft, FORWARD, ROTATEVAL, RPSNORM, 1);
+            moveFUN(0);
             memcpy(xxxx,"ROTATE_R",10);
             break;
 
           case ROTATE_L:
-            motorSet(&motorRight, FORWARD, ROTATEVAL, RPSNORM);
-            motorSet(&motorLeft, BACKWARD, ROTATEVAL, RPSNORM);
-            moveFUN(1);
+            motorSet(&motorRight, FORWARD, ROTATEVAL, RPSNORM, 1);
+            motorSet(&motorLeft, BACKWARD, ROTATEVAL, RPSNORM, 1);
+            moveFUN(0);
             memcpy(xxxx,"ROTATE_L",10);
             break;
 
           case MOVE_LINE:
-            motorSet(&motorRight, FORWARD, 0, RPSNORM);
-            motorSet(&motorLeft, FORWARD, 0, RPSNORM);
+            motorSet(&motorRight, FORWARD, 0, RPSNORM, 0);
+            motorSet(&motorLeft, FORWARD, 0, RPSNORM, 0);
+            resetEvents();
             WaitEvent(LightBothUp);
             lapse.cmdCnt++;
             ClearEvent(LightBothUp);
@@ -187,13 +193,19 @@ TASK(MotorikTask){
             break;
         
           case MOVE_F:
-            motorSet(&motorRight, FORWARD, FORWARDVAL, RPSNORM);
-            motorSet(&motorLeft, FORWARD, FORWARDVAL, RPSNORM);
-            moveFUN(0);
             memcpy(xxxx,"MOVE_F",10);
+            display_clear(0);
+            display_goto_xy(0,0);
+            display_string(xxxx);
+            display_update();
+            motorSet(&motorRight, FORWARD, FORWARDVAL, RPSNORM,1);
+            motorSet(&motorLeft, FORWARD, FORWARDVAL, RPSNORM,1);
+            moveFUN(0);
+            lapse.cmdCnt++;
             break;
 
           case HAPPYENDING:
+            run = 0;
             readyFUN();
             memcpy(xxxx,"HAPPYEND",10);
             break;

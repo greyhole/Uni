@@ -9,13 +9,13 @@
 
 struct motor_t {
   U32 motor;
-  EventMaskType event;
   float speed;
   int dir;
   int dis;
   float rps;
   float errorOld;
   float errorSum;
+  int aktBreak;
 };
 extern struct motor_t motorRight;
 extern struct motor_t motorLeft;

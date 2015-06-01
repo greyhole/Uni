@@ -2,7 +2,9 @@
 TARGET = helloworld_OSEK
 TARGET_SOURCES = \
 	helloworld.c \
-//	motorik.c
+	light.c \
+	motor.c \
+	motorik.c
 TOPPERS_OSEK_OIL_SOURCE = ./helloworld.oil
 ROOT=$(nxtOSEK)
 

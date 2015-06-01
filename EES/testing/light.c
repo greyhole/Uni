@@ -17,7 +17,7 @@ TASK(LightTask){
     SetEvent(MotorikTask, LightLeftDown);
   }
   else if((lightVal.newLeft > lightVal.initLeft) && (lightVal.newRight > lightVal.initRight)){
-    SetEvent(MotorikTask, LightBothDown);^
+    SetEvent(MotorikTask, LightBothDown);
     lightVal.oldLeft = lightVal.newLeft;
     lightVal.oldRight = lightVal.newRight;
   }

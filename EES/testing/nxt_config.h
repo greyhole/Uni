@@ -25,8 +25,8 @@ DeclareTask(MotorikTask);
 DeclareTask(MotorTask);
 DeclareTask(LightTask);
 
-DeclareEvent(MotorRight);
-DeclareEvent(MotorLeft);
+DeclareEvent(MoveReadyEvent);
+DeclareEvent(MotorStopped);
 
 DeclareEvent(LightLeftDown);
 DeclareEvent(LightRightDown);

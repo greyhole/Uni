@@ -23,10 +23,7 @@ CPU ATMEL_AT91SAM7S256
     RESOURCEPROPERTY = STANDARD;
  };
 
- EVENT MotorRight{
-    MASK = AUTO;
-  };
- EVENT MotorLeft{
+ EVENT MotorStopped{
     MASK = AUTO;
   };
  EVENT MoveReadyEvent{
@@ -35,7 +32,7 @@ CPU ATMEL_AT91SAM7S256
  EVENT LightRightDown{
     MASK = AUTO;
   };
- EVENT LightRightDown{
+ EVENT LightLeftDown{
     MASK = AUTO;
   };
  EVENT LightBothDown{
@@ -69,7 +66,7 @@ CPU ATMEL_AT91SAM7S256
     STACKSIZE = 512; /* Stack size */
     EVENT = MoveReadyEvent;
   };
-/*
+
   TASK MotorikTask
   {
     AUTOSTART = TRUE
@@ -89,8 +86,7 @@ CPU ATMEL_AT91SAM7S256
     EVENT = LightRightDown;
     EVENT = LightBothDown;
     EVENT = LightBothUp;
-    EVENT = MotorRight;
-    EVENT = MotorLeft;
+    EVENT = MotorStopped;
   };
   
   TASK LightTask
@@ -111,7 +107,7 @@ CPU ATMEL_AT91SAM7S256
     STACKSIZE = 512; /* Stack size */
     RESOURCE = MotorResource;
   };
-*/  
+
   /* Definition of OSEK Alarm Counter */
   COUNTER SysTimerCnt
   {
@@ -119,7 +115,7 @@ CPU ATMEL_AT91SAM7S256
     MAXALLOWEDVALUE = 120000;
     TICKSPERBASE = 1; /* One tick is equal to 1msec */
   };
-/*  
+  
   ALARM light_alarm
   {
     COUNTER = SysTimerCnt;
@@ -148,5 +144,5 @@ CPU ATMEL_AT91SAM7S256
           APPMODE = appmode1;
     };
   };
-*/
+
 };
