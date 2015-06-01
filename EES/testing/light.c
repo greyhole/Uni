@@ -23,7 +23,7 @@ TASK(LightTask){
     lightVal.oldLeft = lightVal.newLeft;
     lightVal.oldRight = lightVal.newRight;
   }
-  if((lightVal.newRight < lightVal.oldRight - 30 ) || (lightVal.newLeft < lightVal.oldLeft - 30 )){
+  if((lightVal.newRight <= lightVal.initRight ) && (lightVal.newLeft <= lightVal.initLeft )){
     SetEvent(MotorikTask, LightBothUp);
   }
   TerminateTask();

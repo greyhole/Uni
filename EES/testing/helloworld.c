@@ -45,5 +45,17 @@ TASK(MainTask){
   SetEvent(MotorikTask,Adjust);
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
+  SetEvent(MotorikTask,MoveF);
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  SetEvent(MotorikTask,RotateL);
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  SetEvent(MotorikTask,MoveF);
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
+  SetEvent(MotorikTask,RotateL);
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
   TerminateTask();
 }

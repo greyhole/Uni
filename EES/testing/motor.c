@@ -7,7 +7,7 @@
 #include "nxt_config.h"
 #include "motor.h"
 
-#define TA 0.03
+#define TA 0.02
 #define KP 10
 #define KD 0
 #define KI 0
@@ -46,13 +46,13 @@ void motorFUN(struct motor_t *motor){
     motor->speed += 3;
   }
   else if( pid < -3){
-    (motor->speed) -= -3;
+    (motor->speed) -= 3;
   }
   else{
     (motor->speed) += pid;
   }
   if(motor->speed > 60) motor->speed = 60;
-  if(motor->speed < 60) motor->speed = -60;
+  if(motor->speed < -60) motor->speed = -60;
   nxt_motor_set_speed(motor->motor,motor->dir * motor->speed,1);
   nxt_motor_set_count(motor->motor, 0);
 }

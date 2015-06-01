@@ -19,12 +19,12 @@
 #define FORWARD 1
 #define BACKWARD -1
 #define STOP 12
-#define RPSNORM 80
+#define RPSNORM 70
 
 
-#define FORWARDVAL 970
+#define FORWARDVAL 900
 #define BACKWARDVAL  200 
-#define ROTATEVAL 465
+#define ROTATEVAL 450
 #define RPSMULTI 100
 EventMaskType eventmask0 = 0;
 EventMaskType eventmask1 = 0;
@@ -60,28 +60,27 @@ void resetEvents(){
 }
 
 void adjustFUN(){
-  resetEvents();
   int run = 1;
   while(run){
     resetEvents();
     WaitEvent(LightRightDown | LightLeftDown | LightBothDown | LightBothUp);
     GetEvent(MotorikTask, &eventmask0);
     if((eventmask0 & LightLeftDown) && !(eventmask0 & LightRightDown)){
-        motorSet(&motorRight,FORWARD, 0, RPSNORM,0);
-        motorSet(&motorLeft,BACKWARD, 0, RPSNORM,0);
+        motorSet(&motorRight,FORWARD, 0, RPSNORM/2,0);
+        motorSet(&motorLeft,BACKWARD, 0, RPSNORM/2,0);
     }
     else if((eventmask0 & LightRightDown) && !(eventmask0 & LightLeftDown)){
-        motorSet(&motorRight,BACKWARD, 0, RPSNORM,0);
-        motorSet(&motorLeft,FORWARD, 0, RPSNORM,0);
+        motorSet(&motorRight,BACKWARD, 0, RPSNORM/2,0);
+        motorSet(&motorLeft,FORWARD, 0, RPSNORM/2,0);
     }
-    else if(eventmask0 & (LightRightDown | LightLeftDown)){
+    else if(eventmask0 & LightBothDown){
         motorSet(&motorRight,0, 0, 0,1);
         motorSet(&motorLeft,0, 0, 0,1);
         run = 0;
     }
     else{
-        motorSet(&motorRight,FORWARD, 0, RPSNORM,0);
-        motorSet(&motorLeft,FORWARD, 0, RPSNORM,0);
+        motorSet(&motorRight,FORWARD, 0, RPSNORM/2,0);
+        motorSet(&motorLeft,FORWARD, 0, RPSNORM/2,0);
     }
   }
 }
@@ -105,16 +104,15 @@ void moveFUN(int safe){
 
 TASK(MotorikTask){
   while(true){
-    resetEvents();
+    //resetEvents();
     WaitEvent(MoveF | RotateL | RotateR | Adjust);
     GetEvent(MotorikTask, &eventmask0);
     
     if(eventmask0 & MoveF){
-        //lapse.cmdLst[0] = ADJUST;
-        //lapse.cmdLst[1] = MOVE_LINE;
-        lapse.cmdLst[0] = MOVE_F;
-        lapse.cmdLst[1] = ADJUST;
-        lapse.cmdLst[2] = HAPPYENDING;
+        lapse.cmdLst[0] = MOVE_LINE;
+        lapse.cmdLst[1] = MOVE_F;
+        lapse.cmdLst[2] = ADJUST;
+        lapse.cmdLst[3] = HAPPYENDING;
     }
     else if(eventmask0 & RotateL){
         lapse.cmdLst[0] = MOVE_B;
@@ -132,7 +130,7 @@ TASK(MotorikTask){
         lapse.cmdLst[0] = ADJUST;
         lapse.cmdLst[1] = HAPPYENDING;
     }
-    resetEvents();
+    //resetEvents();
     int run = 1;
     while(run){
       if(lapse.cmdLst[0] != 100){
@@ -144,8 +142,8 @@ TASK(MotorikTask){
             display_goto_xy(0,0);
             display_string(xxxx);
             display_update();
-            motorSet(&motorRight, FORWARD, 0, RPSNORM, 0);
-            motorSet(&motorLeft, FORWARD, 0, RPSNORM, 0);
+            motorSet(&motorRight, FORWARD, 0, RPSNORM, 1);
+            motorSet(&motorLeft, FORWARD, 0, RPSNORM, 1);
             adjustFUN();
             lapse.cmdCnt++;
             break;
@@ -159,21 +157,21 @@ TASK(MotorikTask){
             motorSet(&motorRight, BACKWARD, BACKWARDVAL, RPSNORM, 1);
             motorSet(&motorLeft, BACKWARD, BACKWARDVAL, RPSNORM, 1);
             moveFUN(0);
-            memcpy(xxxx,"MOVE_B",10);
+            lapse.cmdCnt++;
             break;
 
           case ROTATE_R:
             motorSet(&motorRight, BACKWARD, ROTATEVAL, RPSNORM, 1);
             motorSet(&motorLeft, FORWARD, ROTATEVAL, RPSNORM, 1);
             moveFUN(0);
-            memcpy(xxxx,"ROTATE_R",10);
+            lapse.cmdCnt++;
             break;
 
           case ROTATE_L:
             motorSet(&motorRight, FORWARD, ROTATEVAL, RPSNORM, 1);
             motorSet(&motorLeft, BACKWARD, ROTATEVAL, RPSNORM, 1);
             moveFUN(0);
-            memcpy(xxxx,"ROTATE_L",10);
+            lapse.cmdCnt++;
             break;
 
           case MOVE_LINE:
