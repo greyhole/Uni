@@ -65,16 +65,6 @@ TASK(MainTask){
  ClearEvent(MoveReadyEvent);
  */
  while(1){
- /*moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- */
  moveF();
  WaitEvent(MoveReadyEvent);
  ClearEvent(MoveReadyEvent);
