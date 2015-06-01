@@ -93,9 +93,27 @@ void moveFUN(int safe){
     eventmask0 = 0;
     WaitEvent( MotorStopped | LightRightDown | LightLeftDown);
     GetEvent(MotorikTask, &eventmask0);
-    //if(eventmask0 == LightRightDown){
-    //    if(safe){}
-   // }
+    if(safe){
+      if(eventmask0 & LightRightDown){
+        motorSet(&motorLeft, 0, 0, 0, 1);
+        motorSet(&motorRight, BACKWARD, 350, RPSNORM, 1);
+        moveFUN(0);
+         
+        motorSet(&motorRight, 0, 0, 0, 1);
+        motorSet(&motorLeft, BACKWARD, 350, RPSNORM, 1);
+        moveFUN(0);
+        run = 0;
+    }
+    else if(eventmask0 & LightLeftDown){
+        motorSet(&motorRight, 0, 0, 0, 1);
+        motorSet(&motorLeft, BACKWARD, 350, RPSNORM, 1);
+        moveFUN(0);
+         
+        motorSet(&motorLeft, 0, 0, 0, 1);
+        motorSet(&motorRight, BACKWARD, 350, RPSNORM, 1);
+        moveFUN(0);
+        run = 0;
+    }
    if(eventmask0 & MotorStopped){
       run = 0;
     }
