@@ -105,6 +105,7 @@ void moveFUN(int safe){
 
 TASK(MotorikTask){
   while(true){
+    resetEvents();
     WaitEvent(MoveF | RotateL | RotateR | Adjust);
     GetEvent(MotorikTask, &eventmask0);
     

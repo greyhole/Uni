@@ -51,6 +51,8 @@ void motorFUN(struct motor_t *motor){
   else{
     (motor->speed) += pid;
   }
+  if(motor->speed > 60) motor->speed = 60;
+  if(motor->speed < 60) motor->speed = -60;
   nxt_motor_set_speed(motor->motor,motor->dir * motor->speed,1);
   nxt_motor_set_count(motor->motor, 0);
 }
