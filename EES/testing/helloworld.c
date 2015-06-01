@@ -3,7 +3,7 @@
 #include "kernel_id.h"
 #include "ecrobot_interface.h"
 #include "nxt_config.h"
-#include "light.h"
+//#include "light.h"
 
 /* OSEK declarations */
 //DeclareEvent(MoveReadyEvent);
@@ -42,45 +42,5 @@ void user_1ms_isr_type2(void)
 }
 
 TASK(MainTask){
- adjust();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- /*moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- */
- while(1){
- /*moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- */
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- rotateR();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- moveF();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- rotateR();
- WaitEvent(MoveReadyEvent);
- ClearEvent(MoveReadyEvent);
- }
   TerminateTask();
 }

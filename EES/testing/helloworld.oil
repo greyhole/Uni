@@ -69,7 +69,7 @@ CPU ATMEL_AT91SAM7S256
     STACKSIZE = 512; /* Stack size */
     EVENT = MoveReadyEvent;
   };
-
+/*
   TASK MotorikTask
   {
     AUTOSTART = TRUE
@@ -111,7 +111,7 @@ CPU ATMEL_AT91SAM7S256
     STACKSIZE = 512; /* Stack size */
     RESOURCE = MotorResource;
   };
-  
+*/  
   /* Definition of OSEK Alarm Counter */
   COUNTER SysTimerCnt
   {
@@ -119,7 +119,7 @@ CPU ATMEL_AT91SAM7S256
     MAXALLOWEDVALUE = 120000;
     TICKSPERBASE = 1; /* One tick is equal to 1msec */
   };
-  
+/*  
   ALARM light_alarm
   {
     COUNTER = SysTimerCnt;
@@ -148,4 +148,5 @@ CPU ATMEL_AT91SAM7S256
           APPMODE = appmode1;
     };
   };
+*/
 };

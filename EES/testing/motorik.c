@@ -84,11 +84,16 @@ int run = 1;
 }
 
 
-void moveFUN(int aktBreak){
+void moveFUN(int aktBreak,int safe){
   int run = 1;
   while(run){
-    WaitEvent(MotorRight | MotorLeft);
+    WaitEvent(MotorRight | MotorLeft | LightRightDown | LightLeftDown);
     GetEvent(MotorikTask, &eventmask0);
+    switch(eventmask0){
+      case LightRight:
+        ClearEvent(LightRight);
+        if(safe){
+
     if(eventmask0 && MotorRight) ClearEvent(MotorRight);
     else ClearEvent(MotorLeft);
     eventmask1 |= eventmask0;
