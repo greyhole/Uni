@@ -23,6 +23,10 @@ CPU ATMEL_AT91SAM7S256
     RESOURCEPROPERTY = STANDARD;
  };
 
+ EVENT PackageReceivedEvent
+ {
+   MASK = AUTO;
+ };
  EVENT MotorStopped{
     MASK = AUTO;
   };
@@ -108,11 +112,42 @@ CPU ATMEL_AT91SAM7S256
     RESOURCE = MotorResource;
   };
 
+  TASK UpdateStatus
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+  };
+    
+  TASK FetchBtPackage
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+  };
+  
+  TASK DecodeBtPackage
+   {
+    AUTOSTART = TRUE
+    {
+      APPMODE = appmode1;
+    };
+    PRIORITY = 2;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512;
+    EVENT = PackageReceivedEvent;
+   };
   /* Definition of OSEK Alarm Counter */
+  
   COUNTER SysTimerCnt
   {
     MINCYCLE = 1;
-    MAXALLOWEDVALUE = 120000;
+    MAXALLOWEDVALUE = 10000;
     TICKSPERBASE = 1; /* One tick is equal to 1msec */
   };
   
@@ -144,5 +179,34 @@ CPU ATMEL_AT91SAM7S256
           APPMODE = appmode1;
     };
   };
-
+  
+  ALARM cyclic_alarm1
+  {
+    COUNTER = BtTimer;
+    ACTION = ACTIVATETASK
+    {
+      TASK = FetchBtPackage;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 50;
+      APPMODE = appmode1;
+    };
+  };
+  
+  ALARM cyclic_alarm2
+  {
+    COUNTER = BtTimer;
+    ACTION = ACTIVATETASK
+    {
+      TASK = UpdateStatus;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 1000;
+      APPMODE = appmode1;
+    };
+  };
 };

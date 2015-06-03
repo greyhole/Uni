@@ -20,11 +20,16 @@
 #define SOUND NXT_PORT_S1
 
 DeclareCounter(SysTimerCnt);
+DeclareCounter(BtTimer);
 DeclareTask(MainTask);
 DeclareTask(MotorikTask);
 DeclareTask(MotorTask);
 DeclareTask(LightTask);
+DeclareTask(UpdateStatus);
+DeclareTask(FetchBtPackage);
+DeclareTask(DecodeBtPackage);
 
+DeclareEvent(PackageReceivedEvent);
 DeclareEvent(MoveReadyEvent);
 DeclareEvent(MotorStopped);
 

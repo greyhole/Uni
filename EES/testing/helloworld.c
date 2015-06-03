@@ -23,6 +23,7 @@ void ecrobot_device_initialize(void)
 
 void ecrobot_device_terminate(void)
 {
+  ecrobot_term_bt_connection();
   ecrobot_set_light_sensor_inactive(LIGHT_RIGHT); //right
   ecrobot_set_light_sensor_inactive(LIGHT_LEFT); //left
   nxt_motor_set_speed(MOTOR_LEFT, 0, 1);
@@ -45,6 +46,10 @@ TASK(MainTask){
   SetEvent(MotorikTask,Adjust);
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
+  while(1){
+  SetEvent(MotorikTask,MoveF);
+  WaitEvent(MoveReadyEvent);
+  ClearEvent(MoveReadyEvent);
   SetEvent(MotorikTask,MoveF);
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
@@ -57,5 +62,6 @@ TASK(MainTask){
   SetEvent(MotorikTask,RotateL);
   WaitEvent(MoveReadyEvent);
   ClearEvent(MoveReadyEvent);
+  }
   TerminateTask();
 }

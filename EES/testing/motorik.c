@@ -87,6 +87,7 @@ void adjustFUN(){
 
 
 void moveFUN(int safe){
+  int err;
   int run = 1;
   while(run){
     resetEvents();
@@ -95,24 +96,39 @@ void moveFUN(int safe){
     GetEvent(MotorikTask, &eventmask0);
     if(safe){
       if(eventmask0 & LightRightDown){
+        err = motorRight.dis;
         motorSet(&motorLeft, 0, 0, 0, 1);
-        motorSet(&motorRight, BACKWARD, 350, RPSNORM, 1);
+        motorSet(&motorRight, BACKWARD, 530, RPSNORM*1.5, 1);
         moveFUN(0);
          
         motorSet(&motorRight, 0, 0, 0, 1);
-        motorSet(&motorLeft, BACKWARD, 350, RPSNORM, 1);
+        motorSet(&motorLeft, BACKWARD, 555, RPSNORM*1.5, 1);
         moveFUN(0);
+        
+        if(err > 2*FORWARDVAL/3){
+        motorSet(&motorRight, FORWARD, 350, RPSNORM, 1);
+        motorSet(&motorLeft, FORWARD, 350, RPSNORM, 1);
+        moveFUN(0);
+        }
         run = 0;
-    }
-    else if(eventmask0 & LightLeftDown){
+      }
+      else if(eventmask0 & LightLeftDown){
+        err = motorLeft.dis;
         motorSet(&motorRight, 0, 0, 0, 1);
-        motorSet(&motorLeft, BACKWARD, 350, RPSNORM, 1);
+        motorSet(&motorLeft, BACKWARD, 530, RPSNORM*1.5, 1);
         moveFUN(0);
          
         motorSet(&motorLeft, 0, 0, 0, 1);
-        motorSet(&motorRight, BACKWARD, 350, RPSNORM, 1);
+        motorSet(&motorRight, BACKWARD, 555, RPSNORM*1.5, 1);
         moveFUN(0);
+      
+        if(err > 2*FORWARDVAL/3){
+        motorSet(&motorRight, FORWARD, 350, RPSNORM, 1);
+        motorSet(&motorLeft, FORWARD, 350, RPSNORM, 1);
+        moveFUN(0);
+        }
         run = 0;
+      }
     }
    if(eventmask0 & MotorStopped){
       run = 0;
@@ -210,7 +226,7 @@ TASK(MotorikTask){
             display_update();
             motorSet(&motorRight, FORWARD, FORWARDVAL, RPSNORM,1);
             motorSet(&motorLeft, FORWARD, FORWARDVAL, RPSNORM,1);
-            moveFUN(0);
+            moveFUN(1);
             lapse.cmdCnt++;
             break;
 
