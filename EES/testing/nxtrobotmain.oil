@@ -77,7 +77,7 @@ CPU ATMEL_AT91SAM7S256
     {
       APPMODE = appmode1;
     };
-    PRIORITY = 2;
+    PRIORITY = 3;
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
@@ -96,7 +96,7 @@ CPU ATMEL_AT91SAM7S256
   TASK LightTask
   {
     AUTOSTART = FALSE;
-    PRIORITY = 1;
+    PRIORITY = 2;
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
@@ -105,7 +105,7 @@ CPU ATMEL_AT91SAM7S256
   TASK MotorTask
   {
     AUTOSTART = FALSE;
-    PRIORITY = 1;
+    PRIORITY = 2;
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
@@ -136,7 +136,7 @@ CPU ATMEL_AT91SAM7S256
     {
       APPMODE = appmode1;
     };
-    PRIORITY = 2;
+    PRIORITY = 3;
     ACTIVATION = 1;
     SCHEDULE = FULL;
     STACKSIZE = 512;
@@ -182,7 +182,7 @@ CPU ATMEL_AT91SAM7S256
   
   ALARM cyclic_alarm1
   {
-    COUNTER = BtTimer;
+    COUNTER = SysTimerCnt;
     ACTION = ACTIVATETASK
     {
       TASK = FetchBtPackage;
@@ -197,7 +197,7 @@ CPU ATMEL_AT91SAM7S256
   
   ALARM cyclic_alarm2
   {
-    COUNTER = BtTimer;
+    COUNTER = SysTimerCnt;
     ACTION = ACTIVATETASK
     {
       TASK = UpdateStatus;

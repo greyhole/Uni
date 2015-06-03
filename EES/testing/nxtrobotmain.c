@@ -4,6 +4,7 @@
 #include "ecrobot_interface.h"
 #include "nxt_config.h"
 #include "light.h"
+#include "bluetooth.h"
 
 /* OSEK declarations */
 //DeclareEvent(MoveReadyEvent);
