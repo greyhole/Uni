@@ -18,6 +18,7 @@
 #define LIGHT_LEFT NXT_PORT_S2
 #define LIGHT_RIGHT NXT_PORT_S3
 #define SOUND NXT_PORT_S1
+#define SONAR NXT_PORT_S4
 
 DeclareCounter(SysTimerCnt);
 DeclareCounter(BtTimer);
@@ -28,6 +29,8 @@ DeclareTask(LightTask);
 DeclareTask(UpdateStatus);
 DeclareTask(FetchBtPackage);
 DeclareTask(DecodeBtPackage);
+DeclareTask(SonarTask);
+DeclareTask(LCDTask);
 
 DeclareEvent(PackageReceivedEvent);
 DeclareEvent(MoveReadyEvent);

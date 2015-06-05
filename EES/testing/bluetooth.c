@@ -42,7 +42,7 @@ void bt_displ_stat(int line)
         bt_stat_message = "ready for send";
         break;
     }
-    displ_line_str(bt_stat_message, line);
+//    displ_line_str(bt_stat_message, line);
 }
 
 void bt_send_loop(void *send_buf, int message_size)
@@ -86,7 +86,7 @@ void bt_receive_message()
     {
         U8 message_size = recvBuf[0];
            
-        displ_line_int(message_size,3);   
+//        displ_line_int(message_size,3);   
                 
         if (message_size <= sizeof(recvBuf))
         {
@@ -115,7 +115,7 @@ TASK(FetchBtPackage)
 {   
     ecrobot_init_bt_slave("1234");
 
-    bt_displ_stat(1);
+ //   bt_displ_stat(1);
        
     bt_receive_message();
          
@@ -145,7 +145,7 @@ TASK(DecodeBtPackage)
             
         }
         */    
-        displ_line_int(command, 3);
+ //       displ_line_int(command, 3);
         
     }    
     

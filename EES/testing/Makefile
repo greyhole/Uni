@@ -5,7 +5,8 @@ TARGET_SOURCES = \
 	light.c \
 	motor.c \
 	motorik.c \
-	bluetooth.c
+	bluetooth.c \
+	sensorik.c
 TOPPERS_OSEK_OIL_SOURCE = ./nxtrobotmain.oil
 ROOT=$(nxtOSEK)
 

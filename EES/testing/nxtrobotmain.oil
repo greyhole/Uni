@@ -102,6 +102,15 @@ CPU ATMEL_AT91SAM7S256
     STACKSIZE = 512; /* Stack size */
   };
 
+  TASK LCDTask
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512; /* Stack size */
+  };
+
   TASK MotorTask
   {
     AUTOSTART = FALSE;
@@ -110,6 +119,15 @@ CPU ATMEL_AT91SAM7S256
     SCHEDULE = FULL;
     STACKSIZE = 512; /* Stack size */
     RESOURCE = MotorResource;
+  };
+
+  TASK SonarTask
+  {
+    AUTOSTART = FALSE;
+    PRIORITY = 1;
+    ACTIVATION = 1;
+    SCHEDULE = FULL;
+    STACKSIZE = 512; /* Stack size */
   };
 
   TASK UpdateStatus
@@ -165,6 +183,22 @@ CPU ATMEL_AT91SAM7S256
           APPMODE = appmode1;
     };
   };
+
+  ALARM lcd_alarm
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = LCDTask;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 100; /* Task1 is executed every 10msec */
+          APPMODE = appmode1;
+    };
+  };
+
   ALARM motor_alarm
   {
     COUNTER = SysTimerCnt;
@@ -207,6 +241,21 @@ CPU ATMEL_AT91SAM7S256
       ALARMTIME = 1;
       CYCLETIME = 1000;
       APPMODE = appmode1;
+    };
+  };
+  
+  ALARM sensorik_alarm
+  {
+    COUNTER = SysTimerCnt;
+    ACTION = ACTIVATETASK
+    {
+      TASK = SonarTask;
+    };
+    AUTOSTART = TRUE
+    {
+      ALARMTIME = 1;
+      CYCLETIME = 25; /* Task1 is executed every 10msec */
+          APPMODE = appmode1;
     };
   };
 };
