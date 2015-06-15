@@ -1,0 +1,21 @@
+\beamer@endinputifotherversion {3.33pt}
+\select@language {ngerman}
+\beamer@sectionintoc {1}{\IeC {\"U}bersicht}{2}{0}{1}
+\beamer@sectionintoc {2}{Allgemeines}{3}{0}{2}
+\beamer@subsectionintoc {2}{1}{Vorstellung}{3}{0}{2}
+\beamer@sectionintoc {3}{Architektur}{4}{0}{3}
+\beamer@subsectionintoc {3}{1}{Eigenschaften}{4}{0}{3}
+\beamer@subsectionintoc {3}{2}{Grafik}{5}{0}{3}
+\beamer@sectionintoc {4}{Memory}{6}{0}{4}
+\beamer@subsectionintoc {4}{1}{Anordnung}{6}{0}{4}
+\beamer@subsectionintoc {4}{2}{Mapping}{7}{0}{4}
+\beamer@sectionintoc {5}{CPU}{8}{0}{5}
+\beamer@subsectionintoc {5}{1}{Eigenschaften}{8}{0}{5}
+\beamer@subsectionintoc {5}{2}{Registergrafik}{9}{0}{5}
+\beamer@subsectionintoc {5}{3}{Adressierungsarten}{10}{0}{5}
+\beamer@subsectionintoc {5}{4}{Instruktionen}{11}{0}{5}
+\beamer@sectionintoc {6}{Clock}{12}{0}{6}
+\beamer@subsectionintoc {6}{1}{Clock-Typen}{12}{0}{6}
+\beamer@subsectionintoc {6}{2}{Clock-Grafik}{13}{0}{6}
+\beamer@sectionintoc {7}{Peripherie}{14}{0}{7}
+\beamer@subsectionintoc {7}{1}{Multplikator}{14}{0}{7}
