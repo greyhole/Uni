@@ -1,0 +1,14 @@
+\frametitle{Timer Module}
+\begin{itemize}
+\item Timer: timer, stimer, etimer, ctimer, rtimer
+\item declared as: struct timer
+\item timer + stimer has to be checked manually
+\item etimer throws event: PROCESS\_EVENT\_TIMER
+\item ctimer calls a function with data pointer as argument
+\item rtimer
+\begin{itemize}
+\item preemptiv
+\item uses own clock module with higher resolution
+\end{itemize}
+\end{itemize}
+
