@@ -1,4 +1,0 @@
-﻿Administrator : legitime nutzung, vertraulichkeit, integrität, verfügbarkeit
-Lehrende : vertraulichkeit, integrität, verfügbarkeit
-Studenten : vertraulichkeit, verfügbarkeit
-andere Personen : vertraulichkeit, verfügbarkeit
