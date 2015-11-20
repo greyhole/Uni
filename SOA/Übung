@@ -1,0 +1,112 @@
+a)  Latenz
+    Antwortzeit (Wartezeit, Bearbeitungszeit)
+    Bandbreite
+    Durchsatz (Datenübertragungszeit)
+    Verfügbarkeit
+    Speicherverbrauch
+
+Einflussfaktoren:
+    Netzauslastung
+    Protokoll-Overhead
+    Topologie
+
+b)  Auslastung
+    Antwortzeit
+    Verfügbarkeit
+    ... je nach betrachtungspunkt ist alles genannte relevant.
+    Methoden zur perfomance analyse: 
+        messen
+        simulation
+        modellierun
+
+c)  ausfall von services beeinflusst anderen service
+
+Übung2:
+
+Womit:
+    Basisarchitekturen, Struktorierungen.
+
+1)
+    Client/Server:
+        zentral gesteuert
+        
+    P2P:
+        verteilt
+        selbstorganisiert
+        
+    SOA??:
+    
+    Pub/Sub:
+    
+    Schichtenmodell:
+        kommunikation meist unten nach oben
+
+    Repository
+
+    Komponentenmodell mit kapselung in Container
+        austauschbarkeit...
+
+2)
+
+    Pub/Sub
+        RSS-Feed
+    
+    Client/Server
+
+3)
+    Prozessicht
+        welche komponenten müssen kommunnizieren...
+        
+    Verteilungssicht
+        ?
+
+Merkmale eines Service:
+    Machine2Machine kommunikation
+    erreichbarkeit
+    wiederverwendbarkeit
+    plattformunabhängigkeit
+    lose kopplung
+
+Übung3
+
+8 prinzipien (vorgestellt)
+
+Grafik zu aufgabe 1 erstellen (mit beispielen)
+
+
+
+Soa architekturen
+    netzwerkarchituren, hardware..., datenarchitektur, integrationsarchitektur,
+    sicherheitsarchitektur
+
+entwurfsprinzipien
+    abstraktionprinzipien
+        technologieabstraktion
+        funktionaöeabstraktion
+        programmlogik
+                servicequalität
+
+    wiederverwendbarkeit
+        taktische 
+        zielgerichtete
+            zielgerichtete ist erweiterung von taktischer
+        vollständige
+            fertig konzipiert von anfang an
+
+
+Übun3 aufgabe 1
+
+    Entwurfsmerkmale:
+    Merkmale = herrausstechende attribute
+    
+    entwurfsprinzipen 
+        definieren die merkmale
+
+    paradigmen
+        ergänzende eigenschaften zu den prinzipien
+
+    standards
+        konventionen
+
+    Best Practice
+        
