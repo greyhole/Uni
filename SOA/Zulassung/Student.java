@@ -1,43 +1,41 @@
-package test.ws;
+package notenservice.ws;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class Student
 {
     private int matrikel;
-    private float punkte;
-    private float note;;
+    private double punkte;
 
-    //public Student()
-    //{
-        //matrikel = 0;
-        //punkte = -1;
-        //note = -1;
-    //}
+    public Student()
+    {
+    }
 
-    //public Student(int matrikel, float punkte)
-    //{
-        //this.matrikel = matrikel;
-        //this.punkte = punkte;
-        //note = -1;
-    //}
-
-    public void setStudent (int matrikel, float punkte)
+    public Student(int matrikel, double punkte)
     {
         this.matrikel = matrikel;
         this.punkte = punkte;
     }
 
-    public void setNote (float note)
+    public void setPunkte (double punkte)
     {
-        this.note = note;
+        this.punkte = punkte;
     }
 
-    public float getPunkte ()
+    public void setMatrikel (int matrikel)
     {
-        return this.punkte;
+        this.matrikel = matrikel;
+    }
+
+    public double getPunkte ()
+    {
+        return punkte;
     }
 
     public int getMatrikel ()
     {
-        return this.matrikel;
+        return matrikel;
     }
+
 }

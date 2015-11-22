@@ -1,9 +1,8 @@
-package test.ws;
+package notenservice.ws;
 
 import javax.jws.*;
 import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
-import test.ws.*;
+import notenservice.ws.*;
 
 @WebService(name="NotenService")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
@@ -11,8 +10,14 @@ public class NotenService
 {
 
     @WebMethod
-    public Studentenliste getMarks (Studentenliste list)
+    public Notenliste getMarks (Punkteliste pList, Notenskala nSkal)
     {
-        return list;   
+        Notenliste nList = new Notenliste();
+        nSkal.sort();
+        for(Student stu : pList.getPunkteliste()){
+            //System.out.printf( "Note: %f\n", skal.getNote(stu.getPunkte()));
+            nList.addResult(stu, nSkal.getNote(stu.getPunkte()));
+        }
+        return nList;
     }
 }

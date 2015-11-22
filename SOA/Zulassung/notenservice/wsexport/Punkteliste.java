@@ -1,5 +1,5 @@
 
-package test.testws;
+package notenservice.wsexport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,16 +10,16 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for studentenliste complex type.
+ * <p>Java class for punkteliste complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="studentenliste">
+ * &lt;complexType name="punkteliste">
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="studentenliste" type="{http://ws.test/}student" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element name="punkteliste" type="{http://ws.notenservice/}student" maxOccurs="unbounded" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,27 +29,27 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "studentenliste", propOrder = {
-    "studentenliste"
+@XmlType(name = "punkteliste", propOrder = {
+    "punkteliste"
 })
-public class Studentenliste {
+public class Punkteliste {
 
     @XmlElement(nillable = true)
-    protected List<Student> studentenliste;
+    protected List<Student> punkteliste;
 
     /**
-     * Gets the value of the studentenliste property.
+     * Gets the value of the punkteliste property.
      * 
      * <p>
      * This accessor method returns a reference to the live list,
      * not a snapshot. Therefore any modification you make to the
      * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the studentenliste property.
+     * This is why there is not a <CODE>set</CODE> method for the punkteliste property.
      * 
      * <p>
      * For example, to add a new item, do as follows:
      * <pre>
-     *    getStudentenliste().add(newItem);
+     *    getPunkteliste().add(newItem);
      * </pre>
      * 
      * 
@@ -59,11 +59,11 @@ public class Studentenliste {
      * 
      * 
      */
-    public List<Student> getStudentenliste() {
-        if (studentenliste == null) {
-            studentenliste = new ArrayList<Student>();
+    public List<Student> getPunkteliste() {
+        if (punkteliste == null) {
+            punkteliste = new ArrayList<Student>();
         }
-        return this.studentenliste;
+        return this.punkteliste;
     }
 
 }

@@ -1,34 +1,46 @@
-package test.ws;
+package notenservice.ws;
 
-public class Notenwert
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class Notenwert implements Comparable<Notenwert>
 {
-    private float punkte;
-    private float note;
+    
+    private double punkte;
+    private double note;
 
     public Notenwert()
     {
-        punkte = -1;
-        note = -1;
     }
 
-    public void setNotenwert (float note, float punkte)
-    {
-        this.punkte = punkte;
-        this.note = note;
-    }
-
-    public float getNote ()
+    public double getNote ()
     {
         return this.note;
     }
 
-    public float getPunkte ()
+    public double getPunkte ()
     {
         return this.punkte;
     }
 
-    public boolean isNote (float punkte)
+    public void setNote (double note)
     {
-        return this.punkte < punkte;
+        this.note = note;
+    }
+
+    public void setPunkte (double punkte)
+    {
+        this.punkte = punkte;
+    }
+
+    public boolean isNote (double punkte)
+    {
+        return this.punkte <= punkte;
+    }
+
+    @Override
+    public int compareTo(Notenwert input)
+    {
+        return (this.note < input.getNote()) ? 1 : -1;
     }
 }

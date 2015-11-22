@@ -1,5 +1,5 @@
 
-package test.testws;
+package notenservice.wsexport;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -16,7 +16,7 @@ import javax.xml.ws.Action;
  * Generated source version: 2.2
  * 
  */
-@WebService(name = "NotenService", targetNamespace = "http://ws.test/")
+@WebService(name = "NotenService", targetNamespace = "http://ws.notenservice/")
 @SOAPBinding(style = SOAPBinding.Style.RPC)
 @XmlSeeAlso({
     ObjectFactory.class
@@ -26,15 +26,18 @@ public interface NotenService {
 
     /**
      * 
+     * @param arg1
      * @param arg0
      * @return
-     *     returns test.testws.Studentenliste
+     *     returns notenservice.wsexport.Notenliste
      */
     @WebMethod
     @WebResult(partName = "return")
-    @Action(input = "http://ws.test/NotenService/getMarksRequest", output = "http://ws.test/NotenService/getMarksResponse")
-    public Studentenliste getMarks(
+    @Action(input = "http://ws.notenservice/NotenService/getMarksRequest", output = "http://ws.notenservice/NotenService/getMarksResponse")
+    public Notenliste getMarks(
         @WebParam(name = "arg0", partName = "arg0")
-        Studentenliste arg0);
+        Punkteliste arg0,
+        @WebParam(name = "arg1", partName = "arg1")
+        Notenskala arg1);
 
 }

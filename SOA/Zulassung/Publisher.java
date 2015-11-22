@@ -1,14 +1,12 @@
-package test.pub;
+package notenservice.pub;
 
-import test.ws.*;
-import javax.swing.JOptionPane;
+import notenservice.ws.*;
 import javax.xml.ws.Endpoint;
 
 public class Publisher
 {
     public static void main( String[] args )
     {
-        Endpoint endpoint = Endpoint.publish( "http://localhost:9999/hello", new NotenService() );
-        //endpoint.stop();
+        Endpoint endpoint = Endpoint.publish( "http://localhost:9999/notenservice", new NotenService() );
     }
 }

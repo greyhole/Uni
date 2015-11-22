@@ -1,5 +1,5 @@
 
-package test.testws;
+package notenservice.wsexport;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,20 +17,20 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "NotenServiceService", targetNamespace = "http://ws.test/", wsdlLocation = "http://localhost:9999/hello?wsdl")
+@WebServiceClient(name = "NotenServiceService", targetNamespace = "http://ws.notenservice/", wsdlLocation = "http://localhost:9999/notenservice?wsdl")
 public class NotenServiceService
     extends Service
 {
 
     private final static URL NOTENSERVICESERVICE_WSDL_LOCATION;
     private final static WebServiceException NOTENSERVICESERVICE_EXCEPTION;
-    private final static QName NOTENSERVICESERVICE_QNAME = new QName("http://ws.test/", "NotenServiceService");
+    private final static QName NOTENSERVICESERVICE_QNAME = new QName("http://ws.notenservice/", "NotenServiceService");
 
     static {
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:9999/hello?wsdl");
+            url = new URL("http://localhost:9999/notenservice?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
@@ -69,7 +69,7 @@ public class NotenServiceService
      */
     @WebEndpoint(name = "NotenServicePort")
     public NotenService getNotenServicePort() {
-        return super.getPort(new QName("http://ws.test/", "NotenServicePort"), NotenService.class);
+        return super.getPort(new QName("http://ws.notenservice/", "NotenServicePort"), NotenService.class);
     }
 
     /**
@@ -81,7 +81,7 @@ public class NotenServiceService
      */
     @WebEndpoint(name = "NotenServicePort")
     public NotenService getNotenServicePort(WebServiceFeature... features) {
-        return super.getPort(new QName("http://ws.test/", "NotenServicePort"), NotenService.class, features);
+        return super.getPort(new QName("http://ws.notenservice/", "NotenServicePort"), NotenService.class, features);
     }
 
     private static URL __getWsdlLocation() {
