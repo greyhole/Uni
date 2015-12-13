@@ -80,7 +80,7 @@ Soa architekturen
     sicherheitsarchitektur
 
 entwurfsprinzipien
-    abstraktionprinzipien
+    abstraktion
         technologieabstraktion
         funktionaöeabstraktion
         programmlogik
@@ -92,6 +92,10 @@ entwurfsprinzipien
             zielgerichtete ist erweiterung von taktischer
         vollständige
             fertig konzipiert von anfang an
+
+    autonomie
+    kopplung
+
 
 
 Übun3 aufgabe 1
@@ -109,4 +113,17 @@ entwurfsprinzipien
         konventionen
 
     Best Practice
-        
+
+SOAP-Nachrichten-Aufbau:
+    Envelope
+    Header(optional)
+    Body(optional Fault-Block)
+
+SOAP-nachrichttypen
+    document style
+    rpc-style
+        body im rpc-style besitzt nur einen methodenaufruf
+
+Verzeichnisdienste
+    WSI
+    UDPI

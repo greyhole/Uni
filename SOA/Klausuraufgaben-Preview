@@ -25,4 +25,6 @@
 
     Welche Komponenten kann eine SOAP-Nachricht enthalten/welche nicht.
 
-
+8. Folie
+   Wie unterstützt der Token-service die Zustandslosigkeit von WebServices.
+   2-3 Grundlegende Mechanismen von WebServiceSec nennen.

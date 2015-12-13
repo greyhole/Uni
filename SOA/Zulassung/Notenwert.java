@@ -1,8 +1,5 @@
 package notenservice.ws;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Notenwert implements Comparable<Notenwert>
 {
     

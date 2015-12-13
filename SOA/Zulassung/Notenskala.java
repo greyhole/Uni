@@ -32,7 +32,7 @@ public class Notenskala
 
     public double getNote(double punkte)
     {
-        double ret = -1;
+        double ret = 0;
         for (Notenwert note : noten){
            if (note.isNote(punkte)){
                 ret = note.getNote();

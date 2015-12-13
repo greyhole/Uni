@@ -25,9 +25,6 @@ import javax.xml.namespace.QName;
 public class ObjectFactory {
 
     private final static QName _Notenskala_QNAME = new QName("http://ws.notenservice/", "notenskala");
-    private final static QName _Notenwert_QNAME = new QName("http://ws.notenservice/", "notenwert");
-    private final static QName _Student_QNAME = new QName("http://ws.notenservice/", "student");
-    private final static QName _StudentResult_QNAME = new QName("http://ws.notenservice/", "studentResult");
     private final static QName _Punkteliste_QNAME = new QName("http://ws.notenservice/", "punkteliste");
     private final static QName _Notenliste_QNAME = new QName("http://ws.notenservice/", "notenliste");
 
@@ -36,30 +33,6 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
-    }
-
-    /**
-     * Create an instance of {@link StudentResult }
-     * 
-     */
-    public StudentResult createStudentResult() {
-        return new StudentResult();
-    }
-
-    /**
-     * Create an instance of {@link Student }
-     * 
-     */
-    public Student createStudent() {
-        return new Student();
-    }
-
-    /**
-     * Create an instance of {@link Notenwert }
-     * 
-     */
-    public Notenwert createNotenwert() {
-        return new Notenwert();
     }
 
     /**
@@ -87,39 +60,36 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link StudentResult }
+     * 
+     */
+    public StudentResult createStudentResult() {
+        return new StudentResult();
+    }
+
+    /**
+     * Create an instance of {@link Notenwert }
+     * 
+     */
+    public Notenwert createNotenwert() {
+        return new Notenwert();
+    }
+
+    /**
+     * Create an instance of {@link Student }
+     * 
+     */
+    public Student createStudent() {
+        return new Student();
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link Notenskala }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://ws.notenservice/", name = "notenskala")
     public JAXBElement<Notenskala> createNotenskala(Notenskala value) {
         return new JAXBElement<Notenskala>(_Notenskala_QNAME, Notenskala.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Notenwert }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://ws.notenservice/", name = "notenwert")
-    public JAXBElement<Notenwert> createNotenwert(Notenwert value) {
-        return new JAXBElement<Notenwert>(_Notenwert_QNAME, Notenwert.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link Student }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://ws.notenservice/", name = "student")
-    public JAXBElement<Student> createStudent(Student value) {
-        return new JAXBElement<Student>(_Student_QNAME, Student.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link StudentResult }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://ws.notenservice/", name = "studentResult")
-    public JAXBElement<StudentResult> createStudentResult(StudentResult value) {
-        return new JAXBElement<StudentResult>(_StudentResult_QNAME, StudentResult.class, null, value);
     }
 
     /**

@@ -1,8 +1,5 @@
 package notenservice.ws;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class StudentResult extends Student
 {
     private double note;
@@ -10,6 +7,7 @@ public class StudentResult extends Student
     public StudentResult()
     {
         super();
+        this.note = 0;
     }
 
     public StudentResult(int matrikel, double punkte, double note)

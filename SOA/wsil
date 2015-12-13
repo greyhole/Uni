@@ -1,0 +1,22 @@
+?xml version="1.0" encoding="UTF-8"?>
+    <inspection xmlns="http://schemas.xmlsoap.org/ws/2001/10/inspection/">
+    <abstract>SOA Web Service</abstract>
+    <service>
+        <name>Grade Calculator</name>
+        <abstract>A service to perform a grade calculation</abstract>
+        <description referencedNamespace="http://schemas.xmlsoap.org/wsdl/"
+            location="schlichtroller.cs.uni-potsdam.de">
+        </description>
+    </service>
+</inspection>
+
+
+
+
+
+kann mit SOAP kommunizieren
+WSDL unterstützung
+
+White Pages
+    Anbieterinformationen
+
