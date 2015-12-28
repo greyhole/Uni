@@ -1,0 +1,83 @@
+<definitions
+    xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"
+    xmlns:wsp="http://www.w3.org/ns/ws-policy"
+    xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy"
+    xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:tns="http://ws.notenstatus/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    targetNamespace="http://ws.notenstatus/" name="NotenstatusService">
+
+    <types>
+        <xs:schema xmlns:tns="http://ws.notenstatus/"
+        xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+        targetNamespace="http://ws.notenstatus/">
+            <xs:element name="notenliste" type="tns:notenliste"/>
+            <xs:element name="notenstatus" type="tns:notenstatus"/>
+            <xs:element name="note" type="tns:note"/>
+
+            <xs:complexType name="note">
+                <xs:sequence>
+                    <xs:element name="notenwert" type="xs:double"/>
+                    <xs:element name="anzahl" type="xs:int"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="notenstatus">
+                <xs:sequence>
+                    <xs:element name="notenspiegel" type="tns:note"
+                    nillable="true" minOccurs="1" maxOccurs="unbounded"/>
+                    <xs:element name="durchschnitt" type="xs:double"/>
+                </xs:sequence>
+            </xs:complexType>
+
+            <xs:complexType name="notenliste">
+                <xs:sequence>
+                    <xs:element name="notenliste" type="xs:double"
+                    nillable="true" minOccurs="1" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:complexType>
+
+        </xs:schema>
+    </types>
+
+    <message name="getNotenstatus">
+        <part name="arg0" type="tns:notenliste"/>
+    </message>
+
+    <message name="getNotenstatusResponse">
+        <part name="return" type="tns:notenstatus"/>
+    </message>
+
+    <portType name="Notenstatus">
+        <operation name="getNotenstatus" parameterOrder="arg0">
+            <input
+            wsam:Action="http://ws.notenstatus/Notenstatus/getNotenstatusRequest"
+            message="tns:getNotenstatus"/>
+            <output
+            wsam:Action="http://ws.notenstatus/Notenstatus/getNotenstatusResponse"
+            message="tns:getNotenstatusResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="NotenstatusPortBinding" type="tns:Notenstatus">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc"/>
+        <operation name="getNotenstatus">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal" namespace="http://ws.notenstatus/"/>
+            </input>
+            <output>
+                <soap:body use="literal" namespace="http://ws.notenstatus/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="NotenstatusService">
+        <port name="NotenstatusPort" binding="tns:NotenstatusPortBinding">
+            <soap:address location="http://localhost:9999/notenstatus"/>
+        </port>
+    </service>
+
+</definitions>

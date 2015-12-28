@@ -8,6 +8,13 @@
 \usepackage{graphicx}
 \usepackage[export]{adjustbox}
 \usepackage{multicol}
+\usepackage{listings} 
+\lstset{ 
+    language=html, 
+    basicstyle=\ttfamily, 
+    keywordstyle=\color{blue}, 
+} 
+\usepackage{xcolor}
 
 \setbeamercovered{transparent}
 \beamertemplatenavigationsymbolsempty
@@ -28,7 +35,7 @@
     \end{beamercolorbox}
   }
   
-\title{Microprozessortechnik - MSP430}
+\title{ChromecastV2 - Google Cast API}
 \author{N. Vetter}
 \date{\today}
 
@@ -44,167 +51,45 @@
 
 \end{frame}
 
-\section{Übersicht}
-\begin{frame}
-\frametitle{Gliederung}
-\begin{multicols}{2}
-\tableofcontents
-\end{multicols}
-\end{frame}
-
 \section{Allgemeines}
 \subsection{Vorstellung}
 \begin{frame}
-MSP430:
+
 \begin{itemize}
-\item 16-Bit-RISC-Mikrocontroller
-\item Firma: Texas Instruments
-\item entwickelt in Freising, Deutschland
-\item Sprachen: Assempler, C
-\item für möglichst niedrigen Stromverbrauch optimiert
-\end{itemize}
-\ \\
-\ \\
-Anwendung:
-\begin{itemize}
-\item Wärmezähler
-\item Blutdruckmessgeräte
-\item Tauchcomputer
+\item finden der Empfänger durch mDNS und UPNP
+\item aufgeteilt in Sender und Empfänger API
+\item Sender API verfügbar für Android, Chrome, iOS
+\item Standard und Custom Empfänger möglich
+\item Verteilung der Empfänger-Applikation zwingend über HTTPS 
+\item zentraler Suchdienst für Apps (Google Datenbank)
+\item hauptsächlich Nachrichtenbasierte Kommunikation
 \end{itemize}
 \end{frame}
-\section{Architektur}
-\subsection{Eigenschaften}
+
+\section{Übersicht}
 \begin{frame}
-\begin{itemize}
-\item klassische Von-Neumann-Architektur
-\item Datenbus ( 16-Bit )
-\item Adressbus ( 16-Bit )
-\item 16 16-Bit Register
-\item unterschiedliche Speichergrößen möglich
-\item unterschiedlichste Peripherie möglich
-\item Low-Power-Mode
-\item Hardwaredesign nach Software Bedürfnissen $\rightarrow$ sehr effizienter und kompakter Code durch Compiler
-\end{itemize}
+\includegraphics[scale=0.28]{neu0.eps}
 \end{frame}
-\subsection{Grafik}
-\begin{frame}
-\begin{figure}[b]
-\includegraphics[scale=0.63]{MSP430_block_dia.jpg}
-\end{figure}
-\end{frame}
-\section{Memory}
-\subsection{Anordnung}
-\begin{frame}
-\begin{figure}[t]
-\includegraphics[scale=0.7]{MSP430_mem_small_dia.jpg}
-\end{figure}
-\begin{itemize}
-\item Little-endian 
-\item Untertilung in Byte und Word(2 Byte)
-\end{itemize}
-\end{frame}
-\subsection{Mapping}
-\begin{frame}
-\includegraphics[scale=0.8,center]{MSP430_mem_big_dia.jpg}
-\end{frame}
-\section{CPU}
-\subsection{Eigenschaften}
-\begin{frame}
-\ \\
-\begin{itemize}
-\item 16MHz/8MHz max. ( je nach Ausführung)
-\item keine Minimalfrequenz
-\item 16 16-Bit-Register ( 4 Spezielle, 12 Freie )
-\item 7 unterschiedliche Adressmodi
-\end{itemize}
-Register:
-\begin{itemize}
-\item Program counter ( PC )
-\item Stack pointer ( SP )
-\begin{itemize}
-\item speichert Rücksprungadresse
-\item wächst abwärts oder schrumpft aufwärts
-\end{itemize}
-\item Status register ( SR )
-\begin{itemize}
-\item zeigt das Ergebnis der letzten Operation (C,Z,N,V)
-\item steuert ebenfalls bestimmte MCU Modi.
-\end{itemize}
-\item Constant generator
-\begin{itemize}
-\item liefert durch Kombination von R2/R3 und den Adressmodi Standardwerte
-\end{itemize}
-\end{itemize}
-\end{frame}
-\subsection{Registergrafik}
-\begin{frame}
-\includegraphics[scale=0.45,center]{MSP430_alu_dia.jpg}
-\end{frame}
-\subsection{Adressierungsarten}
-\begin{frame}
-\begin{figure}[t]
-\includegraphics[scale=0.7,center]{MSP430_instruktion_mode_dia.jpg}
-\end{figure}
-\begin{tabular}{p{0.5\textwidth}|p{0.5\textwidth}}
-\begin{itemize}
-\item R2 $\rightarrow$ Register-Mode
-\item 0(R2) $\rightarrow$ Adress-Mode 
-\item @R2 $\rightarrow$ 4
-\item @R2+ $\rightarrow$ 8
-\end{itemize}
-&
-\begin{itemize}
-\item    R3 $\rightarrow$ 0
-\item 0(R3) $\rightarrow$ 1
-\item @R3 $\rightarrow$ 2
-\item @R3+ $\rightarrow$ -1
-\end{itemize}
-\end{tabular}
-\end{frame}
-\subsection{Instruktionen}
-\begin{frame}
-Aufbau:
-\begin{itemize}
-\item 2 Operanden
-\item 1 Operand
-\item Sprünge
-\end{itemize}
-Merkmale:
-\begin{itemize}
-\item Byte und Word Adressierung
-\item 16-Bit Instruktionslänge
-\item 27 Standard-Befehle
-\item trotz RISC: weitere 24 emulierte Befehle ( z.B.: CLR, INC, DEC, DECD, NOP) 
-\item emulierte Befehle haben keine Nachteile
-\end{itemize}
-\end{frame}
-\section{Clock}
-\begin{frame}
-\subsection{Clock-Typen}
-2 Clock-Typen:
-\begin{enumerate}
-\item Niedrig-Frequenz-Clock
-\begin{itemize}
-\item meist ein Uhrenquarz mit 32KHz
-\item dient zur regelmäßigen Steuerung der CPU
-\item verbraucht im Dauerbetrieb extrem wenig Strom
-\item dient als RTC
-\end{itemize}
-\item digital Steuerbarer Oszillator
-\begin{itemize}
-\item startet in weniger als $1\mu s$
-\item dient zum schnellen "wecken" der MCU aus dem Low-Power-Mode
-\item stellt eine Hochfrequenzuhr dar
-\end{itemize}
-\end{enumerate}
-\end{frame}
-\subsection{Clock-Grafik}
-\begin{frame}
-\includegraphics[scale=1,center]{MSP430_clock_dia.jpg}
-\end{frame}
-\section{Peripherie}
-\subsection{Multplikator}
-\begin{frame}
-\includegraphics[scale=0.64,center]{MSP430_mult_dia.jpg}
-\end{frame}
+
+\section{Beispiel}
+
+
+\begin{lstlisting}[basicstyle=\tiny]
+<html>
+<head>
+  <title>Example minimum receiver</title>
+  <script src="//www.gstatic.com/cast/sdk/libs/
+  				receiver/2.0.0/cast_receiver.js"></script>
+</head>
+<body>
+  <video id='media'/>
+  <script>
+    window.mediaElement = document.getElementById('media');
+    window.mediaManager = new cast.receiver.MediaManager(window.mediaElement);
+    window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+    window.castReceiverManager.start();
+  </script>
+</body>
+</html>
+\end{lstlisting}
 \end{document}
